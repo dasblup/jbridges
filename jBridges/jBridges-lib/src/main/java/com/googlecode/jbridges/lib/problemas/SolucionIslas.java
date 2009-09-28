@@ -33,11 +33,11 @@ public class SolucionIslas {
 		
 		soluciones=new LinkedList();//hacer que sea una lista de listas.
 		
-		problemas.MetodosEstaticos.inicializaDyM(matriz, desconocidas);
-		problemas.MetodosEstaticos.inicializaDyM(matriz, M);
+		MetodosEstaticos.inicializaDyM(matriz, desconocidas);
+		MetodosEstaticos.inicializaDyM(matriz, M);
 		//No se si esto hay que hacerlo aqui
 		//problemas.MetodosEstaticos.inicializaListaAdyacentes(matriz, M);
-		problemas.MetodosEstaticos.inicializaListaConexo(matriz, M, desconocidas);
+		MetodosEstaticos.inicializaListaConexo(matriz, M, desconocidas);
 		/*problemas.MetodosEstaticos.inicializaExistentes(matriz);
 		problemas.MetodosEstaticos.inicializaPosibles(matriz, desconocidas);*/
 		solucion=new LinkedList();
@@ -54,7 +54,7 @@ public class SolucionIslas {
 		
 		while(puedesSeguir){
 			puedesSeguir=false;
-			if(problemas.MetodosEstaticos.ponPuentes(matriz, desconocidas, M, solucion, solucion_paso_a_paso)){
+			if(MetodosEstaticos.ponPuentes(matriz, desconocidas, M, solucion, solucion_paso_a_paso)){
 				puedesSeguir=true;
 			}
 		}
@@ -66,7 +66,7 @@ public class SolucionIslas {
 		 * sin necesidad de entrar en backtracking); en otro caso el pasatiempo no tiene soluci�n, fin si.*/
 		
 		if(desconocidas.isEmpty()){
-			if(problemas.MetodosEstaticos.esConexo(matriz, M, solucion)){
+			if(MetodosEstaticos.esConexo(matriz, M, solucion)){
 				soluciones=solucion;
 			}else{
 				//Que cuando se comprueba si un estado de posible soluci�n es conexo, se llegue a que no lo es.

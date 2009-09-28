@@ -56,7 +56,7 @@ public class Cargar_juego {
 							//DUDA:�como vamos a decrementar posibles si inicialmente est� a 0?
 							islaAdy.getValor().getSur().setPosibles(islaAdy.getValor().getSur().getPosibles()-1);
 							//marca las celdas intermedias
-							problemas.MetodosEstaticos.marcaVerticales(matriz, isla, islaAdy);
+							MetodosEstaticos.marcaVerticales(matriz, isla, islaAdy);
 							//a�ade islaAdy a la lista
 							l.add(islaAdy);
 				}
@@ -78,7 +78,7 @@ public class Cargar_juego {
 						//DUDA:�como vamos a decrementar posibles si inicialmente est� a 0?
 						isla.getValor().getNorte().setPosibles(isla.getValor().getNorte().getPosibles()-1);
 						//marca las celdas intermedias
-						problemas.MetodosEstaticos.marcaVerticales(matriz, isla, islaAdy);
+						MetodosEstaticos.marcaVerticales(matriz, isla, islaAdy);
 						//a�ade islaAdy a la lista
 						l.add(islaAdy);
 				}
@@ -87,7 +87,7 @@ public class Cargar_juego {
 			}else if(orientacion==2){
 				//A�ade puente al este (cambia la y, decrementa)
 				islaAdy=ponIslaEste(matriz, isla, x, y);
-					if(problemas.MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
+					if(MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
 						//incrementa n de las islas
 						isla.getValor().setN(isla.getValor().getN()+1);
 						islaAdy.getValor().setN(islaAdy.getValor().getN()+1);
@@ -100,7 +100,7 @@ public class Cargar_juego {
 						//DUDA:�como vamos a decrementar posibles si inicialmente est� a 0?
 						isla.getValor().getOeste().setPosibles(isla.getValor().getOeste().getPosibles()-1);
 						//marca las celdas intermedias
-						problemas.MetodosEstaticos.marcaHorizontales(matriz, isla, islaAdy);
+						MetodosEstaticos.marcaHorizontales(matriz, isla, islaAdy);
 						//a�ade islaAdy a la lista
 						l.add(islaAdy);
 					}	
@@ -122,7 +122,7 @@ public class Cargar_juego {
 						//DUDA:�como vamos a decrementar posibles si inicialmente est� a 0?
 						isla.getValor().getEste().setPosibles(isla.getValor().getEste().getPosibles()-1);
 						//marca las celdas intermedias
-						problemas.MetodosEstaticos.marcaHorizontales(matriz, isla, islaAdy);
+						MetodosEstaticos.marcaHorizontales(matriz, isla, islaAdy);
 						//a�ade islaAdy a la lista
 						l.add(islaAdy);
 				}
@@ -226,7 +226,7 @@ public class Cargar_juego {
 		}
 		matriz.setElementoIsla(a, y);
 		islaAdy=matriz.getElemento(a, y);
-		if (!problemas.MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
+		if (!MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
 			//borro la isla que acabo de a�adir a la matriz, y dejo esa celda como agua
 			matriz.setElementoAgua(a, y);
 			islaAdy=null;
@@ -325,7 +325,7 @@ static public Islas ponIslaSur(Tablero matriz, Islas isla, int x, int y){
 	}
 	matriz.setElementoIsla(a, y);
 	islaAdy=matriz.getElemento(a, y);
-	if (!problemas.MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
+	if (!MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
 		matriz.setElementoAgua(a, y);
 		islaAdy=null;
 	}
@@ -423,7 +423,7 @@ static public Islas ponIslaEste(Tablero matriz, Islas isla, int x, int y){
 	}
 	matriz.setElementoIsla(x, b);
 	islaAdy=matriz.getElemento(x, b);
-	if (!problemas.MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
+	if (!MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
 		matriz.setElementoAgua(x, b);
 		islaAdy=null;
 	}
@@ -522,7 +522,7 @@ static public Islas ponIslaOeste(Tablero matriz, Islas isla, int x, int y){
 	}
 	matriz.setElementoIsla(x, b);
 	islaAdy=matriz.getElemento(x, b);
-	if (!problemas.MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
+	if (!MetodosEstaticos.miraCeldasIntermedias(matriz, isla, islaAdy)){
 		matriz.setElementoAgua(x, b);
 		islaAdy=null;
 	}

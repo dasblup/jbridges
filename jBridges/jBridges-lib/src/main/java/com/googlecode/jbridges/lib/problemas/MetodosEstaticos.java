@@ -308,14 +308,14 @@ public class MetodosEstaticos {
 							if(sumatorioExistentes(isla)==isla.getValor().getN()){
 								posiblesA0(isla);
 								desconocidas.remove(isla);
-								problemas.SolucionIslas.solucion.add(isla);
+								SolucionIslas.solucion.add(isla);
 							}
 							
 							//islaAdy
 							if(sumatorioExistentes(islaAdy)==islaAdy.getValor().getN()){
 								posiblesA0(islaAdy);
 								desconocidas.remove(islaAdy);
-								problemas.SolucionIslas.solucion.add(islaAdy);
+								SolucionIslas.solucion.add(islaAdy);
 							}
 
 						}
@@ -454,14 +454,14 @@ public class MetodosEstaticos {
 							if(sumatorioExistentes(isla)==isla.getValor().getN()){
 								posiblesA0(isla);
 								desconocidas.remove(isla);
-								problemas.SolucionIslas.solucion.add(isla);
+								SolucionIslas.solucion.add(isla);
 							}
 							
 							//islaAdy
 							if(sumatorioExistentes(islaAdy)==islaAdy.getValor().getN()){
 								posiblesA0(islaAdy);
 								desconocidas.remove(islaAdy);
-								problemas.SolucionIslas.solucion.add(islaAdy);
+								SolucionIslas.solucion.add(islaAdy);
 							}
 						}
 										
@@ -596,14 +596,14 @@ public class MetodosEstaticos {
 							if(sumatorioExistentes(isla)==isla.getValor().getN()){
 								posiblesA0(isla);
 								desconocidas.remove(isla);
-								problemas.SolucionIslas.solucion.add(isla);
+								SolucionIslas.solucion.add(isla);
 							}
 							
 							//islaAdy
 							if(sumatorioExistentes(islaAdy)==islaAdy.getValor().getN()){
 								posiblesA0(islaAdy);
 								desconocidas.remove(islaAdy);
-								problemas.SolucionIslas.solucion.add(islaAdy);
+								SolucionIslas.solucion.add(islaAdy);
 							}
 							
 						}
@@ -740,14 +740,14 @@ public class MetodosEstaticos {
 							if(sumatorioExistentes(isla)==isla.getValor().getN()){
 								posiblesA0(isla);
 								desconocidas.remove(isla);
-								problemas.SolucionIslas.solucion.add(isla);
+								SolucionIslas.solucion.add(isla);
 							}
 							
 							//islaAdy
 							if(sumatorioExistentes(islaAdy)==islaAdy.getValor().getN()){
 								posiblesA0(islaAdy);
 								desconocidas.remove(islaAdy);
-								problemas.SolucionIslas.solucion.add(islaAdy);
+								SolucionIslas.solucion.add(islaAdy);
 							}
 						}
 						
@@ -1017,9 +1017,9 @@ public class MetodosEstaticos {
 	public static void backtracking(Tablero matriz) throws CloneNotSupportedException{	
 		
 		//Hago una copia de las variables principales del problema.
-		List copia_l=problemas.SolucionIslas.desconocidas;
-		List copia_solucion=problemas.SolucionIslas.solucion;
-		List copia_solucion_paso_a_paso=problemas.SolucionIslas.solucion_paso_a_paso;
+		List copia_l=SolucionIslas.desconocidas;
+		List copia_solucion=SolucionIslas.solucion;
+		List copia_solucion_paso_a_paso=SolucionIslas.solucion_paso_a_paso;
 		
 		//A�adir a pila la primera celda de la lista desconocidas, con los valores de las variables 
 		//{n,arriba, abajo, izquierda ,derecha} correspondientes a la suposici�n de a�adir un puente 
@@ -1030,34 +1030,34 @@ public class MetodosEstaticos {
 		Islas iPrimera=(Islas)copia_l.get(0);
 		//Borro de copia_l la isla que acabo de sacar de l xq vamos a modificarla
 		copia_l.remove(iPrimera);
-		cambiarEstado(matriz, iPrimera, problemas.SolucionIslas.M, copia_l, copia_solucion, copia_solucion_paso_a_paso);
+		cambiarEstado(matriz, iPrimera, SolucionIslas.M, copia_l, copia_solucion, copia_solucion_paso_a_paso);
 		
-		while(!problemas.SolucionIslas.pila.isEmpty()){
+		while(!SolucionIslas.pila.isEmpty()){
 			boolean boolean2=true;
 			//Cargar los valores de las vbles que corresponden al �ltimo elemento de la lista pila
-			int tam=problemas.SolucionIslas.pila.size()-1;
-			Islas iPila=(Islas)problemas.SolucionIslas.pila.get(tam);
-			problemas.SolucionIslas.pila.remove(iPila);
+			int tam=SolucionIslas.pila.size()-1;
+			Islas iPila=(Islas)SolucionIslas.pila.get(tam);
+			SolucionIslas.pila.remove(iPila);
 			
 			//si encuentro contradiccion, boolean2=false
-			if(!problemas.SolucionIslas.SolucionBasica(matriz, copia_l, problemas.SolucionIslas.M, copia_solucion, copia_solucion_paso_a_paso)){
+			if(!SolucionIslas.SolucionBasica(matriz, copia_l, SolucionIslas.M, copia_solucion, copia_solucion_paso_a_paso)){
 				boolean2=false;
 			}
 			//si no hemos llegado a contradiccion
 			if(boolean2){
-				if(copia_l.isEmpty() && esConexo(matriz, problemas.SolucionIslas.M, copia_solucion)){
-						copiaLista(problemas.SolucionIslas.solucion, copia_solucion);
-						copiaLista(problemas.SolucionIslas.solucion_paso_a_paso, copia_solucion_paso_a_paso);
-						while(!problemas.SolucionIslas.pila.isEmpty() && n0Posibles0(iPila)){
-							problemas.SolucionIslas.pila.remove(iPila);
+				if(copia_l.isEmpty() && esConexo(matriz, SolucionIslas.M, copia_solucion)){
+						copiaLista(SolucionIslas.solucion, copia_solucion);
+						copiaLista(SolucionIslas.solucion_paso_a_paso, copia_solucion_paso_a_paso);
+						while(!SolucionIslas.pila.isEmpty() && n0Posibles0(iPila)){
+							SolucionIslas.pila.remove(iPila);
 						}
-						if(!problemas.SolucionIslas.pila.isEmpty()){
-							cambiarEstado(matriz, iPila, problemas.SolucionIslas.M, copia_l, copia_solucion, copia_solucion_paso_a_paso);
+						if(!SolucionIslas.pila.isEmpty()){
+							cambiarEstado(matriz, iPila, SolucionIslas.M, copia_l, copia_solucion, copia_solucion_paso_a_paso);
 						}
 				}else{
 					Islas iPila2=(Islas)copia_l.get(0);
 					copia_l.remove(iPila2);
-					cambiarEstado(matriz, iPila2, problemas.SolucionIslas.M, copia_l, copia_solucion, copia_solucion_paso_a_paso);
+					cambiarEstado(matriz, iPila2, SolucionIslas.M, copia_l, copia_solucion, copia_solucion_paso_a_paso);
 					
 				}
 			}
@@ -1154,7 +1154,7 @@ public class MetodosEstaticos {
 				
 				//A�adir a copia_solucion_paso_a_paso
 				copia_solucion_paso_a_paso.add(orden);
-				problemas.SolucionIslas.pila.add(islaPila);
+				SolucionIslas.pila.add(islaPila);
 			
 				//Actualiza conexo de islaPila
 				Iterator it=islaAdy.getConexo().iterator();
