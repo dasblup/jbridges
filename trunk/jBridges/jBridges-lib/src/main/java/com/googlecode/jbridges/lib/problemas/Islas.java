@@ -10,6 +10,9 @@ public class Islas{
 	
 	private Set conexo;
 
+        public Islas() {
+            super();
+        }
 
 	public Islas(int tipo,int x,int y){
 		super();
@@ -47,7 +50,7 @@ public class Islas{
 	public void setConexo(Set conexo) {
 		this.conexo = conexo;
 	}
-    @Override
+    
 	public boolean equals(Object obj) {
 	        boolean salida = false;
 	        
