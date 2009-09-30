@@ -1,7 +1,9 @@
-package com.googlecode.jbridges.lib.problemas;
+﻿package com.googlecode.jbridges.lib.problemas;
 
 
 
+
+//Un comentario
 public class Hashiwokakero {
 
 	public static Tablero Generador(int tama�o){
