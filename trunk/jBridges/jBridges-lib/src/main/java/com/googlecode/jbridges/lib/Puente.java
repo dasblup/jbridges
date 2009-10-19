@@ -9,7 +9,7 @@ package com.googlecode.jbridges.lib;
  *
  * @author pabloramix
  */
-public interface Puente extends ElementoTablero {
+public interface Puente {
 
     /**
      *

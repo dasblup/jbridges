@@ -11,7 +11,7 @@ import com.googlecode.jbridges.lib.excepciones.IslaNoEncontradaException;
  *
  * @author pabloramix
  */
-public interface Isla extends ElementoTablero {
+public interface Isla {
 
 
     /**
