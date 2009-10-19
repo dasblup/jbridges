@@ -43,14 +43,14 @@ public interface Tablero {
      * @throws TableroNoInicializadoException si se llama a éste método antes
      * de iniciar el tablero
      */
-    public void setIsla(int i, int j);
+    public void setIsla(Coordenadas c);
 
     /**
      * Obtiene el elemento del tablero de la posición i, j
      * @param i
      * @param j
-     * @return ElementoTablero
+     * @return Casilla
      * @throws TableroNoInicializadoException
      */
-    public ElementoTablero getElementoTablero(int i, int j);
+    public Casilla getCasilla(Coordenadas c);
 }

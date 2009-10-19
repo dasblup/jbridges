@@ -15,13 +15,13 @@ import com.googlecode.jbridges.lib.excepciones.TableroInicializadoException;
  */
 public class TableroArray implements Tablero{
 
-    ElementoTablero[][] tablero;
+    Casilla[][] tablero;
 
     public void setDimension(int i, int j) {
 
         if (this.tablero == null) {
 
-            this.tablero = new ElementoTablero[i][j];
+            this.tablero = new Casilla[i][j];
 
         } else {
 
@@ -37,13 +37,20 @@ public class TableroArray implements Tablero{
         return this.tablero[0].length;
     }
 
-    public void setIsla(int i, int j) {
-        this.tablero[i][j] = new IslaArray();
+    public void setIsla(Coordenadas c) {
+        this.tablero[((CoordenadasArray)c).getX()]
+                    [((CoordenadasArray)c).getY()] = new IslaArray(c);
         
     }
 
-    public Isla getIsla(int i, int j) throws IslaNoEncontradaException {
+    public Isla getIsla(Coordenadas c) throws IslaNoEncontradaException {
 
+        int i;
+        int j;
+
+        i = ((CoordenadasArray)c).getX();
+        j = ((CoordenadasArray)c).getY();
+        
         if (!(this.tablero[i][j] instanceof Isla)) {
             throw new IslaNoEncontradaException();
         }
@@ -51,66 +58,53 @@ public class TableroArray implements Tablero{
         return (Isla) this.tablero[i][j];
     }
 
-    private void avanzar(Integer x, Integer y, Sentido d) {
+    private void avanzar(Coordenadas c, Sentido d) {
+
+        CoordenadasArray coord;
+
+        coord = (CoordenadasArray) c;
 
         switch (d) {
             case NORTE:
-                x--;
+                coord.x--;
                 break;
             case SUR:
-                x++;
+                coord.x++;
                 break;
             case OESTE:
-                y--;
+                coord.y--;
                 break;
             case ESTE:
-                y++;
+                coord.y++;
                 break;
         }
     }
 
-    public ElementoTablero getElementoTablero(int i, int j) {
+    public Casilla getCasilla(Coordenadas c) {
 
-        ElementoTablero el;
+        Casilla el;
+        int i;
+        int j;
+
+        i = ((CoordenadasArray)c).getX();
+        j = ((CoordenadasArray)c).getY();
+
         el = tablero[i][j];
 
         if (el == null) {
-            el = new Agua(i,j);
+            el = new Agua(new CoordenadasArray(i,j));
         }
 
         return el;
     }
 
-    class IslaArray implements Isla {
+    class IslaArray extends Casilla implements Isla {
 
         private int numeroPuentes;
-        private int x;
-        private int y;
 
-        private IslaArray() {
-            super();
-            this.numeroPuentes = 0;
-        }
-
-        private IslaArray(int x, int y) {
-            this();
-            this.setX(x);
-            this.setY(y);
-        }
-
-        private void setX(int x) {
-            this.x = x;
-        }
-
-        public int getX() {
-            return this.x;
-        }
-
-        private void setY(int y) {
-            this.y = y;
-        }
-        public int getY() {
-            return this.y;
+        private IslaArray(CoordenadasArray c) {
+            super(c);
+            this.setN(0);
         }
 
         public int getN() {
@@ -122,44 +116,37 @@ public class TableroArray implements Tablero{
         }
 
         public int getPuentes() {
-            ElementoTablero el;
-            int numPuentes;
+            
+            int puentes;
 
-            numPuentes = 0;
+            puentes = 0;
 
-            el = TableroArray.this.getElementoTablero(this.x, this.y - 1);
+            puentes += getPuentes(Sentido.NORTE);
+            puentes += getPuentes(Sentido.SUR);
+            puentes += getPuentes(Sentido.ESTE);
+            puentes += getPuentes(Sentido.OESTE);
 
-            if (el instanceof PuenteArray) {
-                numPuentes = ((PuenteArray) el).getTipo() == TipoPuente.SIMPLE
-                        ? numPuentes + 1 : numPuentes + 2;
-            }
-
-            el = TableroArray.this.getElementoTablero(this.x - 1, this.y);
-
-            if (el instanceof PuenteArray) {
-                numPuentes = ((PuenteArray) el).getTipo() == TipoPuente.SIMPLE
-                        ? numPuentes + 1 : numPuentes + 2;
-            }
-
-            el = TableroArray.this.getElementoTablero(this.x, this.y + 1);
-
-            if (el instanceof PuenteArray) {
-                numPuentes = ((PuenteArray) el).getTipo() == TipoPuente.SIMPLE
-                        ? numPuentes + 1 : numPuentes + 2;
-            }
-
-            el = TableroArray.this.getElementoTablero(this.x + 1, this.y);
-
-            if (el instanceof PuenteArray) {
-                numPuentes = ((PuenteArray) el).getTipo() == TipoPuente.SIMPLE
-                        ? numPuentes + 1 : numPuentes + 2;
-            }
-
-            return numPuentes;
+            return puentes;
         }
 
         public int getPuentes(Sentido s) {
-            throw new UnsupportedOperationException("Not supported yet.");
+
+            int puentes;
+            CoordenadasArray coord;
+            Casilla c;
+
+            coord = (CoordenadasArray)this.getCoordenadas();
+            puentes = 0;
+
+            avanzar(coord, s);
+
+            c = TableroArray.this.getCasilla(coord);
+
+            if (c instanceof Puente) {
+                puentes = ((Puente)c).getTipo() == TipoPuente.SIMPLE ? 1 : 2;
+            }
+
+            return puentes;
         }
 
         public void setPuente(Isla i) {
@@ -174,42 +161,59 @@ public class TableroArray implements Tablero{
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
+        public boolean esVecina (Isla i) {
+
+            boolean vecina;
+            IslaArray isla;
+            CoordenadasArray cThis;
+            CoordenadasArray cIsla;
+            Sentido s;
+            IslaArray inicio;
+            IslaArray fin;
+
+            vecina = false;
+            isla = (IslaArray)i;
+
+            cThis = (CoordenadasArray) this.getCoordenadas();
+            cIsla = (CoordenadasArray) isla.getCoordenadas();
+
+            if ((cThis.getX() - cIsla.getX() == 0) ||
+                (cThis.getY() - cIsla.getY() == 0)) {
+
+                if (cThis.getX() - cIsla.getX() == 0) {
+
+                    if (cThis.getY() - cIsla.getY() > 0) {
+
+                    } else {
+
+                    }
+                }
+
+                if (cThis.getY() - cIsla.getY() == 0) {
+
+                    if (cThis.getX() - cIsla.getX() > 0) {
+
+                    } else {
+
+                    }
+                }
+            }
+
+            return vecina;
+        }
+
 
 
     }
 
-    class PuenteArray implements Puente {
+    class PuenteArray extends Casilla implements Puente {
 
         private TipoPuente tipo;
+        private Direccion d;
 
-        private int x;
-        private int y;
-
-        private PuenteArray() {
-            super();
-            this.setTipo(TipoPuente.SIMPLE);
-        }
-
-        private PuenteArray(int x, int y) {
-            this();
-            this.setX(x);
-            this.setY(y);
-        }
-
-        private void setX(int x) {
-            this.x = x;
-        }
-
-        public int getX() {
-            return this.x;
-        }
-
-        private void setY(int y) {
-            this.y = y;
-        }
-
-        public int getY() {
-            return this.y;
+        private PuenteArray(Coordenadas c) {
+           super(c);
+           this.setTipo(TipoPuente.SIMPLE);
         }
         
 
@@ -221,6 +225,25 @@ public class TableroArray implements Tablero{
             return this.tipo;
         }
 
+        public void setDoble() {
+            this.tipo = TipoPuente.DOBLE;
+        }
+
+        public Direccion getDireccion() {
+            return this.d;
+        }
+
+        private void setDireccion (Direccion d) {
+            this.d = d;
+        }
+
+    }
+
+    class CoordenadasArray extends Coordenadas2D {
+
+        private CoordenadasArray(Integer x, Integer y) {
+            super(x,y);
+        }
     }
 
 }

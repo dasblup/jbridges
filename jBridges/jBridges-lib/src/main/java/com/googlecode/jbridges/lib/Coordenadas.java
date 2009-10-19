@@ -9,8 +9,7 @@ package com.googlecode.jbridges.lib;
  *
  * @author pabloramix
  */
-public interface ElementoTablero {
-
-    public int getX();
-    public int getY();
+public interface Coordenadas extends Cloneable {
+    
+    public Coordenadas clone();
 }
