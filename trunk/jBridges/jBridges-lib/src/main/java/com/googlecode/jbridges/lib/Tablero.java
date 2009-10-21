@@ -53,4 +53,6 @@ public interface Tablero {
      * @throws TableroNoInicializadoException
      */
     public Casilla getCasilla(Coordenadas c);
+
+    public Coordenadas getCoordenadas( int i, int j);
 }

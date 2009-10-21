@@ -1,4 +1,4 @@
-package com.googlecode.jbridges.lib.problemas;
+package com.googlecode.jbridges.lib.problemas.old;
 
 public class Jugador {
 

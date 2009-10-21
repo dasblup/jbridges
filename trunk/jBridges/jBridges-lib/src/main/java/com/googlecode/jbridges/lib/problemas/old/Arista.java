@@ -1,4 +1,6 @@
-package com.googlecode.jbridges.lib.problemas;
+package com.googlecode.jbridges.lib.problemas.old;
+
+import com.googlecode.jbridges.lib.problemas.*;
 
 public class Arista {
 

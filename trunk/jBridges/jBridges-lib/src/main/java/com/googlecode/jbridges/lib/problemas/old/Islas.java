@@ -1,4 +1,5 @@
-package com.googlecode.jbridges.lib.problemas;
+package com.googlecode.jbridges.lib.problemas.old;
+import com.googlecode.jbridges.lib.problemas.old.Posicion;
 import java.util.*;
 public class Islas{
 	
