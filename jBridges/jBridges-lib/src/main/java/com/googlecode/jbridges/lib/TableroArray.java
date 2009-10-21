@@ -39,7 +39,7 @@ public class TableroArray implements Tablero{
 
     public void setIsla(Coordenadas c) {
         this.tablero[((CoordenadasArray)c).getX()]
-                    [((CoordenadasArray)c).getY()] = new IslaArray(c);
+                    [((CoordenadasArray)c).getY()] = new IslaArray((CoordenadasArray)c);
         
     }
 
@@ -56,6 +56,15 @@ public class TableroArray implements Tablero{
         }
 
         return (Isla) this.tablero[i][j];
+    }
+
+    public Coordenadas getCoordenadas (int i, int j) {
+
+        Casilla inutil;
+
+        inutil = tablero[i][j];
+
+        return new CoordenadasArray(i, j);
     }
 
     private void avanzar(Coordenadas c, Sentido d) {

@@ -1,5 +1,8 @@
 package com.googlecode.jbridges.lib.problemas;
 
+import com.googlecode.jbridges.lib.problemas.old.MetodosEstaticos;
+import com.googlecode.jbridges.lib.problemas.old.FueraDeRango;
+import com.googlecode.jbridges.lib.problemas.old.Islas;
 import java.util.*;
 
 public class Cargar_juego {

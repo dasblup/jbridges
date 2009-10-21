@@ -1,4 +1,4 @@
-package com.googlecode.jbridges.lib.problemas;
+package com.googlecode.jbridges.lib.problemas.old;
 import java.util.*;
 
 
