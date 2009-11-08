@@ -44,8 +44,8 @@ public abstract class Coordenadas2D implements Coordenadas {
         return clon;
     }
 
-    public final boolean equals (Coordenadas c) {
-        return this.x == ((Coordenadas2D)c).x &&
-               this.y == ((Coordenadas2D)c).y;
+    public boolean equals (Object o) {
+        return this.x.equals(((Coordenadas2D)o).x) &&
+               this.y.equals(((Coordenadas2D)o).y);
     }
 }

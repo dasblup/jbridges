@@ -5,6 +5,8 @@
 
 package com.googlecode.jbridges.lib;
 
+import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
+
 /**
  *
  * @author pabloramix
@@ -43,8 +45,13 @@ public interface Tablero {
      * @throws TableroNoInicializadoException si se llama a éste método antes
      * de iniciar el tablero
      */
-    public void setIsla(Coordenadas c);
+    public void setIsla(Coordenadas c) throws CasillaOcupadaException;
 
+    /**
+     * Borra la isla i
+     * @param i una isla
+     */
+    public void borrarIsla(Isla i);
     /**
      * Obtiene el elemento del tablero de la posición i, j
      * @param i

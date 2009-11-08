@@ -7,6 +7,7 @@ package com.googlecode.jbridges.lib;
 
 import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.excepciones.IslaNoEncontradaException;
+import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
 /**
  *
  * @author pabloramix
@@ -37,7 +38,7 @@ public interface Isla {
      * Coloca un puente entre la Žsta isla e i
      * @param i Isla i
      */
-    public void setPuente(Isla i);
+    public void setPuente(Isla i) throws PuenteProhibidoException;
 
     /**
      * Coloca un puente adicional en un sentido en el que ya existe un puente
