@@ -6,6 +6,7 @@
 package com.googlecode.jbridges.lib;
 
 import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
+import com.googlecode.jbridges.lib.excepciones.FueraDeRangoException;
 
 /**
  *

@@ -87,21 +87,42 @@ public class TableroArray implements Tablero{
 
         CoordenadasArray coord;
         coord=(CoordenadasArray)c;
+        boolean fuera;
+        fuera=false;
 
         switch (d){
             case NORTE:
+                if(coord.x==0){
+                    fuera=true;
+                }else{
                     coord.x--;
-                    break;
+                }
+                break;
             case SUR:
+                if(coord.x==this.getAltura()-1){
+                    fuera=true;
+                }else{
                     coord.x++;
-                    break;
+                }
+                break;
             case OESTE:
+                if(coord.y==0){
+                    fuera=true;
+                }else{
                     coord.y--;
-                    break;
+                }
+                break;
             case ESTE:
+                if(coord.y==this.getAnchura()-1){
+                    fuera=true;
+                }else{
                     coord.y++;
-                    break;
-                
+                }
+                break;   
+        }
+
+        if (fuera){
+            throw new FueraDeRangoException();
         }
         
     }
@@ -153,7 +174,7 @@ public class TableroArray implements Tablero{
         i=((CoordenadasArray)c).getX();
         j=((CoordenadasArray)c).getY();
 
-        el=this.tablero[i][j];
+        el=this.tablero[i][j];       
 
         if(el==null){
             el=new Agua(new CoordenadasArray(i,j));
@@ -321,7 +342,7 @@ public class TableroArray implements Tablero{
             TableroArray.this.avanzar(coordenadasEstaIsla, s);
             c=TableroArray.this.getCasilla(coordenadasEstaIsla);
             
-            while(!(c instanceof IslaArray)){
+            while(c instanceof Agua){
                 
                 TableroArray.this.avanzar(coordenadasEstaIsla, s);
                 c=TableroArray.this.getCasilla(coordenadasEstaIsla);
@@ -373,11 +394,13 @@ public class TableroArray implements Tablero{
 
                 try{
                     islaVecina=(IslaArray)this.getVecina(s);
-                }catch (IslaNoEncontradaException ine){
-                }
+                
                     if(islaVecina.equals(isla)){
-                        vecina=true;
+                         vecina=true;
                     }
+                }catch (IslaNoEncontradaException inee){
+                    vecina=false;
+                }
             }
 
 
