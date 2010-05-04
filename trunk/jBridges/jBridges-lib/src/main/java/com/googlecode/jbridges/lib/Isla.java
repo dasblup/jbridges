@@ -41,14 +41,6 @@ public interface Isla {
     public void setPuente(Isla i) throws PuenteProhibidoException;
 
     /**
-     * Coloca un puente adicional en un sentido en el que ya existe un puente
-     * @param s sentido
-     * @throws SentidoInvalidoException si no existe un puente en el sentido
-     * indicado
-     */
-    public void setPuente(Sentido s) throws SentidoInvalidoException;
-
-    /**
      *
      * @param s sentido
      * @return vecina a la isla actual en el sentido s
