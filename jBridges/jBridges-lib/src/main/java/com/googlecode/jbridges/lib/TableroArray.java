@@ -17,7 +17,7 @@ import com.googlecode.jbridges.lib.excepciones.TableroInicializadoException;
  *
  * @author pabloramix
  */
-public class TableroArray implements Tablero{
+public class TableroArray implements Tablero {
 
     Casilla[][] tablero;
 
@@ -48,6 +48,10 @@ public class TableroArray implements Tablero{
         }else{
             throw new CasillaOcupadaException();
         }
+    }
+
+    public Object clone () throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 
     public void borrarIsla(Isla i) {

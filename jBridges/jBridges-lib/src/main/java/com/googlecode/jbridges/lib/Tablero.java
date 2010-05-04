@@ -6,13 +6,12 @@
 package com.googlecode.jbridges.lib;
 
 import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
-import com.googlecode.jbridges.lib.excepciones.FueraDeRangoException;
 
 /**
  *
  * @author pabloramix
  */
-public interface Tablero {
+public interface Tablero extends Cloneable {
 
     /**
      * Inicializa el tama–o de un tablero
