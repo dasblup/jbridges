@@ -12,11 +12,13 @@ import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.TableroArray;
 import com.googlecode.jbridges.lib.excepciones.IslaNoEncontradaException;
 import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
+import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
 import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  *
@@ -57,7 +59,8 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
     private void btTodas (Etapa x) {
 
         Etapa xsig;
-        List<Tablero> candidatos;
+        Queue<Solucion> candidatos;
+        Solucion candidatoSeleccionado;
 
         if (esSolucion(x)) {
             comunicarSolucion(x);
@@ -67,26 +70,49 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         candidatos = calcularCandidatos(x);
 
         while (quedanCandidatos(candidatos)) {
-                seleccionarCandidatos(candidatos, xsig);
-                if (esPrometedor(candidatos, xsig)) {
-                    anotarEnSolucion(candidatos, xsig);
+                candidatoSeleccionado = seleccionarCandidatos(candidatos, xsig);
+                if (esPrometedor(candidatoSeleccionado, xsig)) {
+                    anotarEnSolucion(candidatoSeleccionado, xsig);
                     btTodas(xsig);
-                    cancelarAnotacion(candidatos, xsig);
+                    cancelarAnotacion(candidatoSeleccionado, xsig);
                 }
         }
     }
 
-    private List<Tablero> calcularCandidatos(Etapa x) {
+    private Queue<Solucion> calcularCandidatos(Etapa x) {
 
         cargarListas();
 
+        Queue<Solucion> s;
+        s = new LinkedList<Solucion>();
+
+        Solucion sol;
+        sol = new Solucion();
+
         while (hayCandidatas()) {
 
-            ponerPuentes(x.tablero);
+            ponerPuentes(x.tablero, sol);
             cargarListas();
         }
 
-        return null;
+        Isla i;
+
+        i = listaIslas.get(1);
+
+        for(Sentido sent : Sentido.values()) {
+            Solucion aux;
+
+            try {
+                Isla vecina = i.getVecina(sent);
+                try {
+                    aux = (Solucion) sol.clone();
+                    sol.solucion.add(new ElementoSolucion(i, vecina));
+                    s.add(sol);
+                } catch (CloneNotSupportedException ex) {}
+            } catch (IslaNoEncontradaException inee) {}
+        }
+
+        return s;
     }
 
     private void obtenerIslas (Tablero t) {
@@ -157,7 +183,7 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         return !(candidatas0.isEmpty() && candidatas1.isEmpty());
     }
 
-    private void ponerPuentes(Tablero t) {
+    private void ponerPuentes(Tablero t, Solucion sol) {
         
         for (Isla i : candidatas0) {
 
@@ -176,7 +202,9 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                 try {
                     vecina = i.getVecina(s);
                     i.setPuente(vecina);
+                    sol.solucion.add(new ElementoSolucion(i, vecina));
                     i.setPuente(vecina);
+                    sol.solucion.add(new ElementoSolucion(i, vecina));
 
                     if (!contieneI.contains(vecina)) {
 
@@ -218,6 +246,7 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                     try {
                         vecina = i.getVecina(s);
                         i.setPuente(vecina);
+                        sol.solucion.add(new ElementoSolucion(i, vecina));
 
                         if (!contieneI.contains(vecina)) {
 
@@ -251,24 +280,36 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         this.soluciones.add(x.solucion);
     }
 
-    private boolean quedanCandidatos(List<Tablero> candidatos) {
+    private boolean quedanCandidatos(Queue<Solucion> candidatos) {
         return !candidatos.isEmpty();
     }
 
-    private void seleccionarCandidatos(List<Tablero> candidatos, Etapa xsig) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private Solucion seleccionarCandidatos(Queue<Solucion> candidatos, Etapa xsig) {
+        return candidatos.poll();
     }
 
-    private boolean esPrometedor(List<Tablero> candidatos, Etapa xsig) {
+    private boolean esPrometedor(Solucion candidato, Etapa xsig) {
         return true;
     }
 
-    private void anotarEnSolucion(List<Tablero> candidatos, Etapa xsig) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void anotarEnSolucion(Solucion candidato, Etapa xsig) {
+        xsig.solucion.solucion.addAll(candidato.solucion);
+        ElementoSolucion es = (ElementoSolucion) ((Queue)candidato.solucion).peek();
+        try {
+            es.inicio.setPuente(es.fin);
+        } catch (PuenteProhibidoException ex) {}
     }
 
-    private void cancelarAnotacion(List<Tablero> candidatos, Etapa xsig) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void cancelarAnotacion(Solucion candidato, Etapa xsig) {
+        List nuevaSolucion;
+        nuevaSolucion = xsig.solucion.solucion
+                .subList(0, xsig.solucion.solucion.size() - candidato.solucion.size() - 1);
+
+        for (ElementoSolucion es : candidato.solucion) {
+            try {
+                es.inicio.borrarPuente(es.fin);
+            } catch (PuenteProhibidoException ex) {}
+        }
     }
 
     private class Etapa {
