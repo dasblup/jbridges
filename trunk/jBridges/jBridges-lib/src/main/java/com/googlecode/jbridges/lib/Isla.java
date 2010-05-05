@@ -41,6 +41,13 @@ public interface Isla {
     public void setPuente(Isla i) throws PuenteProhibidoException;
 
     /**
+     * Borra un puente que existe entre Žsta isla e i
+     * @param i
+     * @throws PuenteProhibidoException
+     */
+    public void borrarPuente(Isla i) throws PuenteProhibidoException;
+
+    /**
      *
      * @param s sentido
      * @return vecina a la isla actual en el sentido s
