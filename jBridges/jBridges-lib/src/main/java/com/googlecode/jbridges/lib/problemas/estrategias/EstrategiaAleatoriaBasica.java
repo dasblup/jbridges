@@ -80,16 +80,14 @@ public class EstrategiaAleatoriaBasica implements EstrategiaProblema {
                         i.setPuente(i2);
                         //Puente doble?
                         if(r.nextBoolean()) {
-                            i.setPuente(s);
+                            i.setPuente(i2);
                         }
                         colaIslas.add(i2);
                     } catch (CasillaOcupadaException coe) {
                         System.err.print("ERROR Casilla Ocupada");
                     } catch (PuenteProhibidoException ppe) {
                         t.borrarIsla(i2);
-                    } catch (SentidoInvalidoException sie) {
-                        System.err.print("IMPOSIBLE!!!");
-                    }
+                    } 
                 //}
             }
         }
