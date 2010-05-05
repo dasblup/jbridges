@@ -453,6 +453,10 @@ public class TableroArray implements Tablero {
             return s1;
         }
 
+        public void borrarPuente(Isla i) throws PuenteProhibidoException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
     }
 
     class PuenteArray extends Casilla implements Puente {
