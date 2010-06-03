@@ -264,9 +264,9 @@ public class TableroArray implements Tablero {
             }else if(coordenadasLaOtraIsla.getY().equals(coordenadasEstaIsla.getY())){
                 d=Direccion.VERTICAL;
                 if(coordenadasEstaIsla.getX()-coordenadasLaOtraIsla.getX()<0){
-                    s=Sentido.NORTE;
+                    s=Sentido.NORTE; //No esta al reves?
                 }else if(coordenadasEstaIsla.getX()-coordenadasLaOtraIsla.getX()>0){
-                    s=Sentido.SUR;
+                    s=Sentido.SUR; //No esta al reves?
                 }else{
                     throw new RuntimeException("La misma casilla!! Arregla esto");
                 }
