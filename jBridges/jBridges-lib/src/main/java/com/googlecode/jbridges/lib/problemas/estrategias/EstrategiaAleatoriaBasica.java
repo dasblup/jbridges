@@ -78,7 +78,9 @@ public class EstrategiaAleatoriaBasica implements EstrategiaProblema {
                         t.setIsla(coord);
                         i2 = (Isla) t.getCasilla(coord);
                         i.setPuente(i2);
-                        //Puente doble?
+                        //Puente doble? creo que una vez modificacdo el método
+                        //setPuente, añadiendole hacerPuenteDoble, no hacen
+                        //falta las 2siguientes líneas
                         if(r.nextBoolean()) {
                             i.setPuente(i2);
                         }
@@ -131,7 +133,7 @@ public class EstrategiaAleatoriaBasica implements EstrategiaProblema {
                 numero = ((Coordenadas2D)c).getX() - 1;
                 break;
             case ESTE:
-                numero = ta.getAnchura() - 2 - ((Coordenadas2D)c).getY();
+                 numero = ta.getAnchura() - 2 - ((Coordenadas2D)c).getY();
                 break;
             case SUR:
                 numero = ta.getAltura() - 2 - ((Coordenadas2D)c).getX();
