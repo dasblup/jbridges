@@ -55,4 +55,6 @@ public interface Isla {
      * en el sentido indicado
      */
     public Isla getVecina(Sentido s) throws IslaNoEncontradaException;
+    //anterior
+    public void setPuente(Sentido s) throws SentidoInvalidoException;
 }

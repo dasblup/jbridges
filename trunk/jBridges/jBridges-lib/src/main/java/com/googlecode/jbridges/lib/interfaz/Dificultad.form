@@ -61,7 +61,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="77" max="32767" attributes="0"/>
+                  <EmptySpace pref="73" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -130,7 +130,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tempus Sans ITC" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="(En caso de elegir baja, media o alta, el resultado puede tardar unos minutos)"/>
+            <Property name="text" type="java.lang.String" value="(En caso de elegir baja, media o alta, el resultado puede tardar unos segundos)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="jRadioButton4">
