@@ -3,156 +3,168 @@
  * and open the template in the editor.
  */
 
-package com.googlecode.jbridges.lib.problemas.estrategias;
 
-import com.googlecode.jbridges.lib.Casilla;
-import com.googlecode.jbridges.lib.Configuracion;
-import com.googlecode.jbridges.lib.Coordenadas;
-import com.googlecode.jbridges.lib.Coordenadas2D;
-import com.googlecode.jbridges.lib.Isla;
-import com.googlecode.jbridges.lib.Sentido;
-import com.googlecode.jbridges.lib.Tablero;
-import com.googlecode.jbridges.lib.TableroArray;
-import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
-import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
-import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
-import com.googlecode.jbridges.lib.problemas.EstrategiaProblema;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
 
 /**
  *
  * @author pabloramix
  */
-public class EstrategiaAleatoriaBasica implements EstrategiaProblema {
+/*
+  * To change this template, choose Tools | Templates
+  * and open the template in the editor.
+  */
 
-    private Random r;
-    private Tablero t;
+ package com.googlecode.jbridges.lib.problemas.estrategias;
 
-    public EstrategiaAleatoriaBasica() {
-        r = new Random (System.currentTimeMillis());
-    }
+ import com.googlecode.jbridges.lib.Casilla;
+ import com.googlecode.jbridges.lib.Configuracion;
+ import com.googlecode.jbridges.lib.Coordenadas;
+ import com.googlecode.jbridges.lib.Coordenadas2D;
+ import com.googlecode.jbridges.lib.Isla;
+ import com.googlecode.jbridges.lib.Sentido;
+ import com.googlecode.jbridges.lib.Tablero;
+ import com.googlecode.jbridges.lib.TableroArray;
+ import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
+ import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
+ import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
+ import com.googlecode.jbridges.lib.problemas.EstrategiaProblema;
+ import java.util.LinkedList;
+ import java.util.Queue;
+ import java.util.Random;
 
-    public EstrategiaAleatoriaBasica(long semilla) {
-        r = new Random (System.currentTimeMillis() ^ semilla);
-    }
+ /**
+  *
+  * @author pabloramix
+  */
+ public class EstrategiaAleatoriaBasica implements EstrategiaProblema {
 
-    public Tablero crearTablero() {
+     private Random r;
+     private Tablero t;
 
-        Coordenadas coord;
-        Casilla casilla;
-        Isla i;
-        Isla i2 = null;
+     public EstrategiaAleatoriaBasica() {
+         r = new Random (System.currentTimeMillis());
+     }
 
-        Queue<Isla> colaIslas;
+     public EstrategiaAleatoriaBasica(long semilla) {
+         r = new Random (System.currentTimeMillis() ^ semilla);
+     }
 
-        colaIslas = new LinkedList<Isla>();
+     public Tablero crearTablero() {
 
-        t = new TableroArray();
+         Coordenadas coord;
+         Casilla casilla;
+         Isla i;
+         Isla i2 = null;
 
-        t.setDimension(Configuracion.altoTablero(),
-                Configuracion.anchoTablero());
+         Queue<Isla> colaIslas;
 
-        coord = coordenadasAleatorias();
+         colaIslas = new LinkedList<Isla>();
 
-        try {
-            t.setIsla(coord);
-        } catch (CasillaOcupadaException coe){
-            System.err.print("IMPOSIBLE!!!");
-            coe.printStackTrace(System.err);
-        }
+         t = new TableroArray();
 
-        colaIslas.add((Isla)t.getCasilla(coord));
+         t.setDimension(Configuracion.altoTablero(),
+                 Configuracion.anchoTablero());
 
-        while(!colaIslas.isEmpty()) {
+         coord = coordenadasAleatorias();
 
-            i = colaIslas.poll();
+         try {
+             t.setIsla(coord);
+         } catch (CasillaOcupadaException coe){
+             System.err.print("IMPOSIBLE!!!");
+             coe.printStackTrace(System.err);
+         }
 
-            for (Sentido s : Sentido.values()) {
+         colaIslas.add((Isla)t.getCasilla(coord));
 
-                // Ponemos la isla?
-               // if (r.nextBoolean()) {
-                    coord = expandir(s, i, t);
-                    try {
-                        t.setIsla(coord);
-                        i2 = (Isla) t.getCasilla(coord);
-                        i.setPuente(i2);
-                        //Puente doble? creo que una vez modificacdo el método
-                        //setPuente, añadiendole hacerPuenteDoble, no hacen
-                        //falta las 2siguientes líneas
-                        if(r.nextBoolean()) {
-                            i.setPuente(i2);
-                        }
-                        colaIslas.add(i2);
-                    } catch (CasillaOcupadaException coe) {
-                        System.err.print("ERROR Casilla Ocupada");
-                    } catch (PuenteProhibidoException ppe) {
-                        t.borrarIsla(i2);
-                    } 
-                //}
-            }
-        }
+         while(!colaIslas.isEmpty()) {
 
-        return t;
-    }
+             i = colaIslas.poll();
 
-    private Coordenadas coordenadasAleatorias() {
+             for (Sentido s : Sentido.values()) {
 
-        int i;
-        int j;
+                 // Ponemos la isla?
+                // if (r.nextBoolean()) {
+                     coord = expandir(s, i, t);
+                     try {
+                         t.setIsla(coord);
+                         i2 = (Isla) t.getCasilla(coord);
+                         i.setPuente(i2);
+                         //Puente doble?
+                         if(r.nextBoolean()) {
+                             i.setPuente(s);
+                         }
+                         colaIslas.add(i2);
+                     } catch (CasillaOcupadaException coe) {
+                         System.err.print("ERROR Casilla Ocupada");
+                     } catch (PuenteProhibidoException ppe) {
+                         t.borrarIsla(i2);
+                     } catch (SentidoInvalidoException sie) {
+                         System.err.print("IMPOSIBLE!!!");
+                     }
+                 //}
+             }
+         }
 
-        i = r.nextInt(t.getAltura());
-        j = r.nextInt(t.getAnchura());
+         return t;
+     }
 
-        return t.getCoordenadas(i, j);
-    }
+     private Coordenadas coordenadasAleatorias() {
 
-    private Coordenadas expandir (Sentido s, Isla i, Tablero t) {
-        
-        Coordenadas c;
-        int numero;
-        TableroArray ta;
+         int i;
+         int j;
 
-        ta = (TableroArray) t;
+         i = r.nextInt(t.getAltura());
+         j = r.nextInt(t.getAnchura());
 
-        numero = 0;
+         return t.getCoordenadas(i, j);
+     }
 
-        c = ((Casilla)i).getCoordenadas();
+     private Coordenadas expandir (Sentido s, Isla i, Tablero t) {
 
-        /**
-         * No queremos que las islas queden en casillas contiguas,
-         * así que haremos que el número generado al azar esté entre 1 y
-         * el límite de casillas hasta el final del tablero.
-         *
-         * Por eso le sumamos uno al empezar el bucle for, y le quitamos 1 al
-         * limite superior de casillas del tablero.
-         */
-        switch (s) {
-            case NORTE:
-                numero = ((Coordenadas2D)c).getX() - 1;
-                break;
-            case ESTE:
+         Coordenadas c;
+         int numero;
+         TableroArray ta;
+
+         ta = (TableroArray) t;
+
+         numero = 0;
+
+         c = ((Casilla)i).getCoordenadas();
+
+         /**
+          * No queremos que las islas queden en casillas contiguas,
+          * así que haremos que el número generado al azar esté entre 1 y
+          * el límite de casillas hasta el final del tablero.
+          *
+          * Por eso le sumamos uno al empezar el bucle for, y le quitamos 1 al
+          * limite superior de casillas del tablero.
+          */
+         switch (s) {
+             case NORTE:
+                 numero = ((Coordenadas2D)c).getX() - 1;
+                 break;
+             case ESTE:
                  numero = ta.getAnchura() - 2 - ((Coordenadas2D)c).getY();
-                break;
-            case SUR:
-                numero = ta.getAltura() - 2 - ((Coordenadas2D)c).getX();
-                break;
-            case OESTE:
-                numero = ((Coordenadas2D)c).getY() - 1;
-                break;
-        }
+                 break;
+             case SUR:
+                 numero = ta.getAltura() - 2 - ((Coordenadas2D)c).getX();
+                 break;
+             case OESTE:
+                 numero = ((Coordenadas2D)c).getY() - 1;
+                 break;
+         }
 
-        if (numero > 0) {
-            numero = r.nextInt(numero);
+         if (numero > 0) {
+             numero = r.nextInt(numero);
 
-            for (numero = numero + 2; numero > 0;numero--) {
-                ta.avanzar(c, s);
-            }
-        }
+             for (numero = numero + 2; numero > 0;numero--) {
+                 ta.avanzar(c, s);
+             }
+         }
 
-        return c;
+         return c;
 
-    }
+     }
 
-}
+ }
+ 

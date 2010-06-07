@@ -11,28 +11,90 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import com.googlecode.jbridges.lib.Casilla;
+import com.googlecode.jbridges.lib.Coordenadas;
+import com.googlecode.jbridges.lib.Coordenadas2D;
+import com.googlecode.jbridges.lib.Direccion;
+import com.googlecode.jbridges.lib.Isla;
+import com.googlecode.jbridges.lib.Puente;
+import com.googlecode.jbridges.lib.Tablero;
+import com.googlecode.jbridges.lib.TableroArray;
+import com.googlecode.jbridges.lib.TipoPuente;
+import com.googlecode.jbridges.lib.problemas.Estrategias2D;
+import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import javax.swing.JColorChooser;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
  * @author mdiazoli
  */
-public class Plantilla extends javax.swing.JFrame {
+public class NuevoJuego extends javax.swing.JFrame{
 
     /** Creates new form Plantilla */
-    public Plantilla() {
+    public NuevoJuego() {
         initComponents();
     }
 
-    public Plantilla(JTable t){
+    public NuevoJuego(JTable t){
         
         this.add(t);
         t.setVisible(true);
         this.setVisible(true);
     }
 
+    public void obtenerTablero(){
+        FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
+        Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+        //JLabel texto;
+        DefaultTableCellRenderer tcr= new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);
+        for(int col=0; col<jTable1.getColumnCount(); col++){
+            jTable1.getColumnModel().getColumn(col).setCellRenderer(tcr);
+        }
+        //Graphics g=null;
+
+        //Dibujar circulo en celda jtable
+        for(int i=0;i<problema.getAltura();i++){
+            for(int j=0;j<problema.getAnchura();j++){
+                Coordenadas coord;
+                coord=problema.getCoordenadas(i, j);
+                Casilla casilla=problema.getCasilla(coord);
+                if (casilla instanceof Isla){
+                   // g.drawOval(i, j, 1, 1);
+                    Isla isla=(Isla)casilla;
+                    int n=isla.getN();
+                    
+                    //jTable1.setValueAt(g, i , j);
+                    jTable1.setValueAt(n, i, j);
+               }else if(casilla instanceof Puente){
+                    Puente puente;
+                    puente=(Puente)casilla;
+
+                    if(puente.getTipo()==TipoPuente.SIMPLE){
+                        if(puente.getDireccion()==Direccion.HORIZONTAL){
+                            jTable1.setValueAt("-", i, j);
+                        }else{
+                            jTable1.setValueAt("|", i, j);
+                        }
+                    }else{
+                        jTable1.setValueAt("#", i, j);
+                    }
+                }
+            }
+        }
+    }
+
+     
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -51,6 +113,7 @@ public class Plantilla extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,13 +170,22 @@ public class Plantilla extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel1.setFont(new java.awt.Font("Snap ITC", 0, 36));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("HASHIWOKAKERO");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addComponent(jLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -152,7 +224,9 @@ public class Plantilla extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addComponent(jButton6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
@@ -182,6 +256,8 @@ public class Plantilla extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        Guardar guardarPartida= new Guardar(this, true);
+        guardarPartida.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -189,11 +265,14 @@ public class Plantilla extends javax.swing.JFrame {
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Plantilla().setVisible(true);
-            }
-        });
+        //.awt.EventQueue.invokeLater(new Runnable() {
+          //  public void run() {
+               NuevoJuego p= new NuevoJuego();
+               p.obtenerTablero();
+               p.setVisible(true);
+
+            //}
+        //});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -203,9 +282,12 @@ public class Plantilla extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    
 
 }

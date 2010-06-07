@@ -41,7 +41,16 @@ public class TableroArray implements Tablero {
 
         Casilla casilla;
         casilla=getCasilla(c);
-
+        //boolean ocupada=false;
+      
+       /*for (Sentido s : Sentido.values()){
+                    try{
+                    TableroArray.this.avanzar(c, s);
+                    } catch (FueraDeRangoException fre) {}
+                    if((getCasilla(c) instanceof Isla)){
+                        ocupada=true;
+                    }
+        }*/
         if(casilla instanceof Agua){
             this.tablero[((CoordenadasArray)c).getX()]
                     [((CoordenadasArray)c).getY()]=new IslaArray((CoordenadasArray)c);
@@ -238,79 +247,102 @@ public class TableroArray implements Tablero {
             return puentes;
         }
 
-        public void setPuente(Isla i) throws PuenteProhibidoException {
-            
-            IslaArray isla;
-            CoordenadasArray coordenadasLaOtraIsla;
-            CoordenadasArray coordenadasEstaIsla;
-            Direccion d;
-            Sentido s;
-            PuenteArray puente;
-            
-            isla=(IslaArray)i;
-            
-            coordenadasLaOtraIsla=(CoordenadasArray)isla.getCoordenadas();
-            coordenadasEstaIsla=(CoordenadasArray)this.getCoordenadas();
-            
-            if(coordenadasEstaIsla.getX().equals(coordenadasLaOtraIsla.getX())){
-                d=Direccion.HORIZONTAL;
-                if(coordenadasEstaIsla.getY()-coordenadasLaOtraIsla.getY()<0){
-                    s=Sentido.ESTE;
-                }else if(coordenadasEstaIsla.getY()-coordenadasLaOtraIsla.getY()>0){
-                    s=Sentido.OESTE;
-                }else{
-                    throw new RuntimeException("La misma casilla!! Arregla esto");
-                }
-            }else if(coordenadasLaOtraIsla.getY().equals(coordenadasEstaIsla.getY())){
-                d=Direccion.VERTICAL;
-                if(coordenadasEstaIsla.getX()-coordenadasLaOtraIsla.getX()<0){
-                    s=Sentido.NORTE; //No esta al reves?
-                }else if(coordenadasEstaIsla.getX()-coordenadasLaOtraIsla.getX()>0){
-                    s=Sentido.SUR; //No esta al reves?
-                }else{
-                    throw new RuntimeException("La misma casilla!! Arregla esto");
-                }
-            }else{
-                throw new RuntimeException("Arregla esto!!!");
-            }
+              public void setPuente(Isla i) throws PuenteProhibidoException { 
+             IslaArray isla; 
+             CoordenadasArray coordenadasLaOtraIsla; 
+             CoordenadasArray coordenadasEstaIsla; 
+             Sentido s; 
+             Direccion d; 
+             PuenteArray puente; 
+  
+             isla = (IslaArray) i; 
+             coordenadasLaOtraIsla = (CoordenadasArray) isla.getCoordenadas(); 
+             coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas(); 
+  
+             if (coordenadasEstaIsla.getX().equals(coordenadasLaOtraIsla.getX())) { 
+                 d = Direccion.HORIZONTAL; 
+                 if ((coordenadasEstaIsla.getY() - coordenadasLaOtraIsla.getY()) < 0) { 
+                     s = Sentido.ESTE; 
+                 } else if ((coordenadasEstaIsla.getY() - coordenadasLaOtraIsla.getY()) > 0) { 
+                     s = Sentido.OESTE; 
+                 } else { 
+                     throw new RuntimeException("La misma Casilla!! - ARREGLA ESTO!!!"); 
+                 } 
+             } else if (coordenadasEstaIsla.getY().equals(coordenadasLaOtraIsla.getY())) { 
+                 d = Direccion.VERTICAL; 
+                 if ((coordenadasEstaIsla.getX() - coordenadasLaOtraIsla.getX()) < 0) { 
+                     s = Sentido.SUR; 
+                 } else if ((coordenadasEstaIsla.getX() - coordenadasLaOtraIsla.getX()) > 0) { 
+                     s = Sentido.NORTE; 
+                 } else { 
+                     throw new RuntimeException("La misma Casilla!! - ARREGLA ESTO!!!"); 
+                 } 
+             } else { 
+                 throw new RuntimeException("ARREGLA ESTO!!!"); 
+             } 
+  
+             TableroArray.this.avanzar(coordenadasEstaIsla, s); 
+             while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) { 
+                 if (!(getCasilla(coordenadasEstaIsla) instanceof Agua)) { 
+                     throw new PuenteProhibidoException(); 
+                 } 
+                 TableroArray.this.avanzar(coordenadasEstaIsla, s); 
+             } 
+  
+             coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas(); 
+  
+             TableroArray.this.avanzar(coordenadasEstaIsla, s); 
+             while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) { 
+                 puente = new PuenteArray(coordenadasEstaIsla); 
+                 puente.setDireccion(d); 
+                 TableroArray.this.tablero[coordenadasEstaIsla.getX()] 
+                                          [coordenadasEstaIsla.getY()] = puente; 
+                 TableroArray.this.avanzar(coordenadasEstaIsla, s); 
+             } 
+  
+             this.numeroPuentes++; 
+             isla.numeroPuentes++; 
+         }  
 
-            if (this.getPuentes(s) >= 2 ||
-                this.getPuentes() >= this.getN() ||
-                i.getPuentes(invertirSentido(s)) >= 2 ||
-                i.getPuentes() >= i.getN()) {
+         public void setPuente(Sentido s) throws SentidoInvalidoException {
 
-                throw new PuenteProhibidoException();
-            }
+             CoordenadasArray coordenadasEstaIsla;
+             Casilla c;
+             PuenteArray puente;
 
-            try {
+             coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas();
 
-                hacerPuenteDoble(s);
+             TableroArray.this.avanzar(coordenadasEstaIsla, s);
+             c = TableroArray.this.getCasilla(coordenadasEstaIsla);
 
-            } catch (SentidoInvalidoException see) {
+             while (c instanceof PuenteArray) {
+                 puente = (PuenteArray)c;
 
-                TableroArray.this.avanzar(coordenadasEstaIsla, s);
-                while(!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)){
-                    if(!(getCasilla(coordenadasEstaIsla) instanceof Agua)){
-                        throw new PuenteProhibidoException();
-                    }
-                    TableroArray.this.avanzar(coordenadasEstaIsla, s);
-                }
+                 if (puente.getDireccion() == Direccion.HORIZONTAL) {
+                     if (s == Sentido.NORTE || s == Sentido.SUR) {
+                         throw new SentidoInvalidoException();
+                     }
+                 } else {
+                     if (s == Sentido.ESTE || s == Sentido.OESTE) {
+                         throw new SentidoInvalidoException();
+                     }
+                 }
 
-                coordenadasEstaIsla=(CoordenadasArray)this.getCoordenadas();
+                 puente.setDoble();
+                 TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                 c = TableroArray.this.getCasilla(coordenadasEstaIsla);
+             }
 
-                TableroArray.this.avanzar(coordenadasEstaIsla, s);
-                while(!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)){
-                    puente=new PuenteArray(coordenadasEstaIsla);
-                    puente.setDireccion(d);
-                    TableroArray.this.tablero[coordenadasEstaIsla.getX()]
-                            [coordenadasEstaIsla.getX()]=puente;
-                    TableroArray.this.avanzar(coordenadasEstaIsla, s);
-                }
-            }
-
-            this.numeroPuentes++;
-            isla.numeroPuentes++;
-        }
+             /**
+              * Se hace esta comprobación por si el primer vecino no es un puente
+              */
+             if (c instanceof IslaArray) {
+                 this.numeroPuentes++;
+                 ((IslaArray)c).numeroPuentes++;
+             } else {
+                 throw new SentidoInvalidoException();
+             }
+         }
 
         /*
          * Si existe un puente en el sentido s, lo hace doble.
@@ -350,7 +382,8 @@ public class TableroArray implements Tablero {
             if (c instanceof IslaArray) {
                 this.numeroPuentes++;
                 ((IslaArray)c).numeroPuentes++;
-            } else {
+            } 
+            else {
                 throw new SentidoInvalidoException();
             }
         }
