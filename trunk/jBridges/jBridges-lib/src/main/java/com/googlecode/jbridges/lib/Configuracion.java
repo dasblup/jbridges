@@ -11,11 +11,23 @@ package com.googlecode.jbridges.lib;
  */
 public class Configuracion {
 
-    public static int anchoTablero() {
-        return 10;
+    private static int ancho;
+    private static int alto;
+
+    public static int getAnchoTablero() {
+        return Configuracion.ancho != 0 ? Configuracion.ancho : 10;
     }
 
-    public static int altoTablero() {
-        return 10;
+    public static void setAnchoTablero(int ancho) {
+        Configuracion.ancho = ancho;
     }
+
+    public static int getAltoTablero() {
+        return Configuracion.alto != 0 ? Configuracion.alto : 10;
+    }
+
+    public static void setAltoTablero(int alto) {
+        Configuracion.alto = alto;
+    }
+
 }

@@ -12,14 +12,6 @@
 package com.googlecode.jbridges.lib.interfaz;
 
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 
 /**
  *
@@ -133,7 +125,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Dificultad dialogo=new Dificultad(this, true);
+        Tamaño dialogo=new Tamaño(this, true);
         dialogo.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed

@@ -11,25 +11,19 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
-
-
-
 /**
  *
  * @author mdiazoli
  */
-public class Dificultad extends javax.swing.JDialog {
-    int tam;
+public class Tamaño extends javax.swing.JDialog {
+
     /** Creates new form Tamaño */
-    public Dificultad(java.awt.Dialog parent, boolean modal, int tam) {
+    public Tamaño(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         buttonGroup1.add(jRadioButton3);
-        buttonGroup1.add(jRadioButton4);
-        this.tam=tam;
-        
     }
 
     /** This method is called from within the constructor to
@@ -47,17 +41,15 @@ public class Dificultad extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
-        jLabel2 = new javax.swing.JLabel();
-        jRadioButton4 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Dificultad");
+        setTitle("Tamaño");
 
         jLabel1.setFont(new java.awt.Font("Mufferaw", 1, 18));
-        jLabel1.setText("Elija el nivel de dificultad del juego:");
+        jLabel1.setText("Elija el tamaño del tablero:");
 
         jRadioButton1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton1.setText("Baja");
+        jRadioButton1.setText("Pequeño");
         jRadioButton1.setName("baja"); // NOI18N
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,19 +58,18 @@ public class Dificultad extends javax.swing.JDialog {
         });
 
         jRadioButton2.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton2.setText("Media");
+        jRadioButton2.setText("Mediano");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         jRadioButton3.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton3.setText("Alta");
-
-        jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 0, 12));
-        jLabel2.setText("(En caso de elegir baja, media o alta, el resultado puede tardar unos segundos)");
-
-        jRadioButton4.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton4.setText("Aleatoria");
-        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+        jRadioButton3.setText("Grande");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton4ActionPerformed(evt);
+                jRadioButton3ActionPerformed(evt);
             }
         });
 
@@ -89,35 +80,28 @@ public class Dificultad extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton4)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))))
-                .addContainerGap(73, Short.MAX_VALUE))
+                            .addComponent(jRadioButton2)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton3))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(8, 8, 8)
+                .addGap(18, 18, 18)
                 .addComponent(jRadioButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton4)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jRadioButton1.getAccessibleContext().setAccessibleDescription("Baja");
@@ -126,11 +110,11 @@ public class Dificultad extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -138,55 +122,49 @@ public class Dificultad extends javax.swing.JDialog {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
+        Dificultad d=new Dificultad(this, true, 1);
+        d.setVisible(true);
+        this.setVisible(false);
 }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        if(tam==1){
-            TableroPequeño tablero=new TableroPequeño(tam);
-            tablero.setVisible(true);
-            this.setVisible(false);
-        }else if(tam==2){
-            TableroMediano tablero=new TableroMediano(tam);
-            tablero.setVisible(true);
-            this.setVisible(false);
-        }else if(tam==3){
-            TableroGrande tablero=new TableroGrande(tam);
-            tablero.setVisible(true);
-            this.setVisible(false);
-        }
-        
-        
+        Dificultad d=new Dificultad(this, true, 2);
+        d.setVisible(true);
+        this. setVisible(false);
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
-
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here:
+        Dificultad d=new Dificultad(this, true, 3);
+        d.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     /**
     * @param args the command line arguments
     */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                Dificultad dialog = new Dificultad(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Tamaño dialog = new Tamaño(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -38,6 +38,7 @@ public class Guardar extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Guardar");
 
         jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
         jLabel1.setText("¿Desea guardar la partida antes de salir?");

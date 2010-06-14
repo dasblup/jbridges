@@ -12,6 +12,7 @@
         </plugins>
     </build>
   <dependencies>
+   
   </dependencies>
   <parent>
     <groupId>com.googlecode.jBridges</groupId>
@@ -20,3 +21,6 @@
   </parent>
 
 </project>
+
+
+

@@ -210,7 +210,7 @@ public class TableroArray implements Tablero {
             return this.numeroPuentes;
         }
 
-        private void setN(int n) {
+        public void setN(int n) {
             this.numeroPuentes = n;
         }
 
