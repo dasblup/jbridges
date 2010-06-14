@@ -23,6 +23,11 @@ public interface Isla {
 
     /**
      *
+     * Cambia numPuentes por el número pasado como parámetro
+     */
+    public void setN(int n);
+    /**
+     *
      * @return el nœmero de puentes que tiene la isla actualmente
      */
     public int getPuentes();

@@ -62,8 +62,8 @@
 
          t = new TableroArray();
 
-         t.setDimension(Configuracion.altoTablero(),
-                 Configuracion.anchoTablero());
+         t.setDimension(Configuracion.getAltoTablero(),
+                 Configuracion.getAnchoTablero());
 
          coord = coordenadasAleatorias();
 

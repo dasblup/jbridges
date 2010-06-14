@@ -38,13 +38,12 @@ public class Jugador extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Jugador");
 
-        jPanel1.setName("null"); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Mufferaw", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Mufferaw", 1, 14));
         jLabel1.setText("Introduzca su nombre:");
 
-        jButton1.setFont(new java.awt.Font("Croobie", 0, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Croobie", 0, 18));
         jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

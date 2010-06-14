@@ -4,9 +4,9 @@
  */
 
 /*
- * Introducción.java
+ * R.java
  *
- * Created on 02-jun-2010, 19:16:04
+ * Created on 09-jun-2010, 22:28:18
  */
 
 package com.googlecode.jbridges.lib.interfaz;
@@ -15,10 +15,10 @@ package com.googlecode.jbridges.lib.interfaz;
  *
  * @author mdiazoli
  */
-public class Introduccion extends javax.swing.JDialog {
+public class Ranking extends javax.swing.JDialog {
 
-    /** Creates new form Introducción */
-    public Introduccion(java.awt.Frame parent, boolean modal) {
+    /** Creates new form R */
+    public Ranking(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -34,27 +34,51 @@ public class Introduccion extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Introducción");
+        setTitle("Clasificación");
 
-        jScrollPane1.setBorder(null);
+        jTable1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Nombre Jugador", "Puntuación"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        jTextArea1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Mufferaw", 1, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setText("El juego consiste en unir una serie de islas con líneas rectas respetando unas sencillas reglas:\n\n- Cada isla debe tener tantos puentes como indica su número.\n\n- Ningún puente puede cruzarse con otro puente o con otra isla distinta de las que une.\n\n- Las líneas rectas deben ser horizontales o verticales.\n\n- Entre dos islas sólo puede haber como máximo dos puentes que las conecten.\n\n- No pueden quedar islas que no están conectadas con el resto, es decir, debe quedar una sola componente conexa.\n\n- Al final, el número de puentes conectados a cada isla debe coincidir con el número de la isla.\n\nPara más información pueden visitar la página: http://www.nikoli.co.jp/en/puzzles/hashiwokakero/\n\n\n");
-        jTextArea1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPane1.setViewportView(jTextArea1);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setRowHeight(25);
+        jTable1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jTable1MouseWheelMoved(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setFont(new java.awt.Font("Croobie", 0, 18));
+        jButton4.setText("Aceptar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -66,20 +90,20 @@ public class Introduccion extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(400, 400, 400)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(154, 154, 154)
+                        .addComponent(jButton4)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -96,10 +120,14 @@ public class Introduccion extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jTable1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jTable1MouseWheelMoved
+        // TODO add your handling code here:
+}//GEN-LAST:event_jTable1MouseWheelMoved
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_jButton4ActionPerformed
 
     /**
     * @param args the command line arguments
@@ -107,7 +135,7 @@ public class Introduccion extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Introduccion dialog = new Introduccion(new javax.swing.JFrame(), true);
+                Ranking dialog = new Ranking(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
@@ -119,10 +147,10 @@ public class Introduccion extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
 }
