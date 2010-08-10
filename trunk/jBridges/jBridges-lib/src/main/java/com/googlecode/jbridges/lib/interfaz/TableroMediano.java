@@ -11,20 +11,17 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
-import com.googlecode.jbridges.lib.Casilla;
+
 import com.googlecode.jbridges.lib.Configuracion;
-import com.googlecode.jbridges.lib.Coordenadas;
-import com.googlecode.jbridges.lib.Isla;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
+import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JTable;
-
-
 
 
 /**
@@ -36,26 +33,30 @@ public class TableroMediano extends javax.swing.JFrame {
  
     private int fila;
     private int columna;
-   // Configuracion.setAltoTablero(10);
-   // Configuracion.setAnchoTablero(10);
+
     FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
     Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
 
-    public List <ElementoSolucion> solUsuario=new LinkedList<ElementoSolucion>();
-    //solucion.add(new ElementoSolucion(i, vecina));
+
+    EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
+    public List <ElementoSolucion> sol=ebb.solucionar(problema).solucion;
+    public List<ElementoSolucion> solUsuario=new LinkedList<ElementoSolucion>();
 
     /** Creates new form Plantilla */
-    public TableroMediano(int tam){
+    public TableroMediano(){
 
         initComponents();
         new Cronometro();
-        obtenerTablero(tam);
+
+        MetodosEstaticos.obtenerTablero(problema, jTable1);
         RenderTabla miRender = new RenderTabla();
         jTable1.setDefaultRenderer( Object.class, miRender);
         //jTable1.addMouseMotionListener (new EventoRaton());
         this.fila = -1;
         this.columna = -1;
-    
+
+        Configuracion.setAltoTablero(10);
+        Configuracion.setAnchoTablero(10);
     }
 
     public TableroMediano(JTable t){
@@ -67,33 +68,11 @@ public class TableroMediano extends javax.swing.JFrame {
         this.columna = -1;
     }
 
-    public void obtenerTablero(int tam){
-
-        if(tam==1){
-            jLabel3.setText("Pequeño");
-        }else if(tam==2){
-            jLabel3.setText("Mediano");
-        }else if(tam==1){
-            jLabel3.setText("Grande");
-        }
-        for(int i=0;i<problema.getAltura();i++){
-            for(int j=0;j<problema.getAnchura();j++){
-                Coordenadas coord;
-                coord=problema.getCoordenadas(i, j);
-                Casilla casilla=problema.getCasilla(coord);
-                if (casilla instanceof Isla){
-
-                    Isla isla=(Isla)casilla;
-                    Integer n=isla.getN();
-                    jTable1.setValueAt(n, i, j);
-                  
-                    
-               }
-               
-            }
-        }
     
-    }
+
+
+
+
     public class Cronometro implements Runnable {
 
         Thread crono;
@@ -111,17 +90,17 @@ public class TableroMediano extends javax.swing.JFrame {
             try {
                 for (;;) {
                     if (segundos == 59) {
-                        segundos = 0;
+                        segundos = -1;
                         minutos++;
                     }
                     if (minutos == 59) {
-                        minutos = 0;
+                        minutos = -1;
                         horas++;
                     }
                     segundos++;
-                    Font f2 = new Font("Bradley Hand ITC", Font.BOLD, 24);
-                    jLabel7.setFont(f2);
-                    jLabel7.setText(horas + ":" + minutos + ":" + segundos);
+                    Font f2 = new Font("Tempus Sans ITC", Font.BOLD, 18);
+                    cronometro.setFont(f2);
+                    cronometro.setText(horas + ":" + minutos + ":" + segundos);
                     crono.sleep(1000);
                 }
             } catch (InterruptedException e) {
@@ -142,51 +121,71 @@ public class TableroMediano extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        nuevaPartida = new javax.swing.JButton();
+        Guardar = new javax.swing.JButton();
+        siguientePaso = new javax.swing.JButton();
+        comprobar = new javax.swing.JButton();
+        solucionar = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        clasificacion = new javax.swing.JButton();
+        tamaño = new javax.swing.JLabel();
+        tipoTamaño = new javax.swing.JLabel();
+        nivel = new javax.swing.JLabel();
+        tipoNivel = new javax.swing.JLabel();
+        tiempo = new javax.swing.JLabel();
+        cronometro = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tablero Mediano");
 
-        jButton1.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton1.setText("Nueva Partida");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        nuevaPartida.setFont(new java.awt.Font("Croobie", 0, 18));
+        nuevaPartida.setText("Nueva Partida");
+        nuevaPartida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                nuevaPartidaActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton2.setText("Guardar");
-
-        jButton3.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton3.setText("Siguiente Paso");
-
-        jButton4.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton4.setText("Comprobar");
-
-        jButton5.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton5.setText("Solucionar");
-
-        jButton6.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton6.setText("Salir");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        Guardar.setFont(new java.awt.Font("Croobie", 0, 18)); // NOI18N
+        Guardar.setText("Guardar");
+        Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                GuardarActionPerformed(evt);
+            }
+        });
+
+        siguientePaso.setFont(new java.awt.Font("Croobie", 0, 18));
+        siguientePaso.setText("Siguiente Paso");
+        siguientePaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siguientePasoActionPerformed(evt);
+            }
+        });
+
+        comprobar.setFont(new java.awt.Font("Croobie", 0, 18));
+        comprobar.setText("Comprobar");
+        comprobar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comprobarActionPerformed(evt);
+            }
+        });
+
+        solucionar.setFont(new java.awt.Font("Croobie", 0, 18));
+        solucionar.setText("Solucionar");
+        solucionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solucionarActionPerformed(evt);
+            }
+        });
+
+        salir.setFont(new java.awt.Font("Croobie", 0, 18));
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
             }
         });
 
@@ -227,28 +226,29 @@ public class TableroMediano extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("HASHIWOKAKERO");
 
-        jButton7.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton7.setText("Clasificación");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        clasificacion.setFont(new java.awt.Font("Croobie", 0, 18));
+        clasificacion.setText("Clasificación");
+        clasificacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                clasificacionActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
-        jLabel2.setText("Tamaño:");
+        tamaño.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
+        tamaño.setText("Tamaño:");
 
-        jLabel3.setText("jLabel3");
+        tipoTamaño.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18));
+        tipoTamaño.setText("Mediano");
 
-        jLabel4.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
-        jLabel4.setText("Nivel:");
+        nivel.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
+        nivel.setText("Nivel:");
 
-        jLabel5.setText("jLabel5");
+        tipoNivel.setText("jLabel5");
 
-        jLabel6.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
-        jLabel6.setText("Tiempo:");
+        tiempo.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
+        tiempo.setText("Tiempo:");
 
-        jLabel7.setText("jLabel7");
+        cronometro.setText("jLabel7");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -263,39 +263,39 @@ public class TableroMediano extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(102, 102, 102)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(solucionar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comprobar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                            .addComponent(clasificacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(siguientePaso, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton6)
+                                    .addComponent(salir)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
+                                        .addComponent(tiempo)
                                         .addGap(9, 9, 9))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(91, 91, 91)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nuevaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(125, 125, 125)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2))
+                            .addComponent(nivel)
+                            .addComponent(tamaño))
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)))
+                            .addComponent(tipoTamaño)
+                            .addComponent(tipoNivel)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -309,32 +309,32 @@ public class TableroMediano extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addComponent(jButton1)
+                        .addComponent(nuevaPartida)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(Guardar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(siguientePaso)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
+                        .addComponent(comprobar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addComponent(solucionar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton7)
+                        .addComponent(clasificacion)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton6))
+                        .addComponent(salir))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(tamaño)
+                    .addComponent(tipoTamaño)
+                    .addComponent(tiempo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(nivel)
+                    .addComponent(tipoNivel)
+                    .addComponent(cronometro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -354,189 +354,91 @@ public class TableroMediano extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void nuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaActionPerformed
         // TODO add your handling code here:
-}//GEN-LAST:event_jButton1ActionPerformed
+        Tamaño tam=new Tamaño(this, true);
+        tam.setVisible(true);
+        this.setVisible(false);
+}//GEN-LAST:event_nuevaPartidaActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int f=jTable1.rowAtPoint(evt.getPoint());
-        int c=jTable1.columnAtPoint(evt.getPoint());
-        Coordenadas coord=problema.getCoordenadas(f, c);
-        boolean vacias=false;
-        boolean h1=false;
-        boolean h2=false;
-        boolean v1=false;
-        boolean v2=false;
-
-        if((problema.getCasilla(coord)instanceof Isla)){
-           
-           if (this.fila == -1 || this.columna == -1) {
-                this.fila = jTable1.rowAtPoint(evt.getPoint());
-                this.columna = jTable1.columnAtPoint(evt.getPoint());
-            } else {
-                int fila2 = jTable1.rowAtPoint(evt.getPoint());
-                int columna2= jTable1.columnAtPoint(evt.getPoint());
-
-           if(fila==fila2){
-               
-                if(columna-columna2<0){
-                    //Comprueba que todas las celdas intermedias están vacias
-                    for(int i=columna+1;i<columna2;i++){
-                        if(jTable1.getValueAt(fila, i)==null){
-                            vacias=true;
-                        }else if(jTable1.getValueAt(fila, i).equals("1PuenteH")){
-                            h1=true;
-                        }else if(jTable1.getValueAt(fila, i).equals("2PuentesH")){
-                            h2=true;
-                        }
-                    }
-                    if(vacias){
-                        for(int i=columna+1;i<columna2;i++){
-                            jTable1.setValueAt("1PuenteH", fila, i);
-                        }
-                    }else if(h1){
-                        for(int i=columna+1;i<columna2;i++){
-                            jTable1.setValueAt("2PuentesH", fila, i);
-                        }
-                    }else if(h2){
-                       for(int i=columna+1;i<columna2;i++){
-                            jTable1.setValueAt("borra", fila, i);
-                        }
-                    }
-                }else if(columna-columna2>0){
-                    for(int i=columna-1;i<columna2;i--){
-                        if(jTable1.getValueAt(fila, i)==null){
-                            vacias=true;
-                        }else if(jTable1.getValueAt(fila, i).equals("1PuenteH")){
-                            h1=true;
-                        }else if(jTable1.getValueAt(fila, i).equals("2PuentesH")){
-                            h2=true;
-                        }
-                    }
-                    if(vacias){
-                        for(int i=columna-1;i<columna2;i--){
-                            jTable1.setValueAt("1PuenteH", fila, i);
-                        }
-                    }else if(h1){
-                        for(int i=columna-1;i<columna2;i--){
-                            jTable1.setValueAt("2PuentesH", fila, i);
-                        }
-                    }else if(h2){
-                        for(int i=columna-1;i<columna2;i--){
-                            jTable1.setValueAt("borra", fila, i);
-                        }
-                    }
-                }
-                h2=false;
-                h1=false;
-                vacias=false;
-                this.fila=-1;
-                this.columna=-1;
-            }else if(columna==columna2){
-                
-                if(fila < fila2){
-                    for(int i=fila+1;i<fila2;i++){
-                        if(jTable1.getValueAt(i, columna)==null){
-                            vacias=true;
-                        }else if(jTable1.getValueAt(i, columna).equals("1PuenteV")){
-                            v1=true;
-                        }else if(jTable1.getValueAt(i, columna).equals("2PuentesV")){
-                            v2=true;
-                        }
-                    }
-                    if(vacias){
-                        for(int i=fila+1;i<fila2;i++){
-                            jTable1.setValueAt("1PuenteV", i, columna);
-                        }
-                    }else if(v1){
-                        for(int i=fila+1;i<fila2;i++){
-                            jTable1.setValueAt("2PuentesV", i, columna);
-                        }
-                    }else if(v2){
-                        for(int i=fila+1;i<fila2;i++){
-                            jTable1.setValueAt("borra", i, columna);
-                        }
-                    }
-                }else if(fila > fila2){
-                    for(int i=fila-1;i>fila2;i--){
-                        if(jTable1.getValueAt(i, columna)==null){
-                            vacias=true;
-                        }else if(jTable1.getValueAt(i, columna).equals("1PuenteV")){
-                            v1=true;
-                        }else if(jTable1.getValueAt(i, columna).equals("2PuentesV")){
-                            v2=true;
-                        }
-                    }
-                    if(vacias){
-                        for(int i=fila-1;i>fila2;i--){
-                            jTable1.setValueAt("1PuenteV", i, columna);
-                        }
-                    }else if(v1){
-                        for(int i=fila-1;i>fila2;i--){
-                            jTable1.setValueAt("2PuentesV", i, columna);
-                        }
-                    }else if(v2){
-                        for(int i=fila-1;i>fila2;i--){
-                            jTable1.setValueAt("borra", i, columna);
-                        }
-                    }
-                }
-                v2=false;
-                v1=false;
-                vacias=false;
-                this.fila=-1;
-                this.columna=-1;
-            }
+       if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+            MetodosEstaticos.accionRaton(evt, jTable1, problema, fila, columna, solUsuario, sol);
         }
-    }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
         Guardar guardarPartida= new Guardar(this, true);
         guardarPartida.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_salirActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
         // TODO add your handling code here:
         Ranking r=new Ranking(this, true);
         r.setVisible(true);
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_clasificacionActionPerformed
+
+    private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed
+        // TODO add your handling code here:
+        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+            MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
+            MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
+        }
+    }//GEN-LAST:event_solucionarActionPerformed
+
+    private void siguientePasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientePasoActionPerformed
+        // TODO add your handling code here:
+        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+            MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema);
+        }
+    }//GEN-LAST:event_siguientePasoActionPerformed
+
+    private void comprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprobarActionPerformed
+        // TODO add your handling code here:
+        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+            MetodosEstaticos.comprobar(solUsuario, sol, jTable1, problema);
+        }
+    }//GEN-LAST:event_comprobarActionPerformed
+
+    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GuardarActionPerformed
 
 
     /**
     * @param args the command line arguments
     */
-//    public static void main(String args[]){
-//        //.awt.EventQueue.invokeLater(new Runnable() {
-//          //  public void run() {
-//               TableroMediano p= new TableroMediano();
-//
-//               p.setVisible(true);
-//
-//            //}
-//        //});
-//    }
+    public static void main(String args[]){
+       // .awt.EventQueue.invokeLater(new Runnable() {
+         //  public void run() {
+               TableroMediano p= new TableroMediano();
+
+               p.setVisible(true);
+
+           // }
+        //});
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton Guardar;
+    private javax.swing.JButton clasificacion;
+    private javax.swing.JButton comprobar;
+    private javax.swing.JLabel cronometro;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel nivel;
+    private javax.swing.JButton nuevaPartida;
+    private javax.swing.JButton salir;
+    private javax.swing.JButton siguientePaso;
+    private javax.swing.JButton solucionar;
+    private javax.swing.JLabel tamaño;
+    private javax.swing.JLabel tiempo;
+    private javax.swing.JLabel tipoNivel;
+    private javax.swing.JLabel tipoTamaño;
     // End of variables declaration//GEN-END:variables
 
     

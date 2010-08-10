@@ -24,10 +24,10 @@ public class Dificultad extends javax.swing.JDialog {
     public Dificultad(java.awt.Dialog parent, boolean modal, int tam) {
         super(parent, modal);
         initComponents();
-        buttonGroup1.add(jRadioButton1);
-        buttonGroup1.add(jRadioButton2);
-        buttonGroup1.add(jRadioButton3);
-        buttonGroup1.add(jRadioButton4);
+        buttonGroup1.add(baja);
+        buttonGroup1.add(media);
+        buttonGroup1.add(alta);
+        buttonGroup1.add(aleatoria);
         this.tam=tam;
         
     }
@@ -44,11 +44,11 @@ public class Dificultad extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        baja = new javax.swing.JRadioButton();
+        media = new javax.swing.JRadioButton();
+        alta = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        aleatoria = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dificultad");
@@ -56,29 +56,29 @@ public class Dificultad extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Mufferaw", 1, 18));
         jLabel1.setText("Elija el nivel de dificultad del juego:");
 
-        jRadioButton1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton1.setText("Baja");
-        jRadioButton1.setName("baja"); // NOI18N
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        baja.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        baja.setText("Baja");
+        baja.setName("baja"); // NOI18N
+        baja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                bajaActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton2.setText("Media");
+        media.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        media.setText("Media");
 
-        jRadioButton3.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton3.setText("Alta");
+        alta.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        alta.setText("Alta");
 
         jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 0, 12));
         jLabel2.setText("(En caso de elegir baja, media o alta, el resultado puede tardar unos segundos)");
 
-        jRadioButton4.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton4.setText("Aleatoria");
-        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+        aleatoria.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        aleatoria.setText("Aleatoria");
+        aleatoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton4ActionPerformed(evt);
+                aleatoriaActionPerformed(evt);
             }
         });
 
@@ -91,10 +91,10 @@ public class Dificultad extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(170, 170, 170)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton4)))
+                            .addComponent(baja)
+                            .addComponent(media)
+                            .addComponent(alta)
+                            .addComponent(aleatoria)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,17 +110,17 @@ public class Dificultad extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addGap(8, 8, 8)
-                .addComponent(jRadioButton1)
+                .addComponent(baja)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(media)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(alta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton4)
+                .addComponent(aleatoria)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jRadioButton1.getAccessibleContext().setAccessibleDescription("Baja");
+        baja.getAccessibleContext().setAccessibleDescription("Baja");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,22 +136,22 @@ public class Dificultad extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaActionPerformed
         // TODO add your handling code here:
-}//GEN-LAST:event_jRadioButton1ActionPerformed
+}//GEN-LAST:event_bajaActionPerformed
 
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+    private void aleatoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aleatoriaActionPerformed
         // TODO add your handling code here:
         if(tam==1){
-            TableroPequeño tablero=new TableroPequeño(tam);
+            TableroPequeño tablero=new TableroPequeño();
             tablero.setVisible(true);
             this.setVisible(false);
         }else if(tam==2){
-            TableroMediano tablero=new TableroMediano(tam);
+            TableroMediano tablero=new TableroMediano();
             tablero.setVisible(true);
             this.setVisible(false);
         }else if(tam==3){
-            TableroGrande tablero=new TableroGrande(tam);
+            TableroGrande tablero=new TableroGrande();
             tablero.setVisible(true);
             this.setVisible(false);
         }
@@ -159,7 +159,7 @@ public class Dificultad extends javax.swing.JDialog {
         
 
 
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
+    }//GEN-LAST:event_aleatoriaActionPerformed
 
     /**
     * @param args the command line arguments
@@ -179,14 +179,14 @@ public class Dificultad extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton aleatoria;
+    private javax.swing.JRadioButton alta;
+    private javax.swing.JRadioButton baja;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton media;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -200,10 +200,14 @@ public class TableroArray implements Tablero {
     class IslaArray extends Casilla implements Isla {
 
         private int numeroPuentes;
+        private int x;
+        private int y;
 
         private IslaArray(CoordenadasArray c) {
             super(c);
             this.setN(0);
+            this.x=c.getX();
+            this.y=c.getY();
         }
 
         public int getN() {
@@ -212,6 +216,15 @@ public class TableroArray implements Tablero {
 
         public void setN(int n) {
             this.numeroPuentes = n;
+        }
+
+        public Coordenadas getCoord(){
+            Coordenadas coord=null;
+            IslaArray isla=(IslaArray)this;
+            ((Coordenadas2D)coord).x=isla.x;
+            ((Coordenadas2D)coord).y=isla.y;
+
+            return coord;
         }
 
         public int getPuentes() {
@@ -247,6 +260,7 @@ public class TableroArray implements Tablero {
             return puentes;
         }
 
+       
               public void setPuente(Isla i) throws PuenteProhibidoException { 
              IslaArray isla; 
              CoordenadasArray coordenadasLaOtraIsla; 
@@ -488,6 +502,17 @@ public class TableroArray implements Tablero {
 
         public void borrarPuente(Isla i) throws PuenteProhibidoException {
             throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public boolean equals(Object obj){
+            boolean iguales=false;
+            IslaArray i=(IslaArray)obj;
+            CoordenadasArray cThis=(CoordenadasArray)this.getCoordenadas();
+            CoordenadasArray cOtra=(CoordenadasArray)i.getCoordenadas();
+            if(cThis.getX()==cOtra.getX() && cThis.getY()==cOtra.getY()){
+                iguales=true;
+            }
+            return iguales;
         }
 
     }
