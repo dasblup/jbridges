@@ -4,9 +4,9 @@
  */
 
 /*
- * R.java
+ * Enhorabuena.java
  *
- * Created on 09-jun-2010, 22:28:18
+ * Created on 09-ago-2010, 19:13:39
  */
 
 package com.googlecode.jbridges.lib.interfaz;
@@ -15,10 +15,10 @@ package com.googlecode.jbridges.lib.interfaz;
  *
  * @author mdiazoli
  */
-public class Ranking extends javax.swing.JDialog {
+public class Enhorabuena extends javax.swing.JDialog {
 
-    /** Creates new form R */
-    public Ranking(java.awt.Frame parent, boolean modal) {
+    /** Creates new form Enhorabuena */
+    public Enhorabuena(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -33,48 +33,18 @@ public class Ranking extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaRanking = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
         aceptar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Clasificación");
+        setTitle("ENHORABUENA");
 
-        tablaRanking.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        tablaRanking.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Nombre Jugador", "Puntuación"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
+        jLabel1.setFont(new java.awt.Font("Snap ITC", 1, 36)); // NOI18N
+        jLabel1.setText("ENHORABUENA");
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablaRanking.setRowHeight(25);
-        tablaRanking.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                tablaRankingMouseWheelMoved(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tablaRanking);
-
-        aceptar.setFont(new java.awt.Font("Croobie", 0, 18));
+        aceptar.setFont(new java.awt.Font("Croobie", 0, 18)); // NOI18N
         aceptar.setText("Aceptar");
         aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,28 +52,41 @@ public class Ranking extends javax.swing.JDialog {
             }
         });
 
+        jTextArea1.setBackground(new java.awt.Color(236, 233, 216));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Mufferaw", 1, 18)); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText("        ¡HA CONSEGUIDO RESOLVER EL JUEGO!\n\n     PULSE ACEPTAR Y A CONTINUACIÓN NUEVO \n             PARA VOLVER A JUGAR O SALIR.");
+        jTextArea1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(54, 54, 54))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(aceptar)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(161, 161, 161)
+                .addComponent(aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(165, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -120,10 +103,6 @@ public class Ranking extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablaRankingMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_tablaRankingMouseWheelMoved
-        // TODO add your handling code here:
-}//GEN-LAST:event_tablaRankingMouseWheelMoved
-
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
@@ -135,7 +114,7 @@ public class Ranking extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Ranking dialog = new Ranking(new javax.swing.JFrame(), true);
+                Enhorabuena dialog = new Enhorabuena(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
@@ -148,9 +127,10 @@ public class Ranking extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaRanking;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
 }

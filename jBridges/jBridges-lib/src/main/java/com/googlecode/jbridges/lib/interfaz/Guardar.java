@@ -34,8 +34,8 @@ public class Guardar extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        guardar = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Guardar");
@@ -43,14 +43,14 @@ public class Guardar extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
         jLabel1.setText("¿Desea guardar la partida antes de salir?");
 
-        jButton1.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton1.setText("Guardar");
+        guardar.setFont(new java.awt.Font("Croobie", 0, 18));
+        guardar.setText("Guardar");
 
-        jButton2.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton2.setText("Salir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        salir.setFont(new java.awt.Font("Croobie", 0, 18));
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                salirActionPerformed(evt);
             }
         });
 
@@ -65,9 +65,9 @@ public class Guardar extends javax.swing.JDialog {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
-                        .addComponent(jButton1)
+                        .addComponent(guardar)
                         .addGap(29, 29, 29)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -77,8 +77,8 @@ public class Guardar extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(salir)
+                    .addComponent(guardar))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -96,10 +96,10 @@ public class Guardar extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_salirActionPerformed
 
     /**
     * @param args the command line arguments
@@ -119,10 +119,10 @@ public class Guardar extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
 
 }

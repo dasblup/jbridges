@@ -21,9 +21,9 @@ public class Tamaño extends javax.swing.JDialog {
     public Tamaño(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        buttonGroup1.add(jRadioButton1);
-        buttonGroup1.add(jRadioButton2);
-        buttonGroup1.add(jRadioButton3);
+        buttonGroup1.add(pequeño);
+        buttonGroup1.add(mediano);
+        buttonGroup1.add(grande);
     }
 
     /** This method is called from within the constructor to
@@ -38,9 +38,9 @@ public class Tamaño extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        pequeño = new javax.swing.JRadioButton();
+        mediano = new javax.swing.JRadioButton();
+        grande = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tamaño");
@@ -48,28 +48,28 @@ public class Tamaño extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Mufferaw", 1, 18));
         jLabel1.setText("Elija el tamaño del tablero:");
 
-        jRadioButton1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton1.setText("Pequeño");
-        jRadioButton1.setName("baja"); // NOI18N
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        pequeño.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        pequeño.setText("Pequeño");
+        pequeño.setName("baja"); // NOI18N
+        pequeño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                pequeñoActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton2.setText("Mediano");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        mediano.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        mediano.setText("Mediano");
+        mediano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                medianoActionPerformed(evt);
             }
         });
 
-        jRadioButton3.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jRadioButton3.setText("Grande");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        grande.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        grande.setText("Grande");
+        grande.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
+                grandeActionPerformed(evt);
             }
         });
 
@@ -85,9 +85,9 @@ public class Tamaño extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(112, 112, 112)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton3))))
+                            .addComponent(mediano)
+                            .addComponent(pequeño)
+                            .addComponent(grande))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -96,15 +96,15 @@ public class Tamaño extends javax.swing.JDialog {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jRadioButton1)
+                .addComponent(pequeño)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(mediano)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(grande)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jRadioButton1.getAccessibleContext().setAccessibleDescription("Baja");
+        pequeño.getAccessibleContext().setAccessibleDescription("Baja");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,26 +120,26 @@ public class Tamaño extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void pequeñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pequeñoActionPerformed
         // TODO add your handling code here:
         Dificultad d=new Dificultad(this, true, 1);
         d.setVisible(true);
         this.setVisible(false);
-}//GEN-LAST:event_jRadioButton1ActionPerformed
+}//GEN-LAST:event_pequeñoActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void medianoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianoActionPerformed
         // TODO add your handling code here:
         Dificultad d=new Dificultad(this, true, 2);
         d.setVisible(true);
-        this. setVisible(false);
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_medianoActionPerformed
 
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+    private void grandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grandeActionPerformed
         // TODO add your handling code here:
         Dificultad d=new Dificultad(this, true, 3);
         d.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+    }//GEN-LAST:event_grandeActionPerformed
 
     /**
     * @param args the command line arguments
@@ -160,11 +160,11 @@ public class Tamaño extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton grande;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton mediano;
+    private javax.swing.JRadioButton pequeño;
     // End of variables declaration//GEN-END:variables
 
 }

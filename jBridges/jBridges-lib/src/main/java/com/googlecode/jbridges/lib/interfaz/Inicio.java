@@ -35,49 +35,49 @@ public class Inicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        comoJugar = new javax.swing.JButton();
+        nuevaPartida = new javax.swing.JButton();
+        cargarPartida = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("HASHIWOKAKERO");
-        setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        setFont(new java.awt.Font("Comic Sans MS", 0, 12));
         setName("incio"); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Snap ITC", 0, 36));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("HASHIWOKAKERO");
 
-        jButton1.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton1.setText("Cómo Jugar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        comoJugar.setFont(new java.awt.Font("Croobie", 0, 18));
+        comoJugar.setText("Cómo Jugar");
+        comoJugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                comoJugarActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton2.setText("Nueva Partida");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        nuevaPartida.setFont(new java.awt.Font("Croobie", 0, 18));
+        nuevaPartida.setText("Nueva Partida");
+        nuevaPartida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                nuevaPartidaActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton3.setText("Cargar Partida");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        cargarPartida.setFont(new java.awt.Font("Croobie", 0, 18));
+        cargarPartida.setText("Cargar Partida");
+        cargarPartida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                cargarPartidaActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Croobie", 0, 18));
-        jButton4.setText("Salir");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        salir.setFont(new java.awt.Font("Croobie", 0, 18));
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                salirActionPerformed(evt);
             }
         });
 
@@ -88,12 +88,12 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(183, 183, 183)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(nuevaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cargarPartida))
                 .addContainerGap(180, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(195, 195, 195)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comoJugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(188, 188, 188))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(66, Short.MAX_VALUE)
@@ -101,7 +101,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(56, 56, 56))
             .addGroup(layout.createSequentialGroup()
                 .addGap(218, 218, 218)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(209, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -110,40 +110,40 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comoJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nuevaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cargarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void nuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaActionPerformed
         // TODO add your handling code here:
-        Tamaño dialogo=new Tamaño(this, true);
-        dialogo.setVisible(true);
+        Tamaño tam=new Tamaño(this, true);
+        tam.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_nuevaPartidaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void comoJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comoJugarActionPerformed
          // TODO add your handling code here:
          Introduccion introduccion=new Introduccion(this, true);
          introduccion.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_comoJugarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_salirActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void cargarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_cargarPartidaActionPerformed
 
     /**
     * @param args the command line arguments
@@ -157,11 +157,11 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton cargarPartida;
+    private javax.swing.JButton comoJugar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton nuevaPartida;
+    private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
 
 }

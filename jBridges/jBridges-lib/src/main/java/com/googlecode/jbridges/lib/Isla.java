@@ -27,6 +27,12 @@ public interface Isla {
      */
     public void setN(int n);
     /**
+     * 
+     * @return las coordenadas de la isla en el tablero
+     */
+
+   public Coordenadas getCoord();
+    /**
      *
      * @return el nœmero de puentes que tiene la isla actualmente
      */
@@ -62,4 +68,6 @@ public interface Isla {
     public Isla getVecina(Sentido s) throws IslaNoEncontradaException;
     //anterior
     public void setPuente(Sentido s) throws SentidoInvalidoException;
+
+
 }
