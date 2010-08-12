@@ -6,6 +6,7 @@
 package com.googlecode.jbridges.lib.soluciones;
 
 import com.googlecode.jbridges.lib.Tablero;
+import java.util.List;
 
 /**
  *
@@ -13,6 +14,6 @@ import com.googlecode.jbridges.lib.Tablero;
  */
 public interface EstrategiaSolucion {
 
-    Solucion solucionar (Tablero t);
+    List<Solucion> solucionar (Tablero t);
 
 }

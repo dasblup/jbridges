@@ -34,4 +34,15 @@ public class Solucion implements Cloneable {
 
         return clon;
     }
+
+    public String toString () {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (ElementoSolucion es : solucion) {
+            sb.append(es);
+        }
+
+        return sb.toString();
+    }
 }
