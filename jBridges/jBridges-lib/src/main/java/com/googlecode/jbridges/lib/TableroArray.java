@@ -41,17 +41,20 @@ public class TableroArray implements Tablero {
 
         Casilla casilla;
         casilla=getCasilla(c);
-        //boolean ocupada=false;
-      
-       /*for (Sentido s : Sentido.values()){
-                    try{
-                    TableroArray.this.avanzar(c, s);
-                    } catch (FueraDeRangoException fre) {}
-                    if((getCasilla(c) instanceof Isla)){
-                        ocupada=true;
-                    }
-        }*/
-        if(casilla instanceof Agua){
+        boolean adyacente;
+        
+        adyacente = false;
+        Sentido s;
+       for (int i = 0; i < Sentido.values().length && !adyacente; i++){
+            s = Sentido.values()[i];
+            try{
+                TableroArray.this.avanzar(c, s);
+            } catch (FueraDeRangoException fre) {}
+            
+            adyacente = getCasilla(c) instanceof Isla;
+        }
+
+        if(casilla instanceof Agua && !adyacente){
             this.tablero[((CoordenadasArray)c).getX()]
                     [((CoordenadasArray)c).getY()]=new IslaArray((CoordenadasArray)c);
         }else{
@@ -151,9 +154,7 @@ public class TableroArray implements Tablero {
 
                 c=this.tablero[i][j];
 
-                if(c==null){
-                    res+="";
-                }else if(c instanceof IslaArray){
+                if(c instanceof IslaArray){
                     IslaArray isla;
                     isla=(IslaArray)c;
 
@@ -169,8 +170,14 @@ public class TableroArray implements Tablero {
                             res+="|";
                         }
                     }else{
-                        res+="#";
+                        if(puente.getDireccion()==Direccion.HORIZONTAL){
+                            res+="=";
+                        }else{
+                            res+="#";
+                        }
                     }
+                } else {
+                    res+=" ";
                 }
             }
             res+="\n";
@@ -195,6 +202,20 @@ public class TableroArray implements Tablero {
 
         return el;
         
+    }
+
+    public void borrarPuentes() {
+
+        for(int i=0;i<this.tablero.length;i++){
+            for(int j=0;j<this.tablero[0].length;j++){
+
+                if(this.tablero[i][j] instanceof PuenteArray){
+
+                    this.tablero[i][j] = null;
+                            
+                }
+            }
+        }
     }
 
     class IslaArray extends Casilla implements Isla {
@@ -250,18 +271,20 @@ public class TableroArray implements Tablero {
             coord = (CoordenadasArray)this.getCoordenadas();
             puentes = 0;
 
-            avanzar(coord, s);
-            c = TableroArray.this.getCasilla(coord);
+            try
+            {
+                avanzar(coord, s);
+                c = TableroArray.this.getCasilla(coord);
 
-            if (c instanceof Puente) {
-                puentes = ((Puente)c).getTipo() == TipoPuente.SIMPLE ? 1 : 2;
-            }
+                if (c instanceof Puente) {
+                    puentes = ((Puente)c).getTipo() == TipoPuente.SIMPLE ? 1 : 2;
+                }
+            } catch (FueraDeRangoException fdr) {}
 
             return puentes;
         }
 
-       
-              public void setPuente(Isla i) throws PuenteProhibidoException { 
+        public void setPuente(Isla i, boolean actualizarN) throws PuenteProhibidoException {
              IslaArray isla; 
              CoordenadasArray coordenadasLaOtraIsla; 
              CoordenadasArray coordenadasEstaIsla; 
@@ -312,13 +335,20 @@ public class TableroArray implements Tablero {
                  TableroArray.this.tablero[coordenadasEstaIsla.getX()] 
                                           [coordenadasEstaIsla.getY()] = puente; 
                  TableroArray.this.avanzar(coordenadasEstaIsla, s); 
-             } 
-  
-             this.numeroPuentes++; 
-             isla.numeroPuentes++; 
+             }
+
+             if (actualizarN) {
+                this.numeroPuentes++;
+                ((IslaArray)i).numeroPuentes++;
+             }
          }  
 
-         public void setPuente(Sentido s) throws SentidoInvalidoException {
+         public void setPuente(Isla i) throws PuenteProhibidoException {
+
+             setPuente(i, true);
+         }
+
+         public void setPuente(Sentido s, boolean actualizarN) throws SentidoInvalidoException {
 
              CoordenadasArray coordenadasEstaIsla;
              Casilla c;
@@ -351,17 +381,24 @@ public class TableroArray implements Tablero {
               * Se hace esta comprobación por si el primer vecino no es un puente
               */
              if (c instanceof IslaArray) {
-                 this.numeroPuentes++;
-                 ((IslaArray)c).numeroPuentes++;
+                 if (actualizarN) {
+                    this.numeroPuentes++;
+                    ((IslaArray)c).numeroPuentes++;
+                 }
              } else {
                  throw new SentidoInvalidoException();
              }
          }
 
+        public void setPuente(Sentido s) throws SentidoInvalidoException {
+
+            setPuente(s, true);
+        }
+
         /*
          * Si existe un puente en el sentido s, lo hace doble.
          **/
-        private void hacerPuenteDoble(Sentido s) throws SentidoInvalidoException {
+        private void hacerPuenteDoble(Sentido s, boolean actualizarN) throws SentidoInvalidoException {
 
             CoordenadasArray coordenadasEstaIsla;
             Casilla c;
@@ -394,30 +431,40 @@ public class TableroArray implements Tablero {
              * Se hace esta comprobación por si el primer vecino no es un puente
              */
             if (c instanceof IslaArray) {
-                this.numeroPuentes++;
-                ((IslaArray)c).numeroPuentes++;
+                if (actualizarN) {
+                    this.numeroPuentes++;
+                    ((IslaArray)c).numeroPuentes++;
+                }
             } 
             else {
                 throw new SentidoInvalidoException();
             }
         }
 
+        private void hacerPuenteDoble(Sentido s) throws SentidoInvalidoException {
+            hacerPuenteDoble(s, true);
+        }
+
         public Isla getVecina(Sentido s) throws IslaNoEncontradaException {
             CoordenadasArray coordenadasEstaIsla;
             Casilla c;
-                        
+            
             coordenadasEstaIsla=(CoordenadasArray)this.getCoordenadas();
-            
-            TableroArray.this.avanzar(coordenadasEstaIsla, s);
-            c=TableroArray.this.getCasilla(coordenadasEstaIsla);
-            
-            while(c instanceof Agua){
-                
+
+            try {
                 TableroArray.this.avanzar(coordenadasEstaIsla, s);
                 c=TableroArray.this.getCasilla(coordenadasEstaIsla);
-            }
-            
-            if (!(c instanceof IslaArray)){
+
+                while(c instanceof Agua){
+                    TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                    c=TableroArray.this.getCasilla(coordenadasEstaIsla);
+                }
+
+                if (!(c instanceof IslaArray)){
+                    throw new IslaNoEncontradaException();
+                }
+
+            } catch (FueraDeRangoException fdre) {
                 throw new IslaNoEncontradaException();
             }
                 
@@ -500,8 +547,65 @@ public class TableroArray implements Tablero {
             return s1;
         }
 
+        public void borrarPuente(Isla i, boolean actualizarN) throws PuenteProhibidoException {
+             IslaArray isla;
+             CoordenadasArray coordenadasLaOtraIsla;
+             CoordenadasArray coordenadasEstaIsla;
+             Sentido s;
+             Direccion d;
+             PuenteArray puente;
+
+             isla = (IslaArray) i;
+             coordenadasLaOtraIsla = (CoordenadasArray) isla.getCoordenadas();
+             coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas();
+
+             if (coordenadasEstaIsla.getX().equals(coordenadasLaOtraIsla.getX())) {
+                 d = Direccion.HORIZONTAL;
+                 if ((coordenadasEstaIsla.getY() - coordenadasLaOtraIsla.getY()) < 0) {
+                     s = Sentido.ESTE;
+                 } else if ((coordenadasEstaIsla.getY() - coordenadasLaOtraIsla.getY()) > 0) {
+                     s = Sentido.OESTE;
+                 } else {
+                     throw new RuntimeException("La misma Casilla!! - ARREGLA ESTO!!!");
+                 }
+             } else if (coordenadasEstaIsla.getY().equals(coordenadasLaOtraIsla.getY())) {
+                 d = Direccion.VERTICAL;
+                 if ((coordenadasEstaIsla.getX() - coordenadasLaOtraIsla.getX()) < 0) {
+                     s = Sentido.SUR;
+                 } else if ((coordenadasEstaIsla.getX() - coordenadasLaOtraIsla.getX()) > 0) {
+                     s = Sentido.NORTE;
+                 } else {
+                     throw new RuntimeException("La misma Casilla!! - ARREGLA ESTO!!!");
+                 }
+             } else {
+                 throw new RuntimeException("ARREGLA ESTO!!!");
+             }
+
+             coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas();
+
+             TableroArray.this.avanzar(coordenadasEstaIsla, s);
+             while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) {
+                if (!(getCasilla(coordenadasEstaIsla) instanceof PuenteArray)) {
+                     throw new PuenteProhibidoException();
+                 } else {
+                    puente = (PuenteArray) getCasilla(coordenadasEstaIsla);
+                    if (puente.tipo == TipoPuente.DOBLE) {
+                        puente.setTipo(TipoPuente.SIMPLE);
+                    } else {
+                        TableroArray.this.tablero[coordenadasEstaIsla.getX()]
+                                          [coordenadasEstaIsla.getY()] = null;
+                    }
+                 }
+             }
+
+             if (actualizarN) {
+                this.numeroPuentes--;
+                isla.numeroPuentes--;
+             }
+        }
+
         public void borrarPuente(Isla i) throws PuenteProhibidoException {
-            throw new UnsupportedOperationException("Not supported yet.");
+            borrarPuente(i, true);
         }
 
         public boolean equals(Object obj){
@@ -513,6 +617,10 @@ public class TableroArray implements Tablero {
                 iguales=true;
             }
             return iguales;
+        }
+
+        public String toString () {
+           return ((Coordenadas2D) this.getCoordenadas()).getX() + "," + ((Coordenadas2D) this.getCoordenadas()).getY();
         }
 
     }

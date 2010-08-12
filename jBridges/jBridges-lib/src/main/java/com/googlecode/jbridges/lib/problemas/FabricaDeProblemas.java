@@ -6,8 +6,8 @@
 package com.googlecode.jbridges.lib.problemas;
 
 import com.googlecode.jbridges.lib.Tablero;
-import com.googlecode.jbridges.lib.TableroArray;
 import com.googlecode.jbridges.lib.problemas.estrategias.EstrategiaAleatoriaBasica;
+import com.googlecode.jbridges.lib.problemas.estrategias.EstartegiaDePrueba;
 
 /**
  *
@@ -43,6 +43,9 @@ public class FabricaDeProblemas {
         switch(e) {
             case ESTRATEGIA_ALEATORIA_BASICA:
                 s = new EstrategiaAleatoriaBasica();
+                break;
+            case ESTRATEGIA_DE_PRUEBA:
+                s = new EstartegiaDePrueba();
                 break;
             default:
                 throw new RuntimeException("Wawawawaaaaaaa!");

@@ -40,4 +40,8 @@ public class ElementoSolucion implements Cloneable {
             }
             return iguales;
         }
+
+        public String toString() {
+            return "(" + inicio + " -> " + fin + ")";
+        }
 }

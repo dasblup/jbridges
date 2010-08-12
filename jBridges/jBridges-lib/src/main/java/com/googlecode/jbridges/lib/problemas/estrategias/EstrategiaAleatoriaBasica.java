@@ -83,7 +83,7 @@
              for (Sentido s : Sentido.values()) {
 
                  // Ponemos la isla?
-                // if (r.nextBoolean()) {
+                if (r.nextBoolean()) {
                      coord = expandir(s, i, t);
                      try {
                          t.setIsla(coord);
@@ -101,7 +101,7 @@
                      } catch (SentidoInvalidoException sie) {
                          System.err.print("IMPOSIBLE!!!");
                      }
-                 //}
+                }
              }
          }
 

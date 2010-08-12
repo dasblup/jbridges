@@ -62,4 +62,6 @@ public interface Tablero extends Cloneable {
     public Casilla getCasilla(Coordenadas c);
 
     public Coordenadas getCoordenadas( int i, int j);
+
+    public void borrarPuentes();
 }

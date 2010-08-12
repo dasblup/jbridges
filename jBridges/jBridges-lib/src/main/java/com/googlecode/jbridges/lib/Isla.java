@@ -50,6 +50,7 @@ public interface Isla {
      * @param i Isla i
      */
     public void setPuente(Isla i) throws PuenteProhibidoException;
+    public void setPuente(Isla i, boolean actualizarN) throws PuenteProhibidoException;
 
     /**
      * Borra un puente que existe entre Žsta isla e i
@@ -57,6 +58,7 @@ public interface Isla {
      * @throws PuenteProhibidoException
      */
     public void borrarPuente(Isla i) throws PuenteProhibidoException;
+    public void borrarPuente(Isla i, boolean actualizarN) throws PuenteProhibidoException;
 
     /**
      *
@@ -68,6 +70,5 @@ public interface Isla {
     public Isla getVecina(Sentido s) throws IslaNoEncontradaException;
     //anterior
     public void setPuente(Sentido s) throws SentidoInvalidoException;
-
-
+    public void setPuente(Sentido s, boolean actualizarN) throws SentidoInvalidoException;
 }

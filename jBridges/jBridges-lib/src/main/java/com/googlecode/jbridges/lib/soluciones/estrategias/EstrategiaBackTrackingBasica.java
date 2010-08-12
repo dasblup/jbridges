@@ -12,6 +12,7 @@ import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.TableroArray;
 import com.googlecode.jbridges.lib.excepciones.IslaNoEncontradaException;
 import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
+import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
 import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
@@ -29,8 +30,6 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
     private List<Isla> candidatas0;
     private List<Isla> candidatas1;
-    private List<Isla> listaIslas;
-    private List<List<Isla>> componentesConexas;
     private List<Solucion> soluciones;
 
     public EstrategiaBackTrackingBasica () {
@@ -39,21 +38,25 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         soluciones = new LinkedList<Solucion>();
     }
 
-    public Solucion solucionar (Tablero t) {
+    public List<Solucion> solucionar (Tablero t) {
 
         Etapa x;
 
         x = new Etapa();
 
+        System.out.println("Etapa " + x.iteracion + " --> Entrando en solucionar");
+
         x.tablero = t;
         x.iteracion = 0;
         x.solucion = new Solucion();
 
-        obtenerIslas(t);
+        obtenerIslas(t, x);
 
         btTodas(x);
 
-        return new Solucion();
+        System.out.println("Etapa " + x.iteracion + " --> Saliendo de solucionar");
+
+        return soluciones;
     }
 
     private void btTodas (Etapa x) {
@@ -62,6 +65,11 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         Queue<Solucion> candidatos;
         Solucion candidatoSeleccionado;
 
+        System.out.println("Etapa " + x.iteracion + " --> Entrando en btTodas");
+        System.out.println("Etapa " + x.iteracion + " --> Solucion: " + x.solucion);
+        System.out.println("Etapa " + x.iteracion + " --> Tablero: ");
+        System.out.println(x.tablero);
+
         if (esSolucion(x)) {
             comunicarSolucion(x);
         }
@@ -69,19 +77,33 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         xsig = new Etapa(x);
         candidatos = calcularCandidatos(x);
 
+        for (Solucion s : candidatos) {
+            System.out.println("Etapa " + x.iteracion + " --> candidato: " + s);
+        }
+
         while (quedanCandidatos(candidatos)) {
                 candidatoSeleccionado = seleccionarCandidatos(candidatos, xsig);
+
+                System.out.println("Etapa " + x.iteracion + " --> candidato seleccionado: " + candidatoSeleccionado);
+
                 if (esPrometedor(candidatoSeleccionado, xsig)) {
                     anotarEnSolucion(candidatoSeleccionado, xsig);
                     btTodas(xsig);
                     cancelarAnotacion(candidatoSeleccionado, xsig);
                 }
         }
+
+        System.out.println("Etapa " + x.iteracion + " --> Saliendo de btTodas");
     }
 
     private Queue<Solucion> calcularCandidatos(Etapa x) {
 
-        cargarListas();
+        System.out.println("Etapa " + x.iteracion + " --> Entrando calcularCandidatos");
+        System.out.println("Etapa " + x.iteracion + " --> Entrando en cargarListas");
+
+        cargarListas(x);
+
+        System.out.println("Etapa " + x.iteracion + " --> Saliendo de cargarListas");
 
         Queue<Solucion> s;
         s = new LinkedList<Solucion>();
@@ -89,36 +111,62 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         Solucion sol;
         sol = new Solucion();
 
+        System.out.println("Etapa " + x.iteracion + " --> hayCandidatas?");
+
         while (hayCandidatas()) {
 
-            ponerPuentes(x.tablero, sol);
-            cargarListas();
+            System.out.println("Etapa " + x.iteracion + " --> hayCandidatas");
+            System.out.println("Etapa " + x.iteracion + " --> Entrando en ponerPuentes");
+
+            ponerPuentes(x.tablero, sol, x);
+
+            System.out.println("Etapa " + x.iteracion + " --> Saliendo de ponerPuentes");
+            System.out.println("Etapa " + x.iteracion + " --> Entrando en cargarListas");
+            
+            cargarListas(x);
+
+            System.out.println("Etapa " + x.iteracion + " --> Saliendo de cargarListas");
         }
 
-        Isla i;
+        System.out.println("Etapa " + x.iteracion + " --> listaIslas.isEmpty?(" + x.listaIslas.isEmpty() + ")");
 
-        i = listaIslas.get(1);
+        if (!x.listaIslas.isEmpty()) {
 
-        for(Sentido sent : Sentido.values()) {
-            Solucion aux;
+            Isla i;
+            i = x.listaIslas.get(0);
 
-            try {
-                Isla vecina = i.getVecina(sent);
+            System.out.println("Etapa " + x.iteracion + " --> Isla: " + i);
+
+            for(Sentido sent : Sentido.values()) {
+                Solucion aux;
+
                 try {
-                    aux = (Solucion) sol.clone();
-                    sol.solucion.add(new ElementoSolucion(i, vecina));
-                    s.add(sol);
-                } catch (CloneNotSupportedException ex) {}
-            } catch (IslaNoEncontradaException inee) {}
+                    Isla vecina = i.getVecina(sent);
+                    System.out.println("Etapa " + x.iteracion + " --> Vecina " + sent + ": " + vecina);
+
+                    try {
+                        aux = (Solucion) sol.clone();
+                        aux.solucion.add(new ElementoSolucion(i, vecina));
+
+                        System.out.println("Etapa " + x.iteracion + " --> Solucion candidata " + aux);
+
+                        s.add(aux);
+                    } catch (CloneNotSupportedException ex) {
+                        //ex.printStackTrace();
+                    }
+                } catch (IslaNoEncontradaException inee) {
+                    System.out.println("Isla no encontrada sentido " + sent);
+                }
+            }
         }
 
         return s;
     }
 
-    private void obtenerIslas (Tablero t) {
+    private void obtenerIslas (Tablero t, Etapa x) {
 
-        listaIslas = new LinkedList<Isla>();
-        componentesConexas = new LinkedList<List<Isla>>();
+        x.listaIslas = new LinkedList<Isla>();
+        x.componentesConexas = new LinkedList<List<Isla>>();
 
         TableroArray tablero = (TableroArray) t;
 
@@ -127,16 +175,16 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
                 Casilla c = tablero.getCasilla(tablero.getCoordenadas(i, j));
                 if (c instanceof Isla) {
-                    listaIslas.add((Isla)c);
+                    x.listaIslas.add((Isla)c);
                     List l = new LinkedList<Isla>();
                     l.add((Isla)c);
-                    componentesConexas.add(l);
+                    x.componentesConexas.add(l);
                 }
             }
         }
     }
 
-    private void cargarListas() {
+    private void cargarListas(Etapa x) {
 
         Isla islaVecina;
 
@@ -146,9 +194,10 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         Isla i;
         i = null;
 
-        for (Iterator<Isla> it = listaIslas.iterator();
-             it.hasNext();
-             i = it.next()) {
+        for (Iterator<Isla> it = x.listaIslas.iterator();
+             it.hasNext();) {
+
+            i = it.next();
 
             if (i.getPuentes() == i.getN()) {
                 it.remove();
@@ -177,21 +226,44 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                 }
             }
         }
+
+        System.out.print("cargarListas --> candidatas0: ");
+
+        for (Isla is : candidatas0) {
+            System.out.print("(" + is + ")");
+        }
+        System.out.println();
+
+        System.out.print("cargarListas --> candidatas1: ");
+        for (Isla is : candidatas1) {
+            System.out.print("(" + is + ")");
+        }
+        System.out.println();
+
+        System.out.print("cargarListas --> listaIslas: ");
+        for (Isla is : x.listaIslas) {
+            System.out.print("(" + is + ")");
+        }
+        System.out.println();
     }
 
     private boolean hayCandidatas() {
         return !(candidatas0.isEmpty() && candidatas1.isEmpty());
     }
 
-    private void ponerPuentes(Tablero t, Solucion sol) {
-        
-        for (Isla i : candidatas0) {
+    private void ponerPuentes(Tablero t, Solucion sol, Etapa x) {
 
+        System.out.println("ponerPuebtes --> candidatas0: " + candidatas0.size());
+
+        for (Iterator itCandidatas0 = candidatas0.iterator();
+             itCandidatas0.hasNext();) {
+
+            Isla i = (Isla) itCandidatas0.next();
             List<Isla> contieneI;
 
             contieneI = null;
 
-            for(List<Isla> comp: componentesConexas) {
+            for(List<Isla> comp: x.componentesConexas) {
                 if (comp.contains(i)) {
                     contieneI = comp;
                 }
@@ -201,9 +273,9 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                 Isla vecina;
                 try {
                     vecina = i.getVecina(s);
-                    i.setPuente(vecina);
+                    i.setPuente(vecina, false);
                     sol.solucion.add(new ElementoSolucion(i, vecina));
-                    i.setPuente(vecina);
+                    i.setPuente(s, false);
                     sol.solucion.add(new ElementoSolucion(i, vecina));
 
                     if (!contieneI.contains(vecina)) {
@@ -212,9 +284,10 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
                         comp = null;
 
-                        for(Iterator it = componentesConexas.iterator();
-                            it.hasNext();
-                            comp = (List<Isla>) it.next()) {
+                        for(Iterator it = x.componentesConexas.iterator();
+                            it.hasNext();) {
+
+                            comp = (List<Isla>) it.next();
                             if (comp.contains(vecina)) {
                                 contieneI.addAll(comp);
                                 it.remove();
@@ -224,17 +297,22 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
                 } catch (IslaNoEncontradaException inee) {
                 } catch (PuenteProhibidoException ppe) {
-                }
+                } catch (SentidoInvalidoException sie) {}
             }
+
+            itCandidatas0.remove();
+
         }
 
-        for (Isla i : candidatas1) {
+        for (Iterator itCandidatas1 = candidatas1.iterator();
+             itCandidatas1.hasNext();) {
 
+            Isla i = (Isla) itCandidatas1.next();
             List<Isla> contieneI;
 
             contieneI = null;
 
-            for(List<Isla> comp: componentesConexas) {
+            for(List<Isla> comp: x.componentesConexas) {
                 if (comp.contains(i)) {
                     contieneI = comp;
                 }
@@ -245,7 +323,7 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                     Isla vecina;
                     try {
                         vecina = i.getVecina(s);
-                        i.setPuente(vecina);
+                        i.setPuente(vecina, false);
                         sol.solucion.add(new ElementoSolucion(i, vecina));
 
                         if (!contieneI.contains(vecina)) {
@@ -254,7 +332,7 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
                             comp = null;
 
-                            for(Iterator it = componentesConexas.iterator();
+                            for(Iterator it = x.componentesConexas.iterator();
                                 it.hasNext();
                                 comp = (List<Isla>) it.next()) {
                                 if (comp.contains(vecina)) {
@@ -269,11 +347,13 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                     }
                 }
             }
+
+            itCandidatas1.remove();
         }
     }
 
     private boolean esSolucion(Etapa x) {
-        return listaIslas.isEmpty() && componentesConexas.size() == 1;
+        return x.listaIslas.isEmpty() && x.componentesConexas.size() == 1;
     }
 
     private void comunicarSolucion(Etapa x) {
@@ -294,20 +374,28 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
     private void anotarEnSolucion(Solucion candidato, Etapa xsig) {
         xsig.solucion.solucion.addAll(candidato.solucion);
+        
+        System.out.println("Etapa " + xsig.iteracion + " --> anotarEnSolucion --> Solucion: " + xsig.solucion + " --> Tamaño solucion: " + xsig.solucion.solucion.size());
+        System.out.println("Etapa " + xsig.iteracion + " --> anotarEnSolucion --> Tamaño candidatos: " + candidato + " --> Tamaño candidatos: " + candidato.solucion.size());
+
         ElementoSolucion es = (ElementoSolucion) ((Queue)candidato.solucion).peek();
+
         try {
-            es.inicio.setPuente(es.fin);
+            es.inicio.setPuente(es.fin, false);
         } catch (PuenteProhibidoException ex) {}
     }
 
     private void cancelarAnotacion(Solucion candidato, Etapa xsig) {
-        List nuevaSolucion;
-        nuevaSolucion = xsig.solucion.solucion
-                .subList(0, xsig.solucion.solucion.size() - candidato.solucion.size() - 1);
+
+        System.out.println("Etapa " + xsig.iteracion + " --> cancelarAnotacion --> Solucion: " + xsig.solucion + " --> Tamaño solucion: " + xsig.solucion.solucion.size());
+        System.out.println("Etapa " + xsig.iteracion + " --> cancelarAnotacion --> Tamaño candidatos: " + candidato + " --> Tamaño candidatos: " + candidato.solucion.size());
+        
+        xsig.solucion.solucion = xsig.solucion.solucion
+                .subList(0, xsig.solucion.solucion.size() - candidato.solucion.size());
 
         for (ElementoSolucion es : candidato.solucion) {
             try {
-                es.inicio.borrarPuente(es.fin);
+                es.inicio.borrarPuente(es.fin, false);
             } catch (PuenteProhibidoException ex) {}
         }
     }
@@ -317,6 +405,8 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         int iteracion;
         Tablero tablero;
         Solucion solucion;
+        List<Isla> listaIslas;
+        List<List<Isla>> componentesConexas;
 
         private Etapa () {
             super();
@@ -328,6 +418,21 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
             this.iteracion = x.iteracion + 1;
             this.tablero = x.tablero;
             this.solucion = x.solucion;
+            this.listaIslas = new LinkedList<Isla>();
+
+            for (Isla i : x.listaIslas) {
+                this.listaIslas.add(i);
+            }
+
+            this.componentesConexas = new LinkedList<List<Isla>>();
+
+            for (List<Isla> l : x.componentesConexas) {
+                LinkedList<Isla> l1 = new LinkedList<Isla>();
+                for (Isla i : l) {
+                    l1.add(i);
+                }
+                this.componentesConexas.add(l1);
+            }
         }
     }
 }
