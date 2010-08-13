@@ -43,7 +43,7 @@ public class MetodosEstaticos {
 
     public static void obtenerSolucion(List<ElementoSolucion> sol, List<ElementoSolucion> solUsuario, JTable jTable1, Tablero problema) {
         EstrategiaBackTrackingBasica ebb = new EstrategiaBackTrackingBasica();
-        sol = ebb.solucionar(problema).solucion;
+        sol = ebb.solucionar(problema).get(0).solucion;
         ElementoSolucion el;
         Iterator it = sol.iterator();
         //recorrer la lista de solucion y por cada ElementoSolucion, poner el puente entre esas islas o el doble puente en el

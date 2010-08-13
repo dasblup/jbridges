@@ -613,7 +613,7 @@ public class TableroArray implements Tablero {
             IslaArray i=(IslaArray)obj;
             CoordenadasArray cThis=(CoordenadasArray)this.getCoordenadas();
             CoordenadasArray cOtra=(CoordenadasArray)i.getCoordenadas();
-            if(cThis.getX()==cOtra.getX() && cThis.getY()==cOtra.getY()){
+            if(cThis.getX().intValue()==cOtra.getX().intValue() && cThis.getY().intValue()==cOtra.getY().intValue()){
                 iguales=true;
             }
             return iguales;
@@ -621,6 +621,10 @@ public class TableroArray implements Tablero {
 
         public String toString () {
            return ((Coordenadas2D) this.getCoordenadas()).getX() + "," + ((Coordenadas2D) this.getCoordenadas()).getY();
+        }
+
+        public int compareTo(Object arg0) {
+            return equals(arg0) ? 0 : 1;
         }
 
     }
