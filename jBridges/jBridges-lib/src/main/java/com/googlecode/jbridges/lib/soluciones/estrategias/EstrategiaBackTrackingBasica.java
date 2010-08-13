@@ -69,6 +69,17 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         System.out.println("Etapa " + x.iteracion + " --> Solucion: " + x.solucion);
         System.out.println("Etapa " + x.iteracion + " --> Tablero: ");
         System.out.println(x.tablero);
+        System.out.println("Etapa " + x.iteracion + " --> Componentes conexas: ");
+
+        int n = 0;
+        for (List<Isla> l : x.componentesConexas) {
+            System.out.print("Componete conexa " + ++n + ": ");
+            for (Isla i : l) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+
 
         if (esSolucion(x)) {
             comunicarSolucion(x);
@@ -147,6 +158,12 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                     try {
                         aux = (Solucion) sol.clone();
                         aux.solucion.add(new ElementoSolucion(i, vecina));
+
+                        try {
+                            i.setPuente(vecina, false);
+
+                        } catch (PuenteProhibidoException ppe) {}
+
 
                         System.out.println("Etapa " + x.iteracion + " --> Solucion candidata " + aux);
 
@@ -255,6 +272,17 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
         System.out.println("ponerPuebtes --> candidatas0: " + candidatas0.size());
 
+         System.out.println("Etapa " + x.iteracion + " --> Componentes conexas: ");
+
+        int n = 0;
+        for (List<Isla> l : x.componentesConexas) {
+            System.out.print("Componete conexa " + ++n + ": ");
+            for (Isla i : l) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+
         for (Iterator itCandidatas0 = candidatas0.iterator();
              itCandidatas0.hasNext();) {
 
@@ -263,7 +291,24 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
 
             contieneI = null;
 
-            for(List<Isla> comp: x.componentesConexas) {
+             System.out.println("Etapa " + x.iteracion + " --> Buscando en que componente esta " + i);
+             System.out.println("Etapa " + x.iteracion + " --> Componentes conexas: ");
+
+             int j = 0;
+             for (List<Isla> l : x.componentesConexas) {
+             System.out.print("Componete conexa " + ++j + ": ");
+             for (Isla is : l) {
+                System.out.print(is);
+             }
+             System.out.println();
+        }
+
+
+            
+
+            for(Iterator itCompConexas = x.componentesConexas.iterator();
+                itCompConexas.hasNext();) {
+                List<Isla> comp = (List<Isla>) itCompConexas.next();
                 if (comp.contains(i)) {
                     contieneI = comp;
                 }
@@ -278,6 +323,11 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                     i.setPuente(s, false);
                     sol.solucion.add(new ElementoSolucion(i, vecina));
 
+                    try {
+                        contieneI.contains(vecina);
+                    } catch (Exception e) {
+                         System.out.println("Capturada excepcion" + e + " Vecina: " + vecina + " ContieneI: " + contieneI);
+                    }
                     if (!contieneI.contains(vecina)) {
 
                         List<Isla> comp;

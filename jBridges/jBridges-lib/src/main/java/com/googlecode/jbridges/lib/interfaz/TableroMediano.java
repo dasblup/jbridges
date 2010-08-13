@@ -39,7 +39,7 @@ public class TableroMediano extends javax.swing.JFrame {
 
 
     EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
-    public List <ElementoSolucion> sol=ebb.solucionar(problema).solucion;
+    public List <ElementoSolucion> sol=ebb.solucionar(problema).get(0).solucion;
     public List<ElementoSolucion> solUsuario=new LinkedList<ElementoSolucion>();
 
     /** Creates new form Plantilla */

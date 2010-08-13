@@ -12,7 +12,7 @@ import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
  *
  * @author pabloramix
  */
-public interface Isla {
+public interface Isla extends Comparable {
 
 
     /**
