@@ -11,10 +11,15 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import com.googlecode.jbridges.lib.Configuracion;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
+import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
+import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.awt.Font;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JTable;
 
 /**
@@ -23,20 +28,33 @@ import javax.swing.JTable;
  */
 public class TableroPequeño extends javax.swing.JFrame {
 
-    FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
-    Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
     private int fila;
     private int columna;
+    int puntuacion;
+
+   // EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
+    //public List <ElementoSolucion> sol=ebb.solucionar(problema).get(0).solucion;
+    //public List<ElementoSolucion> solUsuario=new LinkedList<ElementoSolucion>();
 
     /** Creates new form Plantilla */
-    public TableroPequeño() {
+    public TableroPequeño(int puntuacion) {
 
         initComponents();
-       // MetodosEstaticos.obtenerTablero(problema, jTable1);
+        new Cronometro();
+
+        Configuracion.setAltoTablero(7);
+        Configuracion.setAnchoTablero(7);
+
+        FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
+        Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+
+        MetodosEstaticos.obtenerTablero(problema, jTable1);
         RenderTabla miRender = new RenderTabla();
         jTable1.setDefaultRenderer( Object.class, miRender);
+
         this.fila = -1;
         this.columna = -1;
+        this.puntuacion=puntuacion;
 
     }
 
@@ -133,15 +151,35 @@ public class Cronometro implements Runnable {
 
         guardar.setFont(new java.awt.Font("Croobie", 0, 18));
         guardar.setText("Guardar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         siguientePaso.setFont(new java.awt.Font("Croobie", 0, 18));
         siguientePaso.setText("Siguiente Paso");
+        siguientePaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siguientePasoActionPerformed(evt);
+            }
+        });
 
         comprobar.setFont(new java.awt.Font("Croobie", 0, 18));
         comprobar.setText("Comprobar");
+        comprobar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comprobarActionPerformed(evt);
+            }
+        });
 
         solucionar.setFont(new java.awt.Font("Croobie", 0, 18));
         solucionar.setText("Solucionar");
+        solucionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solucionarActionPerformed(evt);
+            }
+        });
 
         salir.setFont(new java.awt.Font("Croobie", 0, 18));
         salir.setText("Salir");
@@ -199,7 +237,7 @@ public class Cronometro implements Runnable {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setRowHeight(40);
+        jTable1.setRowHeight(41);
         jTable1.setRowMargin(0);
         jScrollPane1.setViewportView(jTable1);
 
@@ -225,7 +263,9 @@ public class Cronometro implements Runnable {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(siguientePaso, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(603, 603, 603))
+                .addGap(44, 44, 44)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(252, 252, 252))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(118, 118, 118)
                 .addComponent(jLabel1)
@@ -242,30 +282,26 @@ public class Cronometro implements Runnable {
                         .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(97, 97, 97)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addComponent(tamaño)
-                                .addGap(27, 27, 27))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(nivel)
-                                .addGap(42, 42, 42)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tipoNivel)
-                            .addComponent(tipoTamaño))))
-                .addContainerGap(252, Short.MAX_VALUE))
+                        .addGap(46, 46, 46)
+                        .addComponent(tamaño)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(nivel)
+                        .addGap(42, 42, 42)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tipoNivel)
+                    .addComponent(tipoTamaño))
+                .addContainerGap(316, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(36, 36, 36)
                         .addComponent(nuevaPartida)
                         .addGap(18, 18, 18)
                         .addComponent(guardar)
@@ -278,9 +314,9 @@ public class Cronometro implements Runnable {
                         .addGap(18, 18, 18)
                         .addComponent(clasificacion))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(41, 41, 41)
+                        .addGap(47, 47, 47)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
@@ -320,19 +356,21 @@ public class Cronometro implements Runnable {
 
     private void nuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaActionPerformed
         // TODO add your handling code here:
+//        Salir s=new Salir(this, true);
+//        s.setVisible(true);
 }//GEN-LAST:event_nuevaPartidaActionPerformed
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
-        Guardar guardarPartida= new Guardar(this, true);
-        guardarPartida.setVisible(true);
-        this.setVisible(false);
+//        Guardar guardarPartida= new Guardar(this, true);
+//        guardarPartida.setVisible(true);
+//        this.setVisible(false);
     }//GEN-LAST:event_salirActionPerformed
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
         // TODO add your handling code here:
-        Ranking r=new Ranking(this, true);
-        r.setVisible(true);
+//        Ranking r=new Ranking(this, true);
+//        r.setVisible(true);
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
@@ -340,6 +378,36 @@ public class Cronometro implements Runnable {
         //MetodosEstaticos.accionRaton(evt, jTable1, problema, fila, columna, solUsuario);
 
     }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_guardarActionPerformed
+
+    private void siguientePasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientePasoActionPerformed
+        // TODO add your handling code here:
+//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//            puntuacion=puntuacion-5;
+//            MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema);
+//        }
+    }//GEN-LAST:event_siguientePasoActionPerformed
+
+    private void comprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprobarActionPerformed
+        // TODO add your handling code here:
+//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//            puntuacion=puntuacion-5;
+//            if(MetodosEstaticos.comprobar(solUsuario, sol, jTable1, problema)){
+//                  SolParcialCorrecta spc=new SolParcialCorrecta(this, true);
+//                  spc.setVisible(true);
+//        }
+    }//GEN-LAST:event_comprobarActionPerformed
+
+    private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed
+        // TODO add your handling code here:
+//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//            MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
+//            MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
+//        }
+    }//GEN-LAST:event_solucionarActionPerformed
 
     /**
     * @param args the command line arguments

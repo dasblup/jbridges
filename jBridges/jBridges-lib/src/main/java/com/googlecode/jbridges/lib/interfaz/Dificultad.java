@@ -20,8 +20,9 @@ package com.googlecode.jbridges.lib.interfaz;
  */
 public class Dificultad extends javax.swing.JDialog {
     int tam;
+    int puntuacion;
     /** Creates new form Tamaño */
-    public Dificultad(java.awt.Dialog parent, boolean modal, int tam) {
+    public Dificultad(java.awt.Dialog parent, boolean modal, int tam, int puntuacion) {
         super(parent, modal);
         initComponents();
         buttonGroup1.add(baja);
@@ -29,7 +30,7 @@ public class Dificultad extends javax.swing.JDialog {
         buttonGroup1.add(alta);
         buttonGroup1.add(aleatoria);
         this.tam=tam;
-        
+        this.puntuacion=puntuacion;
     }
 
     /** This method is called from within the constructor to
@@ -65,11 +66,21 @@ public class Dificultad extends javax.swing.JDialog {
             }
         });
 
-        media.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        media.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18)); // NOI18N
         media.setText("Media");
+        media.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mediaActionPerformed(evt);
+            }
+        });
 
-        alta.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
+        alta.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18)); // NOI18N
         alta.setText("Alta");
+        alta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                altaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 0, 12));
         jLabel2.setText("(En caso de elegir baja, media o alta, el resultado puede tardar unos segundos)");
@@ -138,20 +149,21 @@ public class Dificultad extends javax.swing.JDialog {
 
     private void bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaActionPerformed
         // TODO add your handling code here:
+        puntuacion=puntuacion+15;
 }//GEN-LAST:event_bajaActionPerformed
 
     private void aleatoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aleatoriaActionPerformed
         // TODO add your handling code here:
         if(tam==1){
-            TableroPequeño tablero=new TableroPequeño();
+            TableroPequeño tablero=new TableroPequeño(puntuacion);
             tablero.setVisible(true);
             this.setVisible(false);
         }else if(tam==2){
-            TableroMediano tablero=new TableroMediano();
+            TableroMediano tablero=new TableroMediano(puntuacion);
             tablero.setVisible(true);
             this.setVisible(false);
         }else if(tam==3){
-            TableroGrande tablero=new TableroGrande();
+            TableroGrande tablero=new TableroGrande(puntuacion);
             tablero.setVisible(true);
             this.setVisible(false);
         }
@@ -160,6 +172,16 @@ public class Dificultad extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_aleatoriaActionPerformed
+
+    private void mediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediaActionPerformed
+        // TODO add your handling code here:
+        puntuacion=puntuacion+40;
+    }//GEN-LAST:event_mediaActionPerformed
+
+    private void altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaActionPerformed
+        // TODO add your handling code here:
+        puntuacion=puntuacion+90;
+    }//GEN-LAST:event_altaActionPerformed
 
     /**
     * @param args the command line arguments

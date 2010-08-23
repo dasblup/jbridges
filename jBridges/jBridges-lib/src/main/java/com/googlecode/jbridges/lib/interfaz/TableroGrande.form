@@ -161,6 +161,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="siguientePaso">
           <Properties>
@@ -169,6 +172,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Siguiente Paso"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="siguientePasoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="comprobar">
           <Properties>
@@ -177,6 +183,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Comprobar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comprobarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="solucionar">
           <Properties>
@@ -185,6 +194,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Solucionar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="solucionarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="salir">
           <Properties>
