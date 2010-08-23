@@ -17,6 +17,7 @@ package com.googlecode.jbridges.lib.interfaz;
  */
 public class Tamaño extends javax.swing.JDialog {
 
+    int puntuacion=0;
     /** Creates new form Tamaño */
     public Tamaño(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -26,6 +27,13 @@ public class Tamaño extends javax.swing.JDialog {
         buttonGroup1.add(grande);
     }
 
+    public Tamaño(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        buttonGroup1.add(pequeño);
+        buttonGroup1.add(mediano);
+        buttonGroup1.add(grande);
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -122,21 +130,24 @@ public class Tamaño extends javax.swing.JDialog {
 
     private void pequeñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pequeñoActionPerformed
         // TODO add your handling code here:
-        Dificultad d=new Dificultad(this, true, 1);
+        puntuacion=puntuacion+20;
+        Dificultad d=new Dificultad(this, true, 1, puntuacion);
         d.setVisible(true);
         this.setVisible(false);
 }//GEN-LAST:event_pequeñoActionPerformed
 
     private void medianoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianoActionPerformed
         // TODO add your handling code here:
-        Dificultad d=new Dificultad(this, true, 2);
+        puntuacion=puntuacion+50;
+        Dificultad d=new Dificultad(this, true, 2, puntuacion);
         d.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_medianoActionPerformed
 
     private void grandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grandeActionPerformed
         // TODO add your handling code here:
-        Dificultad d=new Dificultad(this, true, 3);
+        puntuacion=puntuacion+75;
+        Dificultad d=new Dificultad(this, true, 3, puntuacion);
         d.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_grandeActionPerformed

@@ -11,14 +11,16 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import com.googlecode.jbridges.lib.Jugador;
+
 /**
  *
  * @author mdiazoli
  */
-public class Jugador extends javax.swing.JDialog {
+public class NombreJugador extends javax.swing.JDialog {
 
     /** Creates new form Jugador */
-    public Jugador(java.awt.Frame parent, boolean modal) {
+    public NombreJugador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -105,7 +107,7 @@ public class Jugador extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Jugador dialog = new Jugador(new javax.swing.JFrame(), true);
+                NombreJugador dialog = new NombreJugador(new javax.swing.JFrame(), true);
                 dialog.setTitle("Nuevo Récord");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {

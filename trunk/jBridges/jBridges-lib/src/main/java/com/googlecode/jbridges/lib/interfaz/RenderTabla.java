@@ -92,6 +92,12 @@ import javax.swing.BorderFactory;
                 }else if(value.equals("2PuentesV_Pista")){
                     cell.setText("");
                     cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesV_Pista.png"));
+                }else if(value.equals("2PuentesV_1Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesV_1Error.png"));
+                }else if(value.equals("2PuentesH_1Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesH_1Error.png"));
                 }else if(value.equals("borra")){
                     cell.setText("");
                     cell.setIcon(null);

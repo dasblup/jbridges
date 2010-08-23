@@ -11,6 +11,7 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import com.googlecode.jbridges.lib.Configuracion;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
@@ -25,20 +26,27 @@ public class TableroGrande extends javax.swing.JFrame {
 
     private int fila;
     private int columna;
- 
+    private int puntuacion;
 
-    FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
-    Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
     /** Creates new form Plantilla */
-    public TableroGrande() {
+    public TableroGrande(int puntuacion) {
 
         initComponents();
+        new Cronometro();
+
+        Configuracion.setAltoTablero(14);
+        Configuracion.setAnchoTablero(14);
+
+        FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
+        Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+
         MetodosEstaticos.obtenerTablero(problema, jTable1);
         RenderTabla miRender = new RenderTabla();
         jTable1.setDefaultRenderer( Object.class, miRender);
+
         this.fila = -1;
         this.columna = -1;
-    
+        this.puntuacion=puntuacion;
     }
 
     public TableroGrande(JTable t){
@@ -127,15 +135,35 @@ public class TableroGrande extends javax.swing.JFrame {
 
         guardar.setFont(new java.awt.Font("Croobie", 0, 18));
         guardar.setText("Guardar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         siguientePaso.setFont(new java.awt.Font("Croobie", 0, 18));
         siguientePaso.setText("Siguiente Paso");
+        siguientePaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siguientePasoActionPerformed(evt);
+            }
+        });
 
         comprobar.setFont(new java.awt.Font("Croobie", 0, 18));
         comprobar.setText("Comprobar");
+        comprobar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comprobarActionPerformed(evt);
+            }
+        });
 
         solucionar.setFont(new java.awt.Font("Croobie", 0, 18));
         solucionar.setText("Solucionar");
+        solucionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solucionarActionPerformed(evt);
+            }
+        });
 
         salir.setFont(new java.awt.Font("Croobie", 0, 18));
         salir.setText("Salir");
@@ -312,6 +340,8 @@ public class TableroGrande extends javax.swing.JFrame {
 
     private void nuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaActionPerformed
         // TODO add your handling code here:
+//        Salir s=new Salir(this, true);
+//        s.setVisible(true);
 }//GEN-LAST:event_nuevaPartidaActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -322,16 +352,46 @@ public class TableroGrande extends javax.swing.JFrame {
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
-        Guardar guardarPartida= new Guardar(this, true);
-        guardarPartida.setVisible(true);
-        this.setVisible(false);
+//        Guardar guardarPartida= new Guardar(this, true);
+//        guardarPartida.setVisible(true);
+//        this.setVisible(false);
     }//GEN-LAST:event_salirActionPerformed
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
         // TODO add your handling code here:
-        Ranking r=new Ranking(this, true);
-        r.setVisible(true);
+ //       Ranking r=new Ranking(this, true);
+ //       r.setVisible(true);
     }//GEN-LAST:event_clasificacionActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_guardarActionPerformed
+
+    private void siguientePasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientePasoActionPerformed
+        // TODO add your handling code here:
+//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//            puntuacion=puntuacion-5;
+//            MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema);
+//        }
+    }//GEN-LAST:event_siguientePasoActionPerformed
+
+    private void comprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprobarActionPerformed
+        // TODO add your handling code here:
+//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//            puntuacion=puntuacion-5;
+//            if(MetodosEstaticos.comprobar(solUsuario, sol, jTable1, problema)){
+//                  SolParcialCorrecta spc=new SolParcialCorrecta(this, true);
+//                  spc.setVisible(true);
+//        }
+    }//GEN-LAST:event_comprobarActionPerformed
+
+    private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed
+        // TODO add your handling code here:
+//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//            MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
+//            MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
+//        }
+    }//GEN-LAST:event_solucionarActionPerformed
 
 
     /**
