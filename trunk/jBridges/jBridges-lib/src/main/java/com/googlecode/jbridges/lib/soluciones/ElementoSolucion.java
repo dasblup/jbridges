@@ -15,10 +15,12 @@ public class ElementoSolucion implements Cloneable {
 
         public Isla inicio;
         public Isla fin;
+        public boolean obligatorio;
 
         public ElementoSolucion (Isla i, Isla f) {
             inicio = i;
             fin = f;
+            obligatorio = false;
         }
 
         @Override
@@ -28,6 +30,7 @@ public class ElementoSolucion implements Cloneable {
 
             clon.inicio = this.inicio;
             clon.fin = this.fin;
+            clon.obligatorio = this.obligatorio;
 
             return clon;
         }

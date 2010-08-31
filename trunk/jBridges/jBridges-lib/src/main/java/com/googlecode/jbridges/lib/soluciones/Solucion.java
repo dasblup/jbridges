@@ -16,6 +16,8 @@ public class Solucion implements Cloneable {
 
     public List<ElementoSolucion> solucion;
 
+    public int iteracionBactracking;
+
     public Solucion () {
 
         this.solucion = new LinkedList<ElementoSolucion>();
@@ -31,6 +33,8 @@ public class Solucion implements Cloneable {
         for (ElementoSolucion es : this.solucion) {
             clon.solucion.add((ElementoSolucion) es.clone());
         }
+
+        clon.iteracionBactracking = this.iteracionBactracking;
 
         return clon;
     }

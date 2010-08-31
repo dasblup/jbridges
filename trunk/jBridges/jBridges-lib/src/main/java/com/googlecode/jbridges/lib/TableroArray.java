@@ -291,11 +291,18 @@ public class TableroArray implements Tablero {
              Sentido s; 
              Direccion d; 
              PuenteArray puente; 
-  
+
+             if (!actualizarN) {
+                 if ((i.getPuentes() >= i.getN()) ||
+                      this.getPuentes() >= this.getN()) {
+                     throw new PuenteProhibidoException();
+                 }
+             }
+
              isla = (IslaArray) i; 
              coordenadasLaOtraIsla = (CoordenadasArray) isla.getCoordenadas(); 
              coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas(); 
-  
+
              if (coordenadasEstaIsla.getX().equals(coordenadasLaOtraIsla.getX())) { 
                  d = Direccion.HORIZONTAL; 
                  if ((coordenadasEstaIsla.getY() - coordenadasLaOtraIsla.getY()) < 0) { 
@@ -318,23 +325,39 @@ public class TableroArray implements Tablero {
                  throw new RuntimeException("ARREGLA ESTO!!!"); 
              } 
   
-             TableroArray.this.avanzar(coordenadasEstaIsla, s); 
-             while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) { 
-                 if (!(getCasilla(coordenadasEstaIsla) instanceof Agua)) { 
-                     throw new PuenteProhibidoException(); 
-                 } 
-                 TableroArray.this.avanzar(coordenadasEstaIsla, s); 
-             } 
-  
-             coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas(); 
-  
-             TableroArray.this.avanzar(coordenadasEstaIsla, s); 
-             while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) { 
-                 puente = new PuenteArray(coordenadasEstaIsla); 
-                 puente.setDireccion(d); 
-                 TableroArray.this.tablero[coordenadasEstaIsla.getX()] 
-                                          [coordenadasEstaIsla.getY()] = puente; 
-                 TableroArray.this.avanzar(coordenadasEstaIsla, s); 
+             TableroArray.this.avanzar(coordenadasEstaIsla, s);
+
+             if (getCasilla(coordenadasEstaIsla) instanceof Agua) {
+                 while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) {
+                     if (!(getCasilla(coordenadasEstaIsla) instanceof Agua)) {
+                         throw new PuenteProhibidoException();
+                     }
+                     TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                 }
+
+                 coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas();
+
+                 TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                 while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) {
+                     puente = new PuenteArray(coordenadasEstaIsla);
+                     puente.setDireccion(d);
+                     TableroArray.this.tablero[coordenadasEstaIsla.getX()]
+                                              [coordenadasEstaIsla.getY()] = puente;
+                     TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                 }
+             } else if (getCasilla(coordenadasEstaIsla) instanceof Puente) {
+                 while (!coordenadasEstaIsla.equals(coordenadasLaOtraIsla)) {
+                     if (!(getCasilla(coordenadasEstaIsla) instanceof Puente)) {
+                         throw new PuenteProhibidoException();
+                     } else if (((Puente)getCasilla(coordenadasEstaIsla)).getDireccion() != d) {
+                         throw new PuenteProhibidoException();
+                     }
+                     TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                 }
+                 try {
+                    setPuente(s, false);
+                 } catch (SentidoInvalidoException sie) {}
+
              }
 
              if (actualizarN) {
@@ -353,6 +376,17 @@ public class TableroArray implements Tablero {
              CoordenadasArray coordenadasEstaIsla;
              Casilla c;
              PuenteArray puente;
+
+             if (!actualizarN) {
+                 try {
+                     if ((getVecina(s).getPuentes() >= getVecina(s).getN()) ||
+                          this.getPuentes() >= this.getN()) {
+                         throw new SentidoInvalidoException();
+                     }
+                 } catch (IslaNoEncontradaException inee) {
+                    throw new SentidoInvalidoException();
+                 }
+             }
 
              coordenadasEstaIsla = (CoordenadasArray) this.getCoordenadas();
 
@@ -449,15 +483,35 @@ public class TableroArray implements Tablero {
             CoordenadasArray coordenadasEstaIsla;
             Casilla c;
             
+            Direccion d;
+            
+            switch (s){
+                case NORTE :
+                case SUR :
+                    d = Direccion.VERTICAL;
+                    break;
+                default:
+                    d = Direccion.HORIZONTAL;
+            }
+
             coordenadasEstaIsla=(CoordenadasArray)this.getCoordenadas();
 
             try {
                 TableroArray.this.avanzar(coordenadasEstaIsla, s);
                 c=TableroArray.this.getCasilla(coordenadasEstaIsla);
-
-                while(c instanceof Agua){
-                    TableroArray.this.avanzar(coordenadasEstaIsla, s);
-                    c=TableroArray.this.getCasilla(coordenadasEstaIsla);
+                
+                if (c instanceof Agua) {
+                    while(c instanceof Agua){
+                        TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                        c=TableroArray.this.getCasilla(coordenadasEstaIsla);
+                    }
+                } else if (c instanceof Puente) {
+                    if (((Puente)c).getDireccion() == d) {
+                        while(c instanceof Puente){
+                            TableroArray.this.avanzar(coordenadasEstaIsla, s);
+                            c=TableroArray.this.getCasilla(coordenadasEstaIsla);
+                        }
+                    }
                 }
 
                 if (!(c instanceof IslaArray)){
@@ -596,6 +650,7 @@ public class TableroArray implements Tablero {
                                           [coordenadasEstaIsla.getY()] = null;
                     }
                  }
+                TableroArray.this.avanzar(coordenadasEstaIsla, s);
              }
 
              if (actualizarN) {
