@@ -12,13 +12,9 @@ import com.googlecode.jbridges.lib.Coordenadas2D;
 import com.googlecode.jbridges.lib.Isla;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
-import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -140,10 +136,11 @@ public class MetodosEstaticos {
 ////
 ////    }
 //
-    public static void accionRaton(MouseEvent evt, JTable jTable1, Tablero problema, int fila, int columna, List<ElementoSolucion> solUsuario,
-            List<ElementoSolucion> sol, Frame parent, int puntuacion) {
+    public static void accionRaton(MouseEvent evt, JTable jTable1, Tablero problema, int fila, int columna) {//(MouseEvent evt, JTable jTable1, Tablero problema, int fila, int columna, List<ElementoSolucion> solUsuario,
+//            List<ElementoSolucion> sol, Frame parent, int puntuacion)
 
-        if (!MetodosEstaticos.comparaListas(solUsuario, sol)) {
+
+//        if (!MetodosEstaticos.comparaListas(solUsuario, sol)) {
             int f = jTable1.rowAtPoint(evt.getPoint());
             int c = jTable1.columnAtPoint(evt.getPoint());
             Coordenadas coord = problema.getCoordenadas(f, c);
@@ -152,7 +149,7 @@ public class MetodosEstaticos {
             boolean h2 = false;
             boolean v1 = false;
             boolean v2 = false;
-            boolean completado=false;
+//            boolean completado=false;
 
 
 
@@ -165,118 +162,118 @@ public class MetodosEstaticos {
                     int fila2 = jTable1.rowAtPoint(evt.getPoint());
                     int columna2 = jTable1.columnAtPoint(evt.getPoint());
 
-                    Coordenadas coord1=problema.getCoordenadas(fila, columna);
-                    Coordenadas coord2=problema.getCoordenadas(fila2, columna2);
-                    Isla inicio=(Isla)problema.getCasilla(coord1);
-                    Isla fin=(Isla)problema.getCasilla(coord2);
+//                    Coordenadas coord1=problema.getCoordenadas(fila, columna);
+//                    Coordenadas coord2=problema.getCoordenadas(fila2, columna2);
+//                    Isla inicio=(Isla)problema.getCasilla(coord1);
+//                    Isla fin=(Isla)problema.getCasilla(coord2);
                     if (fila == fila2) {
 
                         if (columna - columna2 < 0) {
                             //Comprueba que todas las celdas intermedias están vacias
                             for (int i = columna + 1; i < columna2; i++) {
-                                if (jTable1.getValueAt(fila, i) == null || jTable1.getValueAt(fila, i).equals("borra")) {
+                                if (jTable1.getValueAt(fila, i) == null){// || jTable1.getValueAt(fila, i).equals("borra")) {
                                     vacias = true;
-                                    break;
-                                } else if ((jTable1.getValueAt(fila, i).equals("1PuenteH")) || (jTable1.getValueAt(fila, i).equals("1PuenteH_Error"))) {
+                                    //break;
+                                } else if ((jTable1.getValueAt(fila, i).equals("1PuenteH"))){// || (jTable1.getValueAt(fila, i).equals("1PuenteH_Error"))) {
                                     h1 = true;
-                                } else if ((jTable1.getValueAt(fila, i).equals("2PuentesH")) || (jTable1.getValueAt(fila, i).equals("2PuentesH_Error"))) {
+                                } else if ((jTable1.getValueAt(fila, i).equals("2PuentesH"))){// || (jTable1.getValueAt(fila, i).equals("2PuentesH_Error"))) {
                                     h2 = true;
                                 }
                             }
                             if (vacias) {
                                 for (int i = columna + 1; i < columna2; i++) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(inicio, fin));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(inicio, fin));
                                         jTable1.setValueAt("1PuenteH", fila, i);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (h1) {
                                 for (int i = columna + 1; i < columna2; i++) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(inicio, fin));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(inicio, fin));
                                         jTable1.setValueAt("2PuentesH", fila, i);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (h2) {
                                 for (int i = columna + 1; i < columna2; i++) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
-                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
+//                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
                                         jTable1.setValueAt("borra", fila, i);
-                                        puntuacion=puntuacion-2;
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                    }
+//                                        puntuacion=puntuacion-2;
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                    }
                                 }
                             }
                         } else if (columna - columna2 > 0) {
                             for (int i = columna - 1; i < columna2; i--) {
-                                if (jTable1.getValueAt(fila, i) == null || jTable1.getValueAt(fila, i).equals("borra")) {
+                                if (jTable1.getValueAt(fila, i) == null){// || jTable1.getValueAt(fila, i).equals("borra")) {
                                     vacias = true;
-                                } else if ((jTable1.getValueAt(fila, i).equals("1PuenteH")) || (jTable1.getValueAt(fila, i).equals("1PuenteH_Error"))) {
+                                } else if ((jTable1.getValueAt(fila, i).equals("1PuenteH"))){// || (jTable1.getValueAt(fila, i).equals("1PuenteH_Error"))) {
                                     h1 = true;
-                                } else if ((jTable1.getValueAt(fila, i).equals("2PuentesH")) || (jTable1.getValueAt(fila, i).equals("2PuentesH_Error"))) {
+                                } else if ((jTable1.getValueAt(fila, i).equals("2PuentesH"))){// || (jTable1.getValueAt(fila, i).equals("2PuentesH_Error"))) {
                                     h2 = true;
                                 }
                             }
                             if (vacias) {
                                 for (int i = columna - 1; i < columna2; i--) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(fin, inicio));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(fin, inicio));
                                         jTable1.setValueAt("1PuenteH", fila, i);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (h1) {
                                 for (int i = columna - 1; i < columna2; i--) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(fin, inicio));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(fin, inicio));
                                         jTable1.setValueAt("2PuentesH", fila, i);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (h2) {
                                 for (int i = columna - 1; i < columna2; i--) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
-                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
+//                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
                                         jTable1.setValueAt("borra", fila, i);
-                                        puntuacion=puntuacion-2;
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                    }
+//                                        puntuacion=puntuacion-2;
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                    }
                                 }
                             }
                         }
@@ -289,124 +286,127 @@ public class MetodosEstaticos {
 
                         if (fila < fila2) {
                             for (int i = fila + 1; i < fila2; i++) {
-                                if (jTable1.getValueAt(i, columna) == null || jTable1.getValueAt(i, columna).equals("borra")) {
+                                if (jTable1.getValueAt(i, columna) == null){// || jTable1.getValueAt(i, columna).equals("borra")) {
                                     vacias = true;
-                                    break;
-                                } else if ((jTable1.getValueAt(i, columna).equals("1PuenteV")) || (jTable1.getValueAt(i, columna).equals("1PuenteV_Error"))) {
+                                    //break;
+                                } else if ((jTable1.getValueAt(i, columna).equals("1PuenteV"))){// || (jTable1.getValueAt(i, columna).equals("1PuenteV_Error"))) {
                                     v1 = true;
-                                } else if ((jTable1.getValueAt(i, columna).equals("2PuentesV")) || (jTable1.getValueAt(i, columna).equals("2PuentesV_Error"))) {
+                                } else if ((jTable1.getValueAt(i, columna).equals("2PuentesV"))){// || (jTable1.getValueAt(i, columna).equals("2PuentesV_Error"))) {
                                     v2 = true;
                                 }
                             }
                             if (vacias) {
                                 for (int i = fila + 1; i < fila2; i++) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(inicio, fin));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(inicio, fin));
                                         jTable1.setValueAt("1PuenteV", i, columna);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (v1) {
                                 for (int i = fila + 1; i < fila2; i++) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(inicio, fin));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(inicio, fin));
                                         jTable1.setValueAt("2PuentesV", i, columna);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (v2) {
                                 for (int i = fila + 1; i < fila2; i++) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
-                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
+//                                        solUsuario.remove(new ElementoSolucion(inicio, fin));
                                         jTable1.setValueAt("borra", i, columna);
-                                        puntuacion=puntuacion-2;
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                    }
+//                                        puntuacion=puntuacion-2;
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                    }
                                 }
                             }
                         } else if (fila > fila2) {
                             for (int i = fila - 1; i > fila2; i--) {
-                                if (jTable1.getValueAt(i, columna) == null || jTable1.getValueAt(i, columna).equals("borra")) {
+                                if (jTable1.getValueAt(i, columna) == null){// || jTable1.getValueAt(i, columna).equals("borra")) {
                                     vacias = true;
-                                } else if ((jTable1.getValueAt(i, columna).equals("1PuenteV")) || (jTable1.getValueAt(i, columna).equals("1PuenteV_Error"))) {
+                                } else if ((jTable1.getValueAt(i, columna).equals("1PuenteV"))){// || (jTable1.getValueAt(i, columna).equals("1PuenteV_Error"))) {
                                     v1 = true;
-                                } else if ((jTable1.getValueAt(i, columna).equals("2PuentesV")) || (jTable1.getValueAt(i, columna).equals("2PuentesV_Error"))) {
+                                } else if ((jTable1.getValueAt(i, columna).equals("2PuentesV"))){// || (jTable1.getValueAt(i, columna).equals("2PuentesV_Error"))) {
                                     v2 = true;
                                 }
                             }
                             if (vacias) {
                                 for (int i = fila - 1; i > fila2; i--) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(fin, inicio));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(fin, inicio));
                                         jTable1.setValueAt("1PuenteV", i, columna);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "simple")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (v1) {
                                 for (int i = fila - 1; i > fila2; i--) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.add(new ElementoSolucion(fin, inicio));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.add(new ElementoSolucion(fin, inicio));
                                         jTable1.setValueAt("2PuentesV", i, columna);
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
-                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
-                                            puntuacion=puntuacion+3;
-                                        }else{
-                                            puntuacion=puntuacion-2;
-                                        }
-                                    }
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
+//                                        if(MetodosEstaticos.comprobarPuente(sol, inicio, fin, "doble")){
+//                                            puntuacion=puntuacion+3;
+//                                        }else{
+//                                            puntuacion=puntuacion-2;
+//                                        }
+//                                    }
                                 }
                             } else if (v2) {
                                 for (int i = fila - 1; i > fila2; i--) {
-                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
-                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
+//                                    if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
+//                                        solUsuario.remove(new ElementoSolucion(fin, inicio));
                                         jTable1.setValueAt("borra", i, columna);
-                                        puntuacion=puntuacion-2;
-                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
-                                            completado=true;
-                                        }
+//                                        puntuacion=puntuacion-2;
+//                                        if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+//                                            completado=true;
+//                                        }
 
-                                    }
+//                                    }
                                 }
                             }
                         }
                         v2 = false;
                         v1 = false;
                         vacias = false;
+                        fila=-1;
+                        columna=-1;
                     }
-                    if(completado){
-                        Enhorabuena e=new Enhorabuena(parent, true);
-                        e.setVisible(true);
-                    }
+//                    if(completado){
+//                        Enhorabuena e=new Enhorabuena(parent, true, puntuacion);
+//                        e.setVisible(true);
+//                    }
                 }
             }
-        }
+ //       }
+    
     }
 
     public static void comprobar(List<ElementoSolucion> solUsuario, List<ElementoSolucion> sol, JTable jTable1, Tablero problema){
@@ -695,26 +695,12 @@ public class MetodosEstaticos {
         return existe;
     }
 
-    public void conectaBD(){
-        String bd="jkh";
-        String login="asd";
-        String contraseña="contraseña";
-        String url="jdbc:mysql://localhost/"+bd;
 
-        Connection conn=null;
-        try{
-            Class.forName("");
-            conn=DriverManager.getConnection(url, login, contraseña);
-            if(conn!=null){
-                System.out.println("Conexion a base de datos"+url+"...OK");
-                conn.close();
-            }
-        }catch(SQLException ex){
-            System.out.println("Hubo un problema al conectarse a la base de datos");
-        }catch(ClassNotFoundException ex){
-            System.out.println(ex);
-        }
+    public static boolean newJugador(){
+        boolean nuevo=false;
 
-
+        return nuevo;
     }
+    
+
 }

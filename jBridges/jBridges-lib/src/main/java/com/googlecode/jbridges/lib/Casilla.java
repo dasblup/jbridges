@@ -5,11 +5,13 @@
 
 package com.googlecode.jbridges.lib;
 
+import java.io.Serializable;
+
 /**
  *
  * @author pabloramix
  */
-public abstract class Casilla {
+public abstract class Casilla  implements Serializable{
 
     private Coordenadas c;
 

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author mdiazoli
  */
-public class Jugador{
+public class Jugador implements Serializable{
 
     String nombre;
     int puntuacion;

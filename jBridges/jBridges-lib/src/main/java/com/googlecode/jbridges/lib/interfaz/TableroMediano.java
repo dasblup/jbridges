@@ -12,15 +12,21 @@ package com.googlecode.jbridges.lib.interfaz;
 
 
 import com.googlecode.jbridges.lib.Configuracion;
+import com.googlecode.jbridges.lib.Coordenadas;
+import com.googlecode.jbridges.lib.Isla;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
+import com.sleepycat.je.DatabaseException;
 import java.awt.Font;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 
 
@@ -365,21 +371,36 @@ public class TableroMediano extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 //       if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-//            MetodosEstaticos.accionRaton(evt, jTable1, problema, fila, columna, solUsuario, sol, this, puntuacion);
+            MetodosEstaticos.accionRaton(evt, jTable1, problema, fila, columna);
 //        }
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
-        Guardar guardarPartida= new Guardar(this, true);
-        guardarPartida.setVisible(true);
-        this.setVisible(false);
+//        Guardar guardarPartida= new Guardar(this, true, problema);
+//        guardarPartida.setVisible(true);
+//        this.setVisible(false);
     }//GEN-LAST:event_salirActionPerformed
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
-        // TODO add your handling code here:
-//       Ranking r=new Ranking(this, true);
-//       r.setVisible(true);
+//        try {
+//            // TODO add your handling code here:
+//            Sample sample = new Sample("C:\\temp", null, jTable1, null, null);
+//            try {
+//                sample.runJugador("muestra");
+//            } catch (Exception ex) {
+//                Logger.getLogger(TableroMediano.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            sample.close();
+//        } catch (DatabaseException ex) {
+//            Logger.getLogger(TableroMediano.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(TableroMediano.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        Ranking r=new Ranking(this, true);
+//        r.setVisible(true);
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed
@@ -410,6 +431,7 @@ public class TableroMediano extends javax.swing.JFrame {
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         // TODO add your handling code here:
+        Guardar g = new Guardar(this, true, problema);
     }//GEN-LAST:event_GuardarActionPerformed
 
 

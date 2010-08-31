@@ -11,16 +11,25 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import com.googlecode.jbridges.lib.Tablero;
+import com.sleepycat.je.DatabaseException;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author mdiazoli
  */
 public class Guardar extends javax.swing.JDialog {
 
+    Tablero problema;
+
     /** Creates new form Guardar */
-    public Guardar(java.awt.Frame parent, boolean modal) {
+    public Guardar(java.awt.Frame parent, boolean modal, Tablero problema) {
         super(parent, modal);
         initComponents();
+        this.problema=problema;
     }
 
     /** This method is called from within the constructor to
@@ -45,6 +54,11 @@ public class Guardar extends javax.swing.JDialog {
 
         guardar.setFont(new java.awt.Font("Croobie", 0, 18));
         guardar.setText("Guardar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         salir.setFont(new java.awt.Font("Croobie", 0, 18));
         salir.setText("Salir");
@@ -101,22 +115,41 @@ public class Guardar extends javax.swing.JDialog {
         this.setVisible(false);
     }//GEN-LAST:event_salirActionPerformed
 
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        try {
+            // TODO add your handling code here
+            Sample sample = new Sample("C:\\temp", null, null, problema, null);
+            try {
+                sample.runPartida("inserta");
+            } catch (Exception ex) {
+                Logger.getLogger(Guardar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            sample.close();
+        } catch (DatabaseException ex) {
+            Logger.getLogger(Guardar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Guardar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_guardarActionPerformed
+
     /**
     * @param args the command line arguments
     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Guardar dialog = new Guardar(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                Guardar dialog = new Guardar(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guardar;

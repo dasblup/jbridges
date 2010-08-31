@@ -12,12 +12,13 @@ import com.googlecode.jbridges.lib.excepciones.IslaNoEncontradaException;
 import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
 import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.excepciones.TableroInicializadoException;
+import java.io.Serializable;
 
 /**
  *
  * @author pabloramix
  */
-public class TableroArray implements Tablero {
+public class TableroArray implements Tablero, Serializable {
 
     Casilla[][] tablero;
 
@@ -218,7 +219,7 @@ public class TableroArray implements Tablero {
         }
     }
 
-    class IslaArray extends Casilla implements Isla {
+    class IslaArray extends Casilla implements Isla, Serializable {
 
         private int numeroPuentes;
         private int x;
