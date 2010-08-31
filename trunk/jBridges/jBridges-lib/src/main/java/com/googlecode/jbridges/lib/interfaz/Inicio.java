@@ -143,6 +143,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void cargarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaActionPerformed
         // TODO add your handling code here:
+
+
     }//GEN-LAST:event_cargarPartidaActionPerformed
 
     /**

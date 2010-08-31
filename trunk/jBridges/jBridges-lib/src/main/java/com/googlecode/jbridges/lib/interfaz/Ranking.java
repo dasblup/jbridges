@@ -17,12 +17,18 @@ package com.googlecode.jbridges.lib.interfaz;
  */
 public class Ranking extends javax.swing.JDialog {
 
+    int puntuacion;
+    String nombre;
+
     /** Creates new form R */
     public Ranking(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-
+    public Ranking(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

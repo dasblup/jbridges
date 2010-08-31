@@ -12,6 +12,10 @@
 package com.googlecode.jbridges.lib.interfaz;
 
 import com.googlecode.jbridges.lib.Jugador;
+import com.sleepycat.je.DatabaseException;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,12 +23,18 @@ import com.googlecode.jbridges.lib.Jugador;
  */
 public class NombreJugador extends javax.swing.JDialog {
 
+    Jugador jug;
     /** Creates new form Jugador */
     public NombreJugador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
+    public NombreJugador(java.awt.Dialog parent, boolean modal, int puntuacion) {
+        super(parent, modal);
+        initComponents();
+        jug.setPuntuacion(puntuacion);
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -99,6 +109,30 @@ public class NombreJugador extends javax.swing.JDialog {
 
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
         // TODO add your handling code here:
+        jug.setNombre(nombre.getText());
+
+        Sample s=null;
+        try {
+            s = new Sample("C:\\temp", jug,null, null, null);
+        } catch (DatabaseException ex) {
+            Logger.getLogger(NombreJugador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NombreJugador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            s.runJugador("inserta");
+        } catch (Exception ex) {
+                Logger.getLogger(NombreJugador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try{
+            s.close();
+        }catch (Exception e){
+            System.err.println("Excepcion durante el cierre de la base de datos");
+            e.printStackTrace();
+        }
+
+//        Ranking r=new Ranking(this, true);
+//        r.setVisible(true);
     }//GEN-LAST:event_aceptarActionPerformed
 
     /**

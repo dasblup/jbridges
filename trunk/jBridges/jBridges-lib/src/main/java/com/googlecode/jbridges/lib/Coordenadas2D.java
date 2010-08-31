@@ -5,11 +5,13 @@
 
 package com.googlecode.jbridges.lib;
 
+import java.io.Serializable;
+
 /**
  *
  * @author pabloramix
  */
-public abstract class Coordenadas2D implements Coordenadas {
+public abstract class Coordenadas2D implements Coordenadas, Serializable {
 
     Integer x;
     Integer y;
