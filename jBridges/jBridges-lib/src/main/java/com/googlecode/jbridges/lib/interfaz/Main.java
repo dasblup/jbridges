@@ -122,11 +122,9 @@ public class Main {
     FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
     Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
 
-
     EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
-
+    problema.borrarPuentes();
     List <Solucion> soluciones=ebb.solucionar(problema);
-
     System.out.println("Tamaño lista soluciones"+ soluciones.size());
     }
 }
