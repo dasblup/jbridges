@@ -18,6 +18,8 @@ import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
+import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
+import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import com.sleepycat.je.DatabaseException;
@@ -41,17 +43,17 @@ public class TableroMediano extends javax.swing.JFrame {
     private int columna;
     int puntuacion;
 
-    FabricaDeProblemas miFabrica;
-    Tablero problema;
 
 
-   // EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
+        FabricaDeProblemas fp;
+        Tablero problema;
+        FabricaDeSoluciones fs;
+        EstrategiaSolucion es;
+        List<Solucion> ss;
+        public List<ElementoSolucion> solUsuario;
+        public List <ElementoSolucion> sol;
 
-    //public List <Solucion> soluciones=ebb.solucionar(problema);
 
-    //public List <ElementoSolucion> sol= (List<ElementoSolucion>) soluciones.get(0);
-
-    public List<ElementoSolucion> solUsuario;
 
     /** Creates new form Plantilla */
     public TableroMediano(int puntuacion){
@@ -62,8 +64,18 @@ public class TableroMediano extends javax.swing.JFrame {
         Configuracion.setAltoTablero(10);
         Configuracion.setAnchoTablero(10);
 
-        miFabrica=FabricaDeProblemas.getInstancia();
-        problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+        fp = FabricaDeProblemas.getInstancia();
+        problema = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+        problema.borrarPuentes();
+        es = new EstrategiaBackTrackingBasica();
+
+        ss = es.solucionar(problema);
+
+        if(!ss.isEmpty()){
+            sol= (List<ElementoSolucion>) ss.get(0);
+        }
+        System.out.println("Tamaño lista soluciones:"+ ss.size());
+
 
         MetodosEstaticos.obtenerTablero(problema, jTable1);
         RenderTabla miRender = new RenderTabla();
@@ -72,8 +84,9 @@ public class TableroMediano extends javax.swing.JFrame {
         this.fila = -1;
         this.columna = -1;
         this.puntuacion=puntuacion;
-        //soluciones=ebb.solucionar(problema);
         solUsuario=new LinkedList<ElementoSolucion>();
+
+        
 
        // System.out.println("Tamaño lista soluciones:"+soluciones.size());
     }
@@ -684,7 +697,7 @@ public class TableroMediano extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
 //            MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
- //           MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
+            MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
 //        }
     }//GEN-LAST:event_solucionarActionPerformed
 
