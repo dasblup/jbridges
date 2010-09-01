@@ -100,6 +100,7 @@ import javax.swing.BorderFactory;
                     cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesH_1Error.png"));
                 }else if(value.equals("borra")){
                     cell.setText("");
+                    cell.setBackground(Color.white);
                     cell.setIcon(null);
                 }else {
                     cell.setIcon(null);

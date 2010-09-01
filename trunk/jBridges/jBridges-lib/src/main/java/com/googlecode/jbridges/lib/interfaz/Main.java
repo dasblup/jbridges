@@ -14,6 +14,8 @@ import com.googlecode.jbridges.lib.TableroArray;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
+import com.googlecode.jbridges.lib.soluciones.Solucion;
+import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -116,23 +118,15 @@ public class Main {
 //        }
 //        System.out.println("Puente correcto?");
 //        System.out.println(puenteEncontrado);
-        //String bd="hashiwokakero";
-        String login="root ";
-        String contraseña="admin";
-        String url="jdbc:mysql://localhost:3306/hashiwokakero";
 
-        Connection conn=null;
-        try{
-            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-            conn=DriverManager.getConnection(url, login, contraseña);
-            if(conn!=null){
-                System.out.println("Conexion a base de datos"+url+"...OK");
-                conn.close();
-            }
-        }catch(SQLException ex){
-            System.out.println("Hubo un problema al conectarse a la base de datos");
-        }catch(ClassNotFoundException ex){
-            System.out.println("Error2");
-        }
+    FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
+    Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+
+
+    EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
+
+    List <Solucion> soluciones=ebb.solucionar(problema);
+
+    System.out.println("Tamaño lista soluciones"+ soluciones.size());
     }
 }
