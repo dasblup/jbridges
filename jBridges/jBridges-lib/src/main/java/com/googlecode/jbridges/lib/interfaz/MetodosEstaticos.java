@@ -171,7 +171,7 @@ public class MetodosEstaticos {
                         if (columna - columna2 < 0) {
                             //Comprueba que todas las celdas intermedias están vacias
                             for (int i = columna + 1; i < columna2; i++) {
-                                if (jTable1.getValueAt(fila, i) == null){// || jTable1.getValueAt(fila, i).equals("borra")) {
+                                if ((jTable1.getValueAt(fila, i) == null) || (jTable1.getValueAt(fila, i).equals("borra"))) {
                                     vacias = true;
                                     //break;
                                 } else if ((jTable1.getValueAt(fila, i).equals("1PuenteH"))){// || (jTable1.getValueAt(fila, i).equals("1PuenteH_Error"))) {
@@ -225,7 +225,7 @@ public class MetodosEstaticos {
                             }
                         } else if (columna - columna2 > 0) {
                             for (int i = columna - 1; i < columna2; i--) {
-                                if (jTable1.getValueAt(fila, i) == null){// || jTable1.getValueAt(fila, i).equals("borra")) {
+                                if ((jTable1.getValueAt(fila, i) == null) || (jTable1.getValueAt(fila, i).equals("borra"))) {
                                     vacias = true;
                                 } else if ((jTable1.getValueAt(fila, i).equals("1PuenteH"))){// || (jTable1.getValueAt(fila, i).equals("1PuenteH_Error"))) {
                                     h1 = true;
@@ -286,7 +286,7 @@ public class MetodosEstaticos {
 
                         if (fila < fila2) {
                             for (int i = fila + 1; i < fila2; i++) {
-                                if (jTable1.getValueAt(i, columna) == null){// || jTable1.getValueAt(i, columna).equals("borra")) {
+                                if ((jTable1.getValueAt(i, columna) == null) || (jTable1.getValueAt(i, columna).equals("borra"))) {
                                     vacias = true;
                                     //break;
                                 } else if ((jTable1.getValueAt(i, columna).equals("1PuenteV"))){// || (jTable1.getValueAt(i, columna).equals("1PuenteV_Error"))) {
@@ -340,7 +340,7 @@ public class MetodosEstaticos {
                             }
                         } else if (fila > fila2) {
                             for (int i = fila - 1; i > fila2; i--) {
-                                if (jTable1.getValueAt(i, columna) == null){// || jTable1.getValueAt(i, columna).equals("borra")) {
+                                if ((jTable1.getValueAt(i, columna) == null) || (jTable1.getValueAt(i, columna).equals("borra"))) {
                                     vacias = true;
                                 } else if ((jTable1.getValueAt(i, columna).equals("1PuenteV"))){// || (jTable1.getValueAt(i, columna).equals("1PuenteV_Error"))) {
                                     v1 = true;

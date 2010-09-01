@@ -12,6 +12,8 @@
 package com.googlecode.jbridges.lib.interfaz;
 
 import com.googlecode.jbridges.lib.Configuracion;
+import com.googlecode.jbridges.lib.Coordenadas;
+import com.googlecode.jbridges.lib.Isla;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
@@ -28,6 +30,9 @@ public class TableroGrande extends javax.swing.JFrame {
     private int columna;
     private int puntuacion;
 
+    FabricaDeProblemas miFabrica;
+    Tablero problema;
+
     /** Creates new form Plantilla */
     public TableroGrande(int puntuacion) {
 
@@ -37,8 +42,8 @@ public class TableroGrande extends javax.swing.JFrame {
         Configuracion.setAltoTablero(14);
         Configuracion.setAnchoTablero(14);
 
-        FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
-        Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+        miFabrica=FabricaDeProblemas.getInstancia();
+        problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
 
         MetodosEstaticos.obtenerTablero(problema, jTable1);
         RenderTabla miRender = new RenderTabla();
@@ -346,7 +351,7 @@ public class TableroGrande extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         
-        //MetodosEstaticos.accionRaton(evt, jTable1, problema, fila, columna, solUsuario);
+ 
 
     }//GEN-LAST:event_jTable1MouseClicked
 
