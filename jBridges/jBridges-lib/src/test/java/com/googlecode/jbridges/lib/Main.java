@@ -26,7 +26,7 @@ public class Main {
 
         fp = FabricaDeProblemas.getInstancia();
 
-        tablero = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_DE_PRUEBA);
+        tablero = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
 
         tablero.borrarPuentes();
 

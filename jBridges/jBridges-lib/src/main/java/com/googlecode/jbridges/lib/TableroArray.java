@@ -148,9 +148,24 @@ public class TableroArray implements Tablero, Serializable {
 
         String res;
         Casilla c;
-        res="";
+        res="  ";
 
         for(int i=0;i<this.tablero.length;i++){
+            res += i;
+        }
+
+        res += "\n +";
+
+        for(int i=0;i<this.tablero.length;i++){
+            res += "-";
+        }
+
+        res += "\n";
+
+        for(int i=0;i<this.tablero.length;i++){
+
+            res += i + "|";
+
             for(int j=0;j<this.tablero[0].length;j++){
 
                 c=this.tablero[i][j];
@@ -351,6 +366,8 @@ public class TableroArray implements Tablero, Serializable {
                      if (!(getCasilla(coordenadasEstaIsla) instanceof Puente)) {
                          throw new PuenteProhibidoException();
                      } else if (((Puente)getCasilla(coordenadasEstaIsla)).getDireccion() != d) {
+                         throw new PuenteProhibidoException();
+                     } else if (((Puente)getCasilla(coordenadasEstaIsla)).getTipo() == TipoPuente.DOBLE) {
                          throw new PuenteProhibidoException();
                      }
                      TableroArray.this.avanzar(coordenadasEstaIsla, s);

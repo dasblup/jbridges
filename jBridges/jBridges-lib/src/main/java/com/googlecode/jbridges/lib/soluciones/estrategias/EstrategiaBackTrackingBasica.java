@@ -64,13 +64,14 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
         logger.debug("\n********************* ENTRANDO EN BTTODAS **********************\n");
         logger.debug(x);
 
+        simplificar(x);
+
         if (esSolucion(x)) {
 
             comunicarSolucion(x);
         
         } else {
 
-            simplificar(x);
             candidatos = calcularCandidatos(x);
 
             if (logger.isDebugEnabled()) {
@@ -201,7 +202,7 @@ public class EstrategiaBackTrackingBasica implements EstrategiaSolucion {
                     try {
                         islaVecina = i.getVecina(s);
                         numeroVecinas++;
-                        puentesPosibles += islaVecina.getN() - islaVecina.getPuentes() > 1 ? 2 : 1;
+                        puentesPosibles += islaVecina.getN() - islaVecina.getPuentes() < 2 ? islaVecina.getN() - islaVecina.getPuentes() : 2;
                     } catch(IslaNoEncontradaException inee) {}
 
                 }
