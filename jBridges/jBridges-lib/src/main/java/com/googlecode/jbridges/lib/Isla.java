@@ -71,4 +71,7 @@ public interface Isla extends Comparable {
     //anterior
     public void setPuente(Sentido s) throws SentidoInvalidoException;
     public void setPuente(Sentido s, boolean actualizarN) throws SentidoInvalidoException;
+
+    @Override
+    public boolean equals (Object obj);
 }
