@@ -126,8 +126,8 @@ public class Inicio extends javax.swing.JFrame {
     private void nuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaActionPerformed
         // TODO add your handling code here:
         Tamaño tam=new Tamaño(this, true);
-        tam.setVisible(true);
         this.setVisible(false);
+        tam.setVisible(true);
     }//GEN-LAST:event_nuevaPartidaActionPerformed
 
     private void comoJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comoJugarActionPerformed

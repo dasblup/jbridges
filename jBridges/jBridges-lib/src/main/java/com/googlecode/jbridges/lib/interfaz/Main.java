@@ -7,13 +7,21 @@ package com.googlecode.jbridges.lib.interfaz;
 
 //import javax.swing.ImageIcon;
 
+import com.googlecode.jbridges.lib.Casilla;
 import com.googlecode.jbridges.lib.Coordenadas;
+import com.googlecode.jbridges.lib.Coordenadas2D;
 import com.googlecode.jbridges.lib.Isla;
+import com.googlecode.jbridges.lib.Sentido;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.TableroArray;
+import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
+import com.googlecode.jbridges.lib.excepciones.DireccionInvalidaException;
+import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
+import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
+import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.sql.Connection;
@@ -21,6 +29,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -118,13 +128,103 @@ public class Main {
 //        }
 //        System.out.println("Puente correcto?");
 //        System.out.println(puenteEncontrado);
+//-----------------------------------------------------------------
+FabricaDeProblemas fp;
+        Tablero problema;
+        FabricaDeSoluciones fs;
+        EstrategiaSolucion es;
+        List<Solucion> ss;
+        List<ElementoSolucion> solUsuario;
+        List <ElementoSolucion> sol;
 
-    FabricaDeProblemas miFabrica=FabricaDeProblemas.getInstancia();
-    Tablero problema = miFabrica.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
 
-    EstrategiaBackTrackingBasica ebb=new EstrategiaBackTrackingBasica ();
-    problema.borrarPuentes();
-    List <Solucion> soluciones=ebb.solucionar(problema);
-    System.out.println("Tamaño lista soluciones"+ soluciones.size());
-    }
+        fp = FabricaDeProblemas.getInstancia();
+        problema = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_DE_PRUEBA);
+        problema.borrarPuentes();
+        System.out.println(problema);
+
+        for(int i = 0; i<problema.getAnchura(); i++){
+            for(int j= 0; j<problema.getAltura(); j++){
+                Coordenadas coord=problema.getCoordenadas(i, j);
+                System.out.println("coordenadas: " + ((Coordenadas2D)coord).getX()+ ","+((Coordenadas2D)coord).getY());
+                Casilla c= problema.getCasilla(coord);
+                if(c instanceof Isla){
+                    Isla isla=(Isla)c;
+                    Coordenadas coo=isla.getCoord();
+                    System.out.println("coordenadas con getCoord: " + coo);
+                }
+            }
+        }
+//        es = new EstrategiaBackTrackingBasica();
+//
+//        ss = es.solucionar(problema);
+//
+//        if(!ss.isEmpty()){
+           
+//        }
+//        System.out.println("Tamaño lista soluciones:"+ ss.size());
+        // sol= (List<ElementoSolucion>) ss.get(0);
+      //  System.out.println("sol:"+ sol);
+
+//--------------------------------------------------------------------------
+
+
+
+//            int fila=2;
+//            int columna=4;
+//            int fila2=2;
+//            int columna2=2;
+//
+//            Coordenadas coordI=problema.getCoordenadas(fila, columna);
+//            Isla islaI=(Isla)problema.getCasilla(coordI);
+//            Coordenadas coordF=problema.getCoordenadas(fila2, columna2);
+//            Isla islaF=(Isla)problema.getCasilla(coordF);
+
+//            if (fila == fila2) {
+//
+//                        if (columna - columna2 < 0) {//La isla inicio esta a la izqda
+//                            try {
+//                                islaI.setPuente(islaF);
+//
+//                                System.out.println(problema);
+//                                int puentes = islaI.getPuentes(Sentido.ESTE);
+//                            } catch (PuenteProhibidoException ex) {
+//                                System.err.print("Puente Prohibido");
+//                            }
+//
+//
+//                        } else if (columna - columna2 > 0) {//La isla inicio esta a la dcha
+//                            try {
+//                                islaF.setPuente(islaI);
+//                                System.out.println(problema);
+//                                int puentes = islaI.getPuentes(Sentido.OESTE);
+//                                System.out.println("puentes: " + puentes);
+//                            } catch (PuenteProhibidoException ex) {
+//                                System.err.print("Puente Prohibido");
+//                            }
+//                        }
+//
+//                    } else if (columna == columna2) {
+//
+//                        if (fila < fila2) { // La isla inicio esta arriba
+//                            try {
+//                                islaI.setPuente(islaF);
+//                                System.out.println(problema);
+//                                int puentes = islaI.getPuentes(Sentido.SUR);
+//                            } catch (PuenteProhibidoException ex) {
+//                                System.err.print("Puente Prohibido");
+//                            }
+//
+//                        } else if (fila > fila2) {
+//                            try {
+//                                islaF.setPuente(islaI);
+//                                System.out.println(problema);
+//                                int puentes = islaI.getPuentes(Sentido.NORTE);
+//                            } catch (PuenteProhibidoException ex){
+//                                System.err.print("Puente Prohibido");
+//                            }
+//                        }
+//                    }
+ //               MetodosEstaticos.siguentePaso(solUsuario, sol, null, problema);
+                }
 }

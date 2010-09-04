@@ -11,11 +11,15 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import com.googlecode.jbridges.lib.Casilla;
 import com.googlecode.jbridges.lib.Configuracion;
 import com.googlecode.jbridges.lib.Coordenadas;
+import com.googlecode.jbridges.lib.Direccion;
 import com.googlecode.jbridges.lib.Isla;
+import com.googlecode.jbridges.lib.Puente;
 import com.googlecode.jbridges.lib.Sentido;
 import com.googlecode.jbridges.lib.Tablero;
+import com.googlecode.jbridges.lib.TipoPuente;
 import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
@@ -23,8 +27,16 @@ import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
 import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
 import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
+import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
@@ -33,7 +45,7 @@ import javax.swing.JTable;
  *
  * @author mdiazoli
  */
-public class TableroGrande extends javax.swing.JFrame {
+public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 
     private int fila;
     private int columna;
@@ -41,6 +53,7 @@ public class TableroGrande extends javax.swing.JFrame {
 
         FabricaDeProblemas fp;
         Tablero problema;
+        Tablero copiaProblema;
         FabricaDeSoluciones fs;
         EstrategiaSolucion es;
         List<Solucion> ss;
@@ -58,17 +71,33 @@ public class TableroGrande extends javax.swing.JFrame {
 
         fp = FabricaDeProblemas.getInstancia();
         problema = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+        copiaProblema=problema.copiaTablero();
         problema.borrarPuentes();
-        System.out.println(problema);
-//        es = new EstrategiaBackTrackingBasica();
+        
+        System.out.println("PROBLEMAAAAAAAAAA:"+problema);
+        System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
+        
+        es = new EstrategiaBackTrackingBasica();
+        problema.borrarPuentes();
+        ss = es.solucionar(problema);
+        //problema.borrarPuentes();
+        System.out.println("problema despues de solucionar: "+problema);
 //
-//        ss = es.solucionar(problema);
-//
-//        if(!ss.isEmpty()){
-//            sol= (List<ElementoSolucion>) ss.get(0);
-//        }
 //        System.out.println("Tamaño lista soluciones:"+ ss.size());
-
+//
+        sol=ss.get(0).solucion;
+//
+//        System.out.println("solucion wena:"+ sol);
+//
+//        System.out.println("num bt:"+ ss.get(0).iteracionBactracking);
+//        Font f2 = new Font("Tempus Sans ITC", Font.BOLD, 18);
+//        if(ss.get(0).iteracionBactracking==0){
+//            tipoNivel.setText("Fácil");
+//            tipoNivel.setFont(f2);
+//        }
+//        copiaProblema=problema;
+//        copiaProblema.borrarPuentes();
+//        System.out.println("copia problema vacio: " + copiaProblema);
         MetodosEstaticos.obtenerTablero(problema, jTable1);
         RenderTabla miRender = new RenderTabla();
         jTable1.setDefaultRenderer( Object.class, miRender);
@@ -76,6 +105,19 @@ public class TableroGrande extends javax.swing.JFrame {
         this.fila = -1;
         this.columna = -1;
         this.puntuacion=puntuacion;
+        solUsuario=new LinkedList<ElementoSolucion>();
+        System.out.println("solUsuario: " + solUsuario);
+        System.out.println("PROBLEMAAAAAAAAAA:"+problema);
+       System.out.println("copiaProblema, se supone k solo tiene islas:"+copiaProblema);
+
+        nuevaPartida.addActionListener(this);
+        guardar.addActionListener(this);
+        siguientePaso.addActionListener(this);
+        comprobar.addActionListener(this);
+        solucionar.addActionListener(this);
+        clasificacion.addActionListener(this);
+        salir.addActionListener(this);
+
     }
 
     public TableroGrande(JTable t){
@@ -85,6 +127,48 @@ public class TableroGrande extends javax.swing.JFrame {
         this.setVisible(true);
         this.fila = -1;
         this.columna = -1;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+       Object source = e.getSource();
+
+       if(source.getClass().getName().equals("javax.swing.JButton")){
+           if(source == nuevaPartida){
+               Tamaño t=new Tamaño(this, true);
+               this.setVisible(false);
+               t.setVisible(true);
+
+           }else if(source == guardar){
+
+           }else if (source == siguientePaso){
+                if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+                    ss = es.solucionar(problema);
+                    System.out.println("compara listas es FALSO y debe entra en siguiente paso");
+                    MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema);
+                }
+           }else if (source == comprobar) {
+               System.out.println("solUsuario: " + solUsuario);
+               System.out.println("sol: " + sol);
+               boolean iguales = MetodosEstaticos.comparaListas(solUsuario, sol);
+               System.out.println("iguales: " + iguales);
+           }else if(source == solucionar){
+               System.out.println("tablero con puentes puestos por el raton: " + problema);
+               if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+                   MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
+                   System.out.println("tablero despues de borrar puentes: " + problema);
+                   MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, copiaProblema);
+               }
+           }else if(source == clasificacion){
+
+           }else if(source == salir){
+                Guardar guardarPartida= new Guardar(this, true, problema);//CUIDADO CON LAS ISLAS ACTUALIZADAS DE PROBLEMA
+                guardarPartida.setVisible(true);
+                this.setVisible(false);
+           }
+       }
+
+
     }
     
     public class Cronometro implements Runnable {
@@ -390,7 +474,7 @@ public class TableroGrande extends javax.swing.JFrame {
                 if (fila == -1 || columna == -1) {
                     fila = jTable1.rowAtPoint(evt.getPoint());
                     columna = jTable1.columnAtPoint(evt.getPoint());
-                    
+
                 } else {
                     int fila2 = jTable1.rowAtPoint(evt.getPoint());
                     int columna2 = jTable1.columnAtPoint(evt.getPoint());
@@ -407,24 +491,31 @@ public class TableroGrande extends javax.swing.JFrame {
                             if (puenteD == 2) {
                                 for (int i = columna + 1; i < columna2; i++) {
                                     jTable1.setValueAt("borra", fila, i);
-                                try {
-                                    islaI.borrarPuente(islaF, false);
-                                } catch (PuenteProhibidoException ex) {}
+                                    try {
+                                        islaI.borrarPuente(islaF, true);
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        System.out.println("solUsuario: " + solUsuario);
+                                    } catch (PuenteProhibidoException ex) {}
                                 }
                             } else {
                                 try {
-                                    islaI.setPuente(islaF, false);
+                                    islaI.setPuente(islaF, true);
                                     System.out.println(problema);
+                                    System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
                                     int puentes = islaI.getPuentes(Sentido.ESTE);
                                     if (puentes == 1) {
                                         for (int i = columna + 1; i < columna2; i++) {
                                             jTable1.setValueAt("1PuenteH", fila, i);
                                         }
+
                                     } else if (puentes == 2) {
                                         for (int i = columna + 1; i < columna2; i++) {
                                             jTable1.setValueAt("2PuentesH", fila, i);
                                         }
                                     }
+                                    solUsuario.add(new ElementoSolucion(islaI, islaF));
+                                    System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                     System.err.print("Puente Prohibido");
                                 }
@@ -436,13 +527,17 @@ public class TableroGrande extends javax.swing.JFrame {
                                 for (int i = columna - 1; i > columna2; i--) {
                                     jTable1.setValueAt("borra", fila, i);
                                     try {
-                                        islaF.borrarPuente(islaI, false);
+                                        islaF.borrarPuente(islaI, true);
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        System.out.println("solUsuario: " + solUsuario);
                                     } catch (PuenteProhibidoException ex) {}
                                 }
                             } else {
                                 try {
-                                    islaF.setPuente(islaI, false);
+                                    islaF.setPuente(islaI, true);
                                     System.out.println(problema);
+                                    System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
                                     int puentes = islaI.getPuentes(Sentido.OESTE);
                                     if (puentes == 1) {
                                         for (int i = columna - 1; i > columna2; i--) {
@@ -453,12 +548,14 @@ public class TableroGrande extends javax.swing.JFrame {
                                             jTable1.setValueAt("2PuentesH", fila, i);
                                         }
                                     }
+                                    solUsuario.add(new ElementoSolucion(islaI, islaF));
+                                    System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                     System.err.print("Puente Prohibido");
                                 }
                             }
                         }
-                        
+
                         fila = -1;
                         columna = -1;
                     } else if (columna == columna2) {
@@ -469,13 +566,17 @@ public class TableroGrande extends javax.swing.JFrame {
                                 for (int i = fila + 1; i < fila2; i++) {
                                     jTable1.setValueAt("borra", i, columna);
                                     try {
-                                        islaI.borrarPuente(islaF, false);
+                                        islaI.borrarPuente(islaF, true);
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        System.out.println("solUsuario: " + solUsuario);
                                     } catch (PuenteProhibidoException ex) {}
                                 }
                             } else {
                                 try {
-                                    islaI.setPuente(islaF, false);
+                                    islaI.setPuente(islaF, true);
                                     System.out.println(problema);
+                                    System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
                                     int puentes = islaI.getPuentes(Sentido.SUR);
                                     if (puentes == 1) {
                                         for (int i = fila + 1; i < fila2; i++) {
@@ -486,6 +587,8 @@ public class TableroGrande extends javax.swing.JFrame {
                                             jTable1.setValueAt("2PuentesV", i, columna);
                                         }
                                     }
+                                    solUsuario.add(new ElementoSolucion(islaI, islaF));
+                                    System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                 }
                             }
@@ -496,13 +599,17 @@ public class TableroGrande extends javax.swing.JFrame {
                                 for (int i = fila - 1; i > fila2; i--) {
                                     jTable1.setValueAt("borra", i, columna);
                                     try {
-                                        islaF.borrarPuente(islaI, false);
+                                        islaF.borrarPuente(islaI, true);
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        solUsuario.remove(new ElementoSolucion(islaI, islaF));
+                                        System.out.println("solUsuario: " + solUsuario);
                                     } catch (PuenteProhibidoException ex) {}
                                 }
                             } else {
                                 try {
-                                    islaF.setPuente(islaI, false);
+                                    islaF.setPuente(islaI, true);
                                     System.out.println(problema);
+                                    System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
                                     int puentes = islaI.getPuentes(Sentido.NORTE);
                                     if (puentes == 1) {
                                         for (int i = fila - 1; i > fila2; i--) {
@@ -513,6 +620,8 @@ public class TableroGrande extends javax.swing.JFrame {
                                             jTable1.setValueAt("2PuentesV", i, columna);
                                         }
                                     }
+                                    solUsuario.add(new ElementoSolucion(islaI, islaF));
+                                    System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                 }
                             }
@@ -529,6 +638,7 @@ public class TableroGrande extends javax.swing.JFrame {
                 fila=-1;
                 columna=-1;
             }
+
  //       }
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -568,11 +678,43 @@ public class TableroGrande extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_comprobarActionPerformed
 
+
+
     private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed
         // TODO add your handling code here:
 //        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-//            MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
+//            MetodosEstaticos.borrarPuentes(copiaProblema, jTable1, solUsuario);
 //            MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
+//        }
+//        Casilla c;
+//        Coordenadas coord;
+//        Puente p;
+//
+//        for (int i = 0; i < problema.getAnchura(); i++) {
+//            for (int j = 0; j < problema.getAltura(); j++) {
+//                coord = problema.getCoordenadas(i, j);
+//                c = problema.getCasilla(coord);
+//                if (c instanceof Puente) {
+//                    p=(Puente)c;
+//                    if (p.getTipo() == TipoPuente.SIMPLE) {
+//                        if (p.getDireccion() == Direccion.HORIZONTAL) {
+//                            jTable1.setValueAt("1PuenteH", i, j);
+//                        } else {
+//                            jTable1.setValueAt("1PuenteV", i, j);
+//                        }
+//                    } else {
+//                        if (p.getDireccion() == Direccion.HORIZONTAL) {
+//                            jTable1.setValueAt("2PuentesH", i, j);
+//                        } else {
+//                            jTable1.setValueAt("2PuentesV", i, j);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        solUsuario.clear();
+//        solUsuario.addAll(sol);
 //        }
     }//GEN-LAST:event_solucionarActionPerformed
 
@@ -611,6 +753,6 @@ public class TableroGrande extends javax.swing.JFrame {
     private javax.swing.JLabel tipoTamaño;
     // End of variables declaration//GEN-END:variables
 
-    
+   
 
 }

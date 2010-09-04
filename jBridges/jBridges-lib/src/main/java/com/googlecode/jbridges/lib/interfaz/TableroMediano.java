@@ -66,15 +66,15 @@ public class TableroMediano extends javax.swing.JFrame {
 
         fp = FabricaDeProblemas.getInstancia();
         problema = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
-        problema.borrarPuentes();
-        es = new EstrategiaBackTrackingBasica();
-
-        ss = es.solucionar(problema);
-
-        if(!ss.isEmpty()){
-            sol= (List<ElementoSolucion>) ss.get(0);
-        }
-        System.out.println("Tamaño lista soluciones:"+ ss.size());
+//        problema.borrarPuentes();
+//        es = new EstrategiaBackTrackingBasica();
+//
+//        ss = es.solucionar(problema);
+//
+//        if(!ss.isEmpty()){
+//            sol= (List<ElementoSolucion>) ss.get(0);
+//        }
+//        System.out.println("Tamaño lista soluciones:"+ ss.size());
 
 
         MetodosEstaticos.obtenerTablero(problema, jTable1);
@@ -661,6 +661,9 @@ public class TableroMediano extends javax.swing.JFrame {
 //                        e.setVisible(true);
 //                    }
                 }
+            }else{
+                fila=-1;
+                columna=-1;
             }
  //       }
 
