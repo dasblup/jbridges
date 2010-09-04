@@ -38,8 +38,9 @@ public class ElementoSolucion implements Cloneable {
         public boolean equals(Object obj){
             boolean iguales= false;
             ElementoSolucion el=(ElementoSolucion) obj;
-            if((this.inicio.equals(el.inicio)||this.inicio.equals(el.fin))&&(this.fin.equals(el.inicio)||this.fin.equals(el.fin))){
+            if((this.inicio.equals(el.inicio)&&this.fin.equals(el.fin))||(this.fin.equals(el.inicio)&&this.inicio.equals(el.fin))){
                 iguales=true;
+
             }
             return iguales;
         }
