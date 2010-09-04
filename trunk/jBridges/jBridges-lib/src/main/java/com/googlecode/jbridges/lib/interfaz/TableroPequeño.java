@@ -685,6 +685,9 @@ public class Cronometro implements Runnable {
 //                        e.setVisible(true);
 //                    }
                 }
+            }else{
+                fila=-1;
+                columna=-1;
             }
  //       }
 

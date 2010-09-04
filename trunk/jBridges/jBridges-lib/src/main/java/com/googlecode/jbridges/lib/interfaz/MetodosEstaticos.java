@@ -9,15 +9,29 @@ import com.googlecode.jbridges.lib.Agua;
 import com.googlecode.jbridges.lib.Casilla;
 import com.googlecode.jbridges.lib.Coordenadas;
 import com.googlecode.jbridges.lib.Coordenadas2D;
+import com.googlecode.jbridges.lib.Direccion;
 import com.googlecode.jbridges.lib.Isla;
+import com.googlecode.jbridges.lib.Puente;
+import com.googlecode.jbridges.lib.Sentido;
 import com.googlecode.jbridges.lib.Tablero;
+import com.googlecode.jbridges.lib.TableroArray;
+import com.googlecode.jbridges.lib.TipoPuente;
+import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
+import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
+import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.soluciones.ElementoSolucion;
+import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /**
@@ -26,6 +40,28 @@ import javax.swing.JTable;
  */
 public class MetodosEstaticos {
 //
+    public static Tablero copiaTablero(Tablero problema){
+        TableroArray copia=new TableroArray();
+
+        for(int i=0;i<problema.getAltura();i++){
+            for(int j=0;j<problema.getAnchura();j++){
+                Coordenadas coord;
+                coord=problema.getCoordenadas(i, j);
+                Casilla casilla=problema.getCasilla(coord);
+                if(casilla instanceof Isla){
+                    Isla isla=(Isla)casilla;
+                    try {
+                        //                    int n=isla.getN();
+                        //                    isla.setN(n);
+                        copia.setIsla(coord);
+                    } catch (CasillaOcupadaException ex) {}
+
+                }
+            }
+        }
+        return copia;
+    }
+
     public static void obtenerTablero(Tablero problema, JTable jTable1){
 
         for(int i=0;i<problema.getAltura();i++){
@@ -43,99 +79,54 @@ public class MetodosEstaticos {
     }
 
     public static void obtenerSolucion(List<ElementoSolucion> sol, List<ElementoSolucion> solUsuario, JTable jTable1, Tablero problema) {
-        EstrategiaBackTrackingBasica ebb = new EstrategiaBackTrackingBasica();
-        //sol = ebb.solucionar(problema);
-        sol = ebb.solucionar(problema).get(0).solucion;
-        ElementoSolucion el;
-        Iterator it = sol.iterator();
-        //recorrer la lista de solucion y por cada ElementoSolucion, poner el puente entre esas islas o el doble puente en el
-        //caso de que ya haya uno
-        while (it.hasNext()) {
-            el = (ElementoSolucion) it.next();
-            Coordenadas coordInicio = el.inicio.getCoord();
-            Coordenadas coordFin = el.fin.getCoord();
-            if (((Coordenadas2D)coordInicio).getX() == ((Coordenadas2D)coordFin).getX()) {
-                if (((Coordenadas2D)coordInicio).getY() < ((Coordenadas2D)coordFin).getY()) {
-                    for (int j = ((Coordenadas2D)coordInicio).getY() + 1; j < ((Coordenadas2D)coordFin).getY(); j++) {
-                        if (jTable1.getValueAt(((Coordenadas2D)coordFin).getX(), j).equals("1PuenteH")) {
-                            jTable1.setValueAt("2PuentesH", ((Coordenadas2D)coordInicio).getX(), j);
+        
+        Iterator it=sol.iterator();
+        ElementoSolucion el=null;
+        Isla inicio=null;
+        Isla fin=null;
+        Set s=new HashSet();
+        while(it.hasNext()){
+            el=(ElementoSolucion)it.next();
+            inicio=el.inicio;
+            fin=el.fin;
+
+//            if(s.add(el)){//El elemento es la primera vez que aparece, ponemos puente simple
+//                if (inicio. == fila2) {
+//            }else{//Ya hemos puesto un puente simple, ahora ponemos uno doble
+//
+//            }
+        }
+
+        Casilla c;
+        Coordenadas coord;
+        Puente p;
+        for (int i = 0; i < problema.getAnchura(); i++) {
+            for (int j = 0; j < problema.getAltura(); j++) {
+                coord = problema.getCoordenadas(i, j);
+                c = problema.getCasilla(coord);
+                if (c instanceof Puente) {
+                    p=(Puente)c;
+                    if (p.getTipo() == TipoPuente.SIMPLE) {
+                        if (p.getDireccion() == Direccion.HORIZONTAL) {
+                            jTable1.setValueAt("1PuenteH", i, j);
                         } else {
-                            jTable1.setValueAt("1PuenteH", ((Coordenadas2D)coordInicio).getX(), j);
+                            jTable1.setValueAt("1PuenteV", i, j);
                         }
-                    }
-                } else if (((Coordenadas2D)coordInicio).getY() > ((Coordenadas2D)coordFin).getY()) {
-                    for (int j = ((Coordenadas2D)coordFin).getY() + 1; j < ((Coordenadas2D)coordInicio).getY(); j++) {
-                        if (jTable1.getValueAt(((Coordenadas2D)coordInicio).getX(), j).equals("1PuenteH")) {
-                            jTable1.setValueAt("2PuentesH", ((Coordenadas2D)coordInicio).getX(), j);
+                    } else {
+                        if (p.getDireccion() == Direccion.HORIZONTAL) {
+                            jTable1.setValueAt("2PuentesH", i, j);
                         } else {
-                            jTable1.setValueAt("1PuenteH", ((Coordenadas2D)coordInicio).getX(), j);
-                        }
-                    }
-                }
-            } else if (((Coordenadas2D)coordInicio).getY() == ((Coordenadas2D)coordFin).getY()) {
-                if (((Coordenadas2D)coordInicio).getX() < ((Coordenadas2D)coordFin).getX()) {
-                    for (int i = ((Coordenadas2D)coordInicio).getX() + 1; i < ((Coordenadas2D)coordFin).getX(); i++) {
-                        if (jTable1.getValueAt(i, ((Coordenadas2D)coordInicio).getY()).equals("1PuenteV")) {
-                            jTable1.setValueAt("2PuentesV", i, ((Coordenadas2D)coordInicio).getY());
-                        } else {
-                            jTable1.setValueAt("1PuenteV", i, ((Coordenadas2D)coordInicio).getY());
-                        }
-                    }
-                } else if (((Coordenadas2D)coordInicio).getX() > ((Coordenadas2D)coordFin).getX()) {
-                    for (int i = ((Coordenadas2D)coordFin).getX() + 1; i < ((Coordenadas2D)coordInicio).getX(); i++) {
-                        if (jTable1.getValueAt(i, ((Coordenadas2D)coordInicio).getY()).equals("1PuenteV")) {
-                            jTable1.setValueAt("2PuentesV", i, ((Coordenadas2D)coordInicio).getY());
-                        } else {
-                            jTable1.setValueAt("1PuenteV", i, ((Coordenadas2D)coordInicio).getY());
+                            jTable1.setValueAt("2PuentesV", i, j);
                         }
                     }
                 }
             }
-            solUsuario.clear();
-            solUsuario.addAll(sol);
         }
-
+        solUsuario.clear();
+        solUsuario.addAll(sol);
     }
 
-////    public static void siguentePaso_mal(List<ElementoSolucion> solUsuario, List<ElementoSolucion> sol, JTable jTable1) {
-////
-////        //Si la solucion que está formando el usuario es correcta, la pista será un nuevo puente, en caso contrario,
-////        //la pista será indicar uno de los puentes incorrectos
-////
-////        Iterator itUsuario = solUsuario.iterator();
-////        Iterator it = sol.iterator();
-////        boolean encontrado=false;
-////
-////        if(sol.containsAll(solUsuario)){
-////            //Dar una pista.  Buscar un elemento de sol que no esté en solUsuario
-////            while(it.hasNext()){
-////                ElementoSolucion el=(ElementoSolucion) it.next();
-////                while(itUsuario.hasNext() && !encontrado){
-////                    ElementoSolucion elUsuario=(ElementoSolucion)itUsuario.next();
-////                    if(el.equals(elUsuario)){
-////                        encontrado=true;
-////                    }
-////                }
-////                if(!encontrado){
-////                    Coordenadas2D coordInicio=el.inicio.getCoordenadas();
-////                    Coordenadas2D coordFin=el.fin.getCoordenadas();
-////                    MetodosEstaticos.dibujaPuenteErroneo(jTable1, coordInicio, coordFin);
-////                }
-////
-////            }
-////        }else{
-////            //Buscar el primero que esté mal y dibujarlo
-////            List<ElementoSolucion> copiaSol=new LinkedList<ElementoSolucion>();
-////            copiaSol.addAll(sol);
-////            copiaSol.removeAll(solUsuario);
-////            ElementoSolucion pista=copiaSol.get(0);
-////            Coordenadas2D coordInicio=pista.inicio.getCoordenadas();
-////            Coordenadas2D coordFin=pista.fin.getCoordenadas();
-////            MetodosEstaticos.dibujaPuenteErroneo(jTable1, coordInicio, coordFin);
-////        }
-////
-////    }
-//
+
     public static void accionRaton(MouseEvent evt, JTable jTable1, Tablero problema, int fila, int columna) {//(MouseEvent evt, JTable jTable1, Tablero problema, int fila, int columna, List<ElementoSolucion> solUsuario,
 //            List<ElementoSolucion> sol, Frame parent, int puntuacion)
 
@@ -546,7 +537,7 @@ public class MetodosEstaticos {
         }
     }
 
-    public static void siguentePaso(List<ElementoSolucion> solUsuario, List<ElementoSolucion> sol, JTable jTable1, Tablero problema) {
+    public static void siguentePaso_mal(List<ElementoSolucion> solUsuario, List<ElementoSolucion> sol, JTable jTable1, Tablero problema) {
 
         //Si la solucion que está formando el usuario es correcta, la pista será un nuevo puente, en caso contrario,
         //la pista será indicar uno de los puentes incorrectos
@@ -601,51 +592,56 @@ public class MetodosEstaticos {
         }
     }
 
-    public static boolean comparaListas(List<ElementoSolucion> l1, List<ElementoSolucion> l2){
+    public static boolean comparaListas(List<ElementoSolucion> l1, List<ElementoSolucion> l2) {
 
         //Este método se utiliza para deshabilitar algunos botones cuando el usuario ya haya encontrado la solucion
 
-        boolean iguales=true;
-        boolean enc=false;
+        boolean iguales = true;
+        boolean enc = false;
 
-        if(l1.size()!=l2.size()){
-            iguales=false;
-        }else{
-            Iterator it1=l1.iterator();
-            List<ElementoSolucion> copiaL2=new LinkedList<ElementoSolucion>();
-            copiaL2.addAll(l2);
-            Iterator it2=copiaL2.iterator();
+        if (l1.size() != l2.size()) {
+            iguales = false;
+        } else {
+            if (!l1.isEmpty() && !l2.isEmpty()) {
+                Iterator it1 = l1.iterator();
+                List<ElementoSolucion> copiaL2 = new LinkedList<ElementoSolucion>();
+                copiaL2.addAll(l2);
+                Iterator it2 = copiaL2.iterator();
 
-            while(it1.hasNext() && iguales){
-                ElementoSolucion el1=(ElementoSolucion)it1.next();
-                while(it2.hasNext() && !enc){
-                    ElementoSolucion el2=(ElementoSolucion)it2.next();
-                    if(el1.equals(el2)){
-                        copiaL2.remove(el2);
-                        enc=true;
+                while (it1.hasNext() && iguales) {
+                    ElementoSolucion el1 = (ElementoSolucion) it1.next();
+                    while (it2.hasNext() && !enc) {
+                        ElementoSolucion el2 = (ElementoSolucion) it2.next();
+                        if (el1.equals(el2)) {
+                            copiaL2.remove(el2);
+                            enc = true;
+                        }
+                    }
+                    if (!enc) {
+                        iguales = false;
                     }
                 }
-                if(!enc){
-                    iguales=false;
-                }
             }
-      }
-          return iguales;
+        }
+        return iguales;
     }
 
     public static void borrarPuentes(Tablero problema, JTable jTable1, List<ElementoSolucion> solUsuario){
         //Recorrer la tabla y borrar todos lo puentes que habia,
         //ademas borrar la lista de solución que estaba creando el usuario
+        System.out.println("problema con el que se entra a borrar puentes: " + problema);
         for(int i=0;i<problema.getAltura();i++){
             for(int j=0;j<problema.getAnchura();j++){
                 Coordenadas coord;
                 coord=problema.getCoordenadas(i, j);
                 Casilla casilla=problema.getCasilla(coord);
-                if (casilla instanceof Agua){
+                if (casilla instanceof Puente){
+                    problema.borraCasilla(i, j);
                     jTable1.setValueAt("borra", i, j);
                 }
             }
         }
+        problema.borrarPuentes();
         solUsuario.clear();
     }
 
@@ -702,5 +698,277 @@ public class MetodosEstaticos {
         return nuevo;
     }
     
+    public static void siguentePaso(List<ElementoSolucion> solUsuario, List<ElementoSolucion> sol, JTable jTable1, Tablero problema) {
 
+        //Si la solucion que está formando el usuario es correcta, la pista será un nuevo puente, en caso contrario,
+        //la pista será indicar uno de los puentes incorrectos
+        System.out.println("entra en siguiente paso");
+        LinkedList<ElementoSolucion> copiaSol = new LinkedList<ElementoSolucion>();
+        LinkedList<ElementoSolucion> copiaUsuario = new LinkedList<ElementoSolucion>();
+        copiaSol.addAll(sol);
+        copiaUsuario.addAll(solUsuario);
+        System.out.println("sol: " + sol);
+        System.out.println("solUsuario: " + solUsuario);
+        System.out.println("copiaSol: " + copiaSol);
+        System.out.println("copiaUsuario: " + copiaUsuario);
+
+        Iterator itUsuario = solUsuario.iterator();
+        Iterator itCopia = copiaSol.iterator();
+        boolean encontrado = false;
+
+        System.out.println("itUsuario tiene next?" + itUsuario.hasNext());
+        while (itUsuario.hasNext() && !encontrado) {
+            ElementoSolucion elUsuario = (ElementoSolucion) itUsuario.next();
+            while (itCopia.hasNext() && !encontrado) {
+                ElementoSolucion elCopia = (ElementoSolucion) itCopia.next();
+                if (elUsuario.equals(elCopia)) {
+                    encontrado = true;
+                    copiaSol.remove(elCopia);
+                }
+            }
+            //El elemento de solUsuario que estamos tratando no está en copiaSol-> mostrarlo como pista
+            if (!encontrado) {
+                System.out.println("El elemento de solUsuario que estamos tratando no está en copiaSol");
+                Coordenadas coordInicio = elUsuario.inicio.getCoordenadas();
+                Coordenadas coordFin = elUsuario.fin.getCoordenadas();
+                System.out.println("cojo coordenadas");
+                System.out.println("coordenadaXInicio: " + ((Coordenadas2D)coordInicio).getX());
+                System.out.println("coordenadaYInicio: " + ((Coordenadas2D)coordInicio).getY());
+                MetodosEstaticos.dibujaPuente_nuevo(jTable1, coordInicio, coordFin, 1, solUsuario, problema);
+            }
+            System.out.println("encontrado: "+encontrado);
+        }
+        if(solUsuario.isEmpty() ){
+             System.out.println("Ahora entra por primera vez");
+             Isla inicio = sol.get(0).inicio;
+             Isla fin = sol.get(0).fin;
+             Coordenadas coordInicio=inicio.getCoordenadas();
+             Coordenadas coordFin=fin.getCoordenadas();
+             System.out.println("cojo coordenadas");
+             System.out.println("coordenadaXInicio: " + ((Coordenadas2D)coordInicio).getX());
+             System.out.println("coordenadaYInicio: " + ((Coordenadas2D)coordInicio).getY());
+             MetodosEstaticos.dibujaPuente_nuevo(jTable1, coordInicio, coordFin, 1, solUsuario, problema);
+        }else if(encontrado){
+            encontrado=false;
+            System.out.println("copiasol, despues de borrar: "+copiaSol);
+            while (itCopia.hasNext() && !encontrado) {
+            ElementoSolucion elCopia = (ElementoSolucion) itCopia.next();
+            while (itUsuario.hasNext() && !encontrado) {
+                ElementoSolucion elCopiaUsuario = (ElementoSolucion) itUsuario.next();
+                if (elCopia.equals(elCopiaUsuario)) {
+                    encontrado = true;
+                    copiaUsuario.remove(elCopia);
+                }
+            }
+            //El elemento de solUsuario que estamos tratando no está en copiaSol-> mostrarlo como pista
+            if (!encontrado) {
+                System.out.println("El elemento de solUsuario que estamos tratando no está en copiaSol");
+                Coordenadas coordInicio = elCopia.inicio.getCoordenadas();
+                Coordenadas coordFin = elCopia.fin.getCoordenadas();
+                System.out.println("cojo coordenadas");
+                System.out.println("coordenadaXInicio: " + ((Coordenadas2D)coordInicio).getX());
+                System.out.println("coordenadaYInicio: " + ((Coordenadas2D)coordInicio).getY());
+                MetodosEstaticos.dibujaPuente_nuevo(jTable1, coordInicio, coordFin, 1, solUsuario, problema);
+            }
+        }
+        }
+        
+
+        //La solucion del usuario es correcta-> buscar un puente de sol que no esté en solUsuario
+        if (encontrado) {
+            List<ElementoSolucion> copiaSolUsuario = new LinkedList<ElementoSolucion>();
+            copiaSolUsuario.addAll(solUsuario);
+            Iterator itSol = sol.iterator();
+            Iterator itCopiaSolUsuario = copiaSolUsuario.iterator();
+            boolean enc = false;
+
+            while (itSol.equals(sol)) {
+                ElementoSolucion el = (ElementoSolucion) itSol.next();
+                while (itCopiaSolUsuario.hasNext() && !enc) {
+                    ElementoSolucion elCopiaUsu = (ElementoSolucion) itCopiaSolUsuario.next();
+                    if (el.equals(elCopiaUsu)) {
+                        enc = true;
+                        copiaSolUsuario.remove(elCopiaUsu);
+                    }
+                }
+                if (!enc) {
+                    Coordenadas coordI = el.inicio.getCoord();
+                    Coordenadas coordF = el.fin.getCoord();
+                    MetodosEstaticos.dibujaPuente(jTable1, coordI, coordF, 2, solUsuario, problema);
+                }
+            }
+        }
+    }
+
+        public static void dibujaPuente_nuevo(JTable jTable1, Coordenadas coordInicio, Coordenadas coordFin, int n, List<ElementoSolucion> solUsuario,
+            Tablero problema){
+        //Falta construir solUsuario
+            System.out.println("problema con el k entro a dibuja puentes: " + problema);
+
+        if (n == 1) {//Puente Pista
+            System.out.println("Entro en dibujapuente como pista") ;
+            Isla inicio=(Isla)problema.getCasilla(coordInicio);
+            Isla fin=(Isla)problema.getCasilla(coordFin);
+            int inicioX=((Coordenadas2D) coordInicio).getX();
+            int inicioY=((Coordenadas2D) coordInicio).getY();
+            int finX=((Coordenadas2D) coordFin).getX();
+            int finY=((Coordenadas2D) coordFin).getY();
+            System.out.println("coordInicio.x:" + inicioX) ;
+            System.out.println("coordInicio.y:" +inicioY) ;
+            System.out.println("coordFin.x:" +finX) ;
+            System.out.println("coordFin.y:" +finY) ;
+
+            if ( inicioX == finX) {//((Coordenadas2D) coordInicio).getX() == ((Coordenadas2D) coordFin).getX()
+                System.out.println("estan en la misma fila" );
+                if (inicioY < finY) {//Inicio esta a la izqda
+                    System.out.println("entro en la isla incio esta a la izqda");
+                    int puentes = inicio.getPuentes(Sentido.ESTE);
+
+                    if(puentes == 2){
+//                        try{
+//                            inicio.setPuente(fin, true);
+                            solUsuario.add(new ElementoSolucion(inicio, fin));
+                            solUsuario.add(new ElementoSolucion(inicio, fin));
+                            for (int j = inicioY+1; j < finY; j++) {
+                                jTable1.setValueAt("2PuentesH_Pista", inicioX, j);
+                            }
+//                        }catch (PuenteProhibidoException e){
+//                        }
+                    }else if(puentes == 1){
+//                        try{
+//                            inicio.setPuente(fin, true);
+                            solUsuario.add(new ElementoSolucion(inicio, fin));
+                            for (int j = inicioY+1; j < finY; j++) {
+                                jTable1.setValueAt("1PuenteH_Pista", inicioX, j);
+                            }
+//                        }catch (PuenteProhibidoException e){
+//                        }
+
+                    }
+
+                } else if (finY < inicioY) {
+                    System.out.println("entro en la isla incio esta a la dcha");
+                    int puentes = inicio.getPuentes(Sentido.OESTE);
+
+                    if(puentes == 2){
+//                        try{
+//                            fin.setPuente(inicio, true);
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            for (int j = finY+1; j < inicioY; j++) {
+                                jTable1.setValueAt("2PuentesH_Pista", inicioX, j);
+                            }
+//                        }catch (PuenteProhibidoException e){
+//                        }
+                    }else if (puentes == 1){
+//                        try{
+//                            fin.setPuente(inicio, true);
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            for (int j = finY+1; j < inicioY; j++) {
+                                jTable1.setValueAt("1PuenteH_Pista", inicioX, j);
+                            }
+//                        }catch(PuenteProhibidoException e){
+//                        }
+                    }
+                }
+            } else if (inicioY == finY) {
+                System.out.println("estan en la misma columna: " );
+                if (inicioX < finX) {//Inicio esta arriba
+                    System.out.println("entro en la isla incio esta arriba");
+                    int puentes = inicio.getPuentes(Sentido.SUR);
+                    if(puentes == 2){
+//                        try{
+//                            inicio.setPuente(fin, true);
+                            solUsuario.add(new ElementoSolucion(inicio, fin));
+                            solUsuario.add(new ElementoSolucion(inicio, fin));
+                            for (int i = inicioX+1; i < finX; i++) {
+                                jTable1.setValueAt("2PuentesV_Pista", i, finY);
+                            }
+//                        }catch (PuenteProhibidoException e){
+//                        }
+                    }else if (puentes == 1){
+//                        try{
+//                            inicio.setPuente(fin, true);
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            for (int i = inicioX+1; i < finX; i++) {
+                                jTable1.setValueAt("1PuenteV_Pista", i, inicioY);//ponia X
+                            }
+//                        }catch(PuenteProhibidoException e){
+//                        }
+                    }
+                } else if (finX < inicioX) {
+                    System.out.println("entro en la isla incio esta aabajo");
+                    int puentes = inicio.getPuentes(Sentido.NORTE);
+                    if(puentes == 2){
+//                        try{
+//                            fin.setPuente(inicio, true);
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            for (int i = finX+1; i < inicioX; i++) {
+                                jTable1.setValueAt("2PuentesV_Pista", i, inicioY);
+                            }
+//                        }catch (PuenteProhibidoException e){
+//                        }
+                    }else if(puentes == 1){
+//                        try{
+//                            fin.setPuente(inicio, true);
+                            solUsuario.add(new ElementoSolucion(fin, inicio));
+                            for (int i = finX+1; i < inicioX; i++) {
+                                jTable1.setValueAt("1PuenteV_Pista", i, inicioY);//ponia X
+                            }
+//                        }catch (PuenteProhibidoException e){
+//                        }
+                    }
+
+                }
+            }
+        }else{//Puente Error
+                        if (((Coordenadas2D) coordInicio).getX() == ((Coordenadas2D) coordFin).getX()) {
+                if (((Coordenadas2D) coordInicio).getY() < ((Coordenadas2D) coordFin).getY()) {
+                    for (int j = ((Coordenadas2D) coordInicio).getY(); j < ((Coordenadas2D) coordFin).getY(); j++) {
+                        //si ya tiene un puente, lo pintamos doble
+                        if (jTable1.getValueAt(((Coordenadas2D) coordInicio).getX(), j).equals("1PuenteH_Error")) {
+                            jTable1.setValueAt("2PuentesH_Error", ((Coordenadas2D) coordInicio).getX(), j);
+                        }else if (jTable1.getValueAt(((Coordenadas2D) coordInicio).getX(), j).equals("2PuentesH")){
+                            jTable1.setValueAt("2PuentesH_1Error", ((Coordenadas2D) coordInicio).getX(), j);
+                        }else {
+                            jTable1.setValueAt("1PuentesH_Error", ((Coordenadas2D) coordInicio).getX(), j);
+                        }
+                    }
+                } else if (((Coordenadas2D) coordFin).getY() < ((Coordenadas2D) coordInicio).getY()) {
+                    for (int j = ((Coordenadas2D) coordFin).getY(); j < ((Coordenadas2D) coordInicio).getY(); j++) {
+                        if (jTable1.getValueAt(((Coordenadas2D) coordInicio).getX(), j).equals("1PuenteH_Error")) {
+                            jTable1.setValueAt("2PuentesH_Error", ((Coordenadas2D) coordInicio).getX(), j);
+                        }else if (jTable1.getValueAt(((Coordenadas2D) coordInicio).getX(), j).equals("2PuentesH")){
+                            jTable1.setValueAt("2PuentesH_1Error", ((Coordenadas2D) coordInicio).getX(), j);
+                        }else {
+                            jTable1.setValueAt("1PuentesH_Error", ((Coordenadas2D) coordInicio).getX(), j);
+                        }
+                    }
+                }
+            } else if (((Coordenadas2D) coordInicio).getY() == ((Coordenadas2D) coordFin).getY()) {
+                if (((Coordenadas2D) coordInicio).getX() < ((Coordenadas2D) coordFin).getX()) {
+                    for (int i = ((Coordenadas2D) coordInicio).getX(); i < ((Coordenadas2D) coordFin).getX(); i++) {
+                        if (jTable1.getValueAt(i, ((Coordenadas2D) coordInicio).getY()).equals("1PuenteV_Error")) {
+                            jTable1.setValueAt("2PuentesV_Error", i, ((Coordenadas2D) coordInicio).getY());
+                        }else if (jTable1.getValueAt(i, ((Coordenadas2D) coordInicio).getY()).equals("2PuentesV")){
+                            jTable1.setValueAt("2PuentesV_1Error", i, ((Coordenadas2D) coordInicio).getY());
+                        }else {
+                            jTable1.setValueAt("1PuentesV_Error", i, ((Coordenadas2D) coordInicio).getX());
+                        }
+                    }
+                } else if (((Coordenadas2D) coordFin).getX() < ((Coordenadas2D) coordInicio).getX()) {
+                    for (int i = ((Coordenadas2D) coordFin).getX(); i < ((Coordenadas2D) coordInicio).getX(); i++) {
+                        if (jTable1.getValueAt(i, ((Coordenadas2D) coordInicio).getY()).equals("1PuenteV_Error")) {
+                            jTable1.setValueAt("2PuentesV_Error", i, ((Coordenadas2D) coordInicio).getY());
+                        }else if (jTable1.getValueAt(i, ((Coordenadas2D) coordInicio).getY()).equals("2PuentesV")){
+                            jTable1.setValueAt("2PuentesV_1Error", i, ((Coordenadas2D) coordInicio).getY());
+                        }else {
+                            jTable1.setValueAt("1PuentesV_Error", i, ((Coordenadas2D) coordInicio).getX());
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

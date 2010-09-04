@@ -11,6 +11,10 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author mdiazoli
@@ -34,6 +38,16 @@ public class Tamaño extends javax.swing.JDialog {
         buttonGroup1.add(mediano);
         buttonGroup1.add(grande);
     }
+
+
+
+        public void windowClosing( WindowEvent evt ) {
+               this.setVisible(false);
+        }
+
+
+
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
