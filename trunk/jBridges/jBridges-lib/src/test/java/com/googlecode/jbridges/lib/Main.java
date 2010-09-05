@@ -37,10 +37,14 @@ public class Main {
         List<Solucion> ss = es.solucionar(tablero);
 
         int i = 0;
+        if(ss.isEmpty()){
+           System.out.println("La lista soluciones esta vacia");
+        }else{
+             for (Solucion s : ss) {
 
-        for (Solucion s : ss) {
-            
-            System.out.print("Solucion " + ++i + ": " + s);
+                System.out.print("Solucion " + ++i + ": " + s);
+            }
         }
+        System.out.println("Tamaño lista soluciones:"+ ss.size());
     }
 }

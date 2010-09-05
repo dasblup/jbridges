@@ -26,7 +26,6 @@ public class Dificultad extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         buttonGroup1.add(baja);
-        buttonGroup1.add(media);
         buttonGroup1.add(alta);
         buttonGroup1.add(aleatoria);
         this.tam=tam;
@@ -46,7 +45,6 @@ public class Dificultad extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         baja = new javax.swing.JRadioButton();
-        media = new javax.swing.JRadioButton();
         alta = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         aleatoria = new javax.swing.JRadioButton();
@@ -66,15 +64,7 @@ public class Dificultad extends javax.swing.JDialog {
             }
         });
 
-        media.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18)); // NOI18N
-        media.setText("Media");
-        media.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mediaActionPerformed(evt);
-            }
-        });
-
-        alta.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18)); // NOI18N
+        alta.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
         alta.setText("Alta");
         alta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,7 +73,7 @@ public class Dificultad extends javax.swing.JDialog {
         });
 
         jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 0, 12));
-        jLabel2.setText("(En caso de elegir baja, media o alta, el resultado puede tardar unos segundos)");
+        jLabel2.setText("(En caso de elegir baja o alta, el resultado puede tardar unos segundos)");
 
         aleatoria.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
         aleatoria.setText("Aleatoria");
@@ -103,7 +93,6 @@ public class Dificultad extends javax.swing.JDialog {
                         .addGap(170, 170, 170)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(baja)
-                            .addComponent(media)
                             .addComponent(alta)
                             .addComponent(aleatoria)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -111,7 +100,7 @@ public class Dificultad extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,12 +112,10 @@ public class Dificultad extends javax.swing.JDialog {
                 .addGap(8, 8, 8)
                 .addComponent(baja)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(media)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(alta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(aleatoria)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         baja.getAccessibleContext().setAccessibleDescription("Baja");
@@ -150,20 +137,39 @@ public class Dificultad extends javax.swing.JDialog {
     private void bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaActionPerformed
         // TODO add your handling code here:
         puntuacion=puntuacion+15;
+        if(tam==1){
+            TableroPequeño tablero=new TableroPequeño(puntuacion, 1);
+            tablero.setLocationRelativeTo(null);
+            tablero.setVisible(true);
+            this.setVisible(false);
+        }else if(tam==2){
+            TableroMediano tablero=new TableroMediano(puntuacion, 1);
+            tablero.setLocationRelativeTo(null);
+            tablero.setVisible(true);
+            this.setVisible(false);
+        }else if(tam==3){
+            TableroGrande tablero=new TableroGrande(puntuacion, 1);
+            tablero.setLocationRelativeTo(null);
+            tablero.setVisible(true);
+            this.setVisible(false);
+        }
 }//GEN-LAST:event_bajaActionPerformed
 
     private void aleatoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aleatoriaActionPerformed
         // TODO add your handling code here:
         if(tam==1){
-            TableroPequeño tablero=new TableroPequeño(puntuacion);
+            TableroPequeño tablero=new TableroPequeño(puntuacion, 0);
+            tablero.setLocationRelativeTo(null);
             tablero.setVisible(true);
             this.setVisible(false);
         }else if(tam==2){
-            TableroMediano tablero=new TableroMediano(puntuacion);
+            TableroMediano tablero=new TableroMediano(puntuacion, 0);
+            tablero.setLocationRelativeTo(null);
             tablero.setVisible(true);
             this.setVisible(false);
         }else if(tam==3){
-            TableroGrande tablero=new TableroGrande(puntuacion);
+            TableroGrande tablero=new TableroGrande(puntuacion, 0);
+            tablero.setLocationRelativeTo(null);
             tablero.setVisible(true);
             this.setVisible(false);
         }
@@ -173,14 +179,25 @@ public class Dificultad extends javax.swing.JDialog {
 
     }//GEN-LAST:event_aleatoriaActionPerformed
 
-    private void mediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediaActionPerformed
-        // TODO add your handling code here:
-        puntuacion=puntuacion+40;
-    }//GEN-LAST:event_mediaActionPerformed
-
     private void altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaActionPerformed
         // TODO add your handling code here:
-        puntuacion=puntuacion+90;
+        puntuacion=puntuacion+50;
+        if(tam==1){
+            TableroPequeño tablero=new TableroPequeño(puntuacion, 2);
+            tablero.setLocationRelativeTo(null);
+            tablero.setVisible(true);
+            this.setVisible(false);
+        }else if(tam==2){
+            TableroMediano tablero=new TableroMediano(puntuacion, 2);
+            tablero.setLocationRelativeTo(null);
+            tablero.setVisible(true);
+            this.setVisible(false);
+        }else if(tam==3){
+            TableroGrande tablero=new TableroGrande(puntuacion, 2);
+            tablero.setLocationRelativeTo(null);
+            tablero.setVisible(true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_altaActionPerformed
 
     /**
@@ -208,7 +225,6 @@ public class Dificultad extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton media;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -14,8 +14,10 @@ import com.googlecode.jbridges.lib.Isla;
 import com.googlecode.jbridges.lib.Sentido;
 import com.googlecode.jbridges.lib.Tablero;
 import com.googlecode.jbridges.lib.TableroArray;
+import com.googlecode.jbridges.lib.excepciones.CasillaOcupadaException;
 import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
 import com.googlecode.jbridges.lib.excepciones.DireccionInvalidaException;
+import com.googlecode.jbridges.lib.excepciones.IslaNoEncontradaException;
 import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
@@ -24,6 +26,7 @@ import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
 import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
+import com.sun.org.apache.xpath.internal.operations.Equals;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -129,32 +132,32 @@ public class Main {
 //        System.out.println("Puente correcto?");
 //        System.out.println(puenteEncontrado);
 //-----------------------------------------------------------------
-FabricaDeProblemas fp;
-        Tablero problema;
-        FabricaDeSoluciones fs;
-        EstrategiaSolucion es;
-        List<Solucion> ss;
-        List<ElementoSolucion> solUsuario;
-        List <ElementoSolucion> sol;
-
-
-        fp = FabricaDeProblemas.getInstancia();
-        problema = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_DE_PRUEBA);
-        problema.borrarPuentes();
-        System.out.println(problema);
-
-        for(int i = 0; i<problema.getAnchura(); i++){
-            for(int j= 0; j<problema.getAltura(); j++){
-                Coordenadas coord=problema.getCoordenadas(i, j);
-                System.out.println("coordenadas: " + ((Coordenadas2D)coord).getX()+ ","+((Coordenadas2D)coord).getY());
-                Casilla c= problema.getCasilla(coord);
-                if(c instanceof Isla){
-                    Isla isla=(Isla)c;
-                    Coordenadas coo=isla.getCoord();
-                    System.out.println("coordenadas con getCoord: " + coo);
-                }
-            }
-        }
+//FabricaDeProblemas fp;
+//        Tablero problema;
+//        FabricaDeSoluciones fs;
+//        EstrategiaSolucion es;
+//        List<Solucion> ss;
+//        List<ElementoSolucion> solUsuario;
+//        List <ElementoSolucion> sol;
+//
+//
+//        fp = FabricaDeProblemas.getInstancia();
+//        problema = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_DE_PRUEBA);
+//        problema.borrarPuentes();
+//        System.out.println(problema);
+//
+//        for(int i = 0; i<problema.getAnchura(); i++){
+//            for(int j= 0; j<problema.getAltura(); j++){
+//                Coordenadas coord=problema.getCoordenadas(i, j);
+//                System.out.println("coordenadas: " + ((Coordenadas2D)coord).getX()+ ","+((Coordenadas2D)coord).getY());
+//                Casilla c= problema.getCasilla(coord);
+//                if(c instanceof Isla){
+//                    Isla isla=(Isla)c;
+//                    Coordenadas coo=isla.getCoord();
+//                    System.out.println("coordenadas con getCoord: " + coo);
+//                }
+//            }
+//        }
 //        es = new EstrategiaBackTrackingBasica();
 //
 //        ss = es.solucionar(problema);
@@ -226,5 +229,30 @@ FabricaDeProblemas fp;
 //                        }
 //                    }
  //               MetodosEstaticos.siguentePaso(solUsuario, sol, null, problema);
-                }
+        TableroArray t1 = new TableroArray();
+        t1.setDimension(10, 10);
+        TableroArray t2 = new TableroArray();
+        t2.setDimension(10, 10);
+        try {
+            t1.setIsla(t1.getCoordenadas(1, 1));
+            t1.setIsla(t1.getCoordenadas(2, 2));
+            t2.setIsla(t2.getCoordenadas(1, 1));
+            t2.setIsla(t2.getCoordenadas(2, 2));
+
+
+            Isla i1t1 = t1.getIsla(t1.getCoordenadas(1, 1));
+            Isla i2t1 = t1.getIsla(t1.getCoordenadas(2, 2));
+            Isla i1t2 = t2.getIsla(t2.getCoordenadas(1, 1));
+            Isla i2t2 = t2.getIsla(t2.getCoordenadas(2, 2));
+
+            ElementoSolucion es1 = new ElementoSolucion(i1t1, i2t1);
+            ElementoSolucion es2 = new ElementoSolucion(i1t2, i2t2);
+
+            boolean iguales=es1.equals(es2);
+            System.out.println("iguales:"+ iguales);
+         } catch (CasillaOcupadaException ex) {
+            Logger.getLogger(Equals.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IslaNoEncontradaException ine) {}
+    }
+                
 }

@@ -29,6 +29,9 @@ public abstract class Coordenadas2D implements Coordenadas, Serializable {
         return this.y;
     }
 
+    public void setX(Integer x){
+        x = x;
+    }
     public final Coordenadas clone() {
         Coordenadas2D clon;
 

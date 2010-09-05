@@ -11,15 +11,12 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
-import com.googlecode.jbridges.lib.Casilla;
+
 import com.googlecode.jbridges.lib.Configuracion;
 import com.googlecode.jbridges.lib.Coordenadas;
-import com.googlecode.jbridges.lib.Direccion;
 import com.googlecode.jbridges.lib.Isla;
-import com.googlecode.jbridges.lib.Puente;
 import com.googlecode.jbridges.lib.Sentido;
 import com.googlecode.jbridges.lib.Tablero;
-import com.googlecode.jbridges.lib.TipoPuente;
 import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
 import com.googlecode.jbridges.lib.problemas.Estrategias2D;
 import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
@@ -29,16 +26,11 @@ import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /**
@@ -49,7 +41,9 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 
     private int fila;
     private int columna;
-    private int puntuacion;
+    public int puntuacion;
+    Thread crono;
+    private int veces;
 
         FabricaDeProblemas fp;
         Tablero problema;
@@ -59,9 +53,10 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
         List<Solucion> ss;
         public List<ElementoSolucion> solUsuario;
         public List <ElementoSolucion> sol;
+        //LinkedList<ElementoSolucion> copiaSol = new LinkedList<ElementoSolucion>();
 
     /** Creates new form Plantilla */
-    public TableroGrande(int puntuacion) {
+    public TableroGrande(int puntuacion, int dificultad) {
 
         initComponents();
         new Cronometro();
@@ -74,14 +69,14 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
         copiaProblema=problema.copiaTablero();
         problema.borrarPuentes();
         
-        System.out.println("PROBLEMAAAAAAAAAA:"+problema);
-        System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
+        //System.out.println("PROBLEMAAAAAAAAAA:"+problema);
+        //System.out.println("copiaProblema que se supone k solo tiene islas:"+copiaProblema);
         
         es = new EstrategiaBackTrackingBasica();
         problema.borrarPuentes();
         ss = es.solucionar(problema);
-        //problema.borrarPuentes();
-        System.out.println("problema despues de solucionar: "+problema);
+        problema.borrarPuentes();
+        //System.out.println("problema despues de solucionar: "+problema);
 //
 //        System.out.println("Tamaño lista soluciones:"+ ss.size());
 //
@@ -89,26 +84,59 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 //
 //        System.out.println("solucion wena:"+ sol);
 //
-//        System.out.println("num bt:"+ ss.get(0).iteracionBactracking);
-//        Font f2 = new Font("Tempus Sans ITC", Font.BOLD, 18);
-//        if(ss.get(0).iteracionBactracking==0){
-//            tipoNivel.setText("Fácil");
-//            tipoNivel.setFont(f2);
-//        }
+        //System.out.println("num bt:"+ ss.get(0).iteracionBactracking);
+        
 //        copiaProblema=problema;
 //        copiaProblema.borrarPuentes();
 //        System.out.println("copia problema vacio: " + copiaProblema);
-        MetodosEstaticos.obtenerTablero(problema, jTable1);
-        RenderTabla miRender = new RenderTabla();
-        jTable1.setDefaultRenderer( Object.class, miRender);
+        Font f2 = new Font("Tempus Sans ITC", Font.BOLD, 18);
+        tipoNivel.setFont(f2);
 
+        if(dificultad==1){//Baja
+            if(ss.get(0).iteracionBactracking==0){//el problema generado tiene dificultad baja
+                MetodosEstaticos.obtenerTablero(problema, jTable1);
+                RenderTabla miRender = new RenderTabla();
+                jTable1.setDefaultRenderer( Object.class, miRender);
+                tipoNivel.setText("Bajo");
+            }else{
+                TableroGrande t=new TableroGrande(puntuacion, dificultad);
+                //t.setVisible(true);
+            }
+        }else if(dificultad==2){//Alta
+            if(ss.get(0).iteracionBactracking!=0){//el problema generado tiene dificultad alta
+                MetodosEstaticos.obtenerTablero(problema, jTable1);
+                RenderTabla miRender = new RenderTabla();
+                jTable1.setDefaultRenderer( Object.class, miRender);
+                tipoNivel.setText("Alto");
+            }else{
+                TableroGrande t=new TableroGrande(puntuacion, dificultad);
+                //t.setVisible(true);
+            }
+        } else if (dificultad == 0) {//Aleatoria
+            MetodosEstaticos.obtenerTablero(problema, jTable1);
+            RenderTabla miRender = new RenderTabla();
+            jTable1.setDefaultRenderer(Object.class, miRender);
+
+            if (ss.get(0).iteracionBactracking == 0) {
+                tipoNivel.setText("Bajo");
+                puntuacion=puntuacion+15;
+            } else {
+                tipoNivel.setText("Alto");
+                puntuacion=puntuacion+50;
+            }
+        }
+        num_puntos.setFont(f2);
+        num_puntos.setText("  "+puntuacion);
         this.fila = -1;
         this.columna = -1;
         this.puntuacion=puntuacion;
+        veces=0;
         solUsuario=new LinkedList<ElementoSolucion>();
+        
         System.out.println("solUsuario: " + solUsuario);
         System.out.println("PROBLEMAAAAAAAAAA:"+problema);
        System.out.println("copiaProblema, se supone k solo tiene islas:"+copiaProblema);
+       //copiaSol.addAll(sol);
 
         nuevaPartida.addActionListener(this);
         guardar.addActionListener(this);
@@ -117,6 +145,7 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
         solucionar.addActionListener(this);
         clasificacion.addActionListener(this);
         salir.addActionListener(this);
+        pista.addActionListener(this);
 
     }
 
@@ -130,31 +159,45 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-
-       Object source = e.getSource();
-
-       if(source.getClass().getName().equals("javax.swing.JButton")){
+      Object source = e.getSource();
+        if(source.getClass().getName().equals("javax.swing.JButton")){
            if(source == nuevaPartida){
                Tamaño t=new Tamaño(this, true);
                this.setVisible(false);
+               t.setLocationRelativeTo(null);
                t.setVisible(true);
 
            }else if(source == guardar){
 
            }else if (source == siguientePaso){
+
                 if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-                    ss = es.solucionar(problema);
-                    System.out.println("compara listas es FALSO y debe entra en siguiente paso");
-                    MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema);
+                    puntuacion=puntuacion-5;
+                    num_puntos.setText("  "+puntuacion);
+                    //System.out.println("compara listas es FALSO y debe entra en siguiente paso");
+                    MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema, this, puntuacion);
                 }
            }else if (source == comprobar) {
-               System.out.println("solUsuario: " + solUsuario);
-               System.out.println("sol: " + sol);
-               boolean iguales = MetodosEstaticos.comparaListas(solUsuario, sol);
-               System.out.println("iguales: " + iguales);
+
+              if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+                  puntuacion=puntuacion-3;
+                  num_puntos.setText("  "+puntuacion);
+                  if(MetodosEstaticos.comprobar_nuevo(solUsuario, sol, jTable1, problema)){
+                    SolParcialCorrecta spc=new SolParcialCorrecta(this, true);
+                    spc.setLocationRelativeTo(null);
+                    spc.setVisible(true);
+                  }else{
+                    SolParcialIncorrecta spi=new SolParcialIncorrecta(this, true);
+                    spi.setLocationRelativeTo(null);
+                    spi.setVisible(true);
+                  }
+              }
            }else if(source == solucionar){
+
                System.out.println("tablero con puentes puestos por el raton: " + problema);
                if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
+                   puntuacion=0;
+                   num_puntos.setText("  "+puntuacion);
                    MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
                    System.out.println("tablero despues de borrar puentes: " + problema);
                    MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, copiaProblema);
@@ -163,17 +206,21 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 
            }else if(source == salir){
                 Guardar guardarPartida= new Guardar(this, true, problema);//CUIDADO CON LAS ISLAS ACTUALIZADAS DE PROBLEMA
+                guardarPartida.setLocationRelativeTo(null);
                 guardarPartida.setVisible(true);
                 this.setVisible(false);
+
+           }else if(source == pista){
+               if(veces==0){
+                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos);
+               }
            }
        }
-
-
     }
     
     public class Cronometro implements Runnable {
 
-        Thread crono;
+        //Thread crono;
 
         public Cronometro() {
 
@@ -234,6 +281,9 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
         tipoNivel = new javax.swing.JLabel();
         tiempo = new javax.swing.JLabel();
         cronometro = new javax.swing.JLabel();
+        pista = new javax.swing.JButton();
+        puntos = new javax.swing.JLabel();
+        num_puntos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tablero Grande");
@@ -351,6 +401,19 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 
         cronometro.setText("jLabel7");
 
+        pista.setFont(new java.awt.Font("Croobie", 0, 18)); // NOI18N
+        pista.setText("Pista");
+        pista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pistaActionPerformed(evt);
+            }
+        });
+
+        puntos.setFont(new java.awt.Font("Bradley Hand ITC", 1, 24));
+        puntos.setText("Puntuacion:");
+
+        num_puntos.setText("jLabel8");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -366,35 +429,41 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                 .addGap(120, 120, 120)
                                 .addComponent(guardar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
-                                .addComponent(siguientePaso, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(101, 101, 101)
                                 .addComponent(nuevaPartida))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(105, 105, 105)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(clasificacion, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(solucionar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(comprobar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                                    .addComponent(clasificacion, javax.swing.GroupLayout.Alignment.LEADING)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(118, 118, 118)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(salir)
-                                        .addComponent(tiempo)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                                    .addComponent(comprobar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(118, 118, 118)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(puntos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(salir)
+                                            .addComponent(tiempo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cronometro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(48, 48, 48))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(133, 133, 133)
+                                .addComponent(pista))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(91, 91, 91)
+                                .addComponent(siguientePaso, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(280, 280, 280)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(num_puntos, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                .addGap(125, 125, 125)
                 .addComponent(tamaño)
-                .addGap(63, 63, 63)
+                .addGap(89, 89, 89)
                 .addComponent(tipoTamaño)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
+                .addGap(131, 131, 131)
                 .addComponent(nivel)
                 .addGap(78, 78, 78)
                 .addComponent(tipoNivel)
@@ -405,7 +474,7 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(nuevaPartida)
@@ -414,27 +483,36 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                         .addGap(18, 18, 18)
                         .addComponent(siguientePaso)
                         .addGap(18, 18, 18)
+                        .addComponent(pista)
+                        .addGap(19, 19, 19)
                         .addComponent(comprobar)
                         .addGap(18, 18, 18)
                         .addComponent(solucionar)
                         .addGap(18, 18, 18)
                         .addComponent(clasificacion)
-                        .addGap(26, 26, 26)
-                        .addComponent(salir)
-                        .addGap(57, 57, 57)
-                        .addComponent(tiempo)
                         .addGap(18, 18, 18)
-                        .addComponent(cronometro))
+                        .addComponent(salir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tiempo)
+                        .addGap(11, 11, 11)
+                        .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(puntos))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tipoTamaño)
-                    .addComponent(tipoNivel)
-                    .addComponent(nivel)
-                    .addComponent(tamaño))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tipoNivel)
+                            .addComponent(nivel)
+                            .addComponent(tipoTamaño)
+                            .addComponent(tamaño)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(num_puntos, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -461,7 +539,9 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 //       if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
 //            MetodosEstaticos.accionRaton(evt, jTable1, problema, fila, columna);
 //        }
-//        if (!MetodosEstaticos.comparaListas(solUsuario, sol)) {
+        int num=0;
+        boolean completado=false;
+        if (!MetodosEstaticos.comparaListas(solUsuario, sol)) {
             int f = jTable1.rowAtPoint(evt.getPoint());
             int c = jTable1.columnAtPoint(evt.getPoint());
             Coordenadas coord = problema.getCoordenadas(f, c);
@@ -508,11 +588,12 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                         for (int i = columna + 1; i < columna2; i++) {
                                             jTable1.setValueAt("1PuenteH", fila, i);
                                         }
-
+                                        num=1;
                                     } else if (puentes == 2) {
                                         for (int i = columna + 1; i < columna2; i++) {
                                             jTable1.setValueAt("2PuentesH", fila, i);
                                         }
+                                        num=2;
                                     }
                                     solUsuario.add(new ElementoSolucion(islaI, islaF));
                                     System.out.println("solUsuario: " + solUsuario);
@@ -520,7 +601,15 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                     System.err.print("Puente Prohibido");
                                 }
                             }
-
+                            if(MetodosEstaticos.compruebaPuente(new ElementoSolucion(islaI, islaF), sol, num)){
+                                    puntuacion=puntuacion+3;
+                            }else{
+                                    puntuacion=puntuacion-2;
+                            }
+                            //num_puntos.setText("  "+puntuacion);
+                            if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+                                            completado=true;
+                            }
                         } else if (columna - columna2 > 0) {//La isla inicio esta a la dcha
                             int puenteD = islaI.getPuentes(Sentido.OESTE);
                             if (puenteD == 2) {
@@ -543,16 +632,27 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                         for (int i = columna - 1; i > columna2; i--) {
                                             jTable1.setValueAt("1PuenteH", fila, i);
                                         }
+                                        num=1;
                                     } else if (puentes == 2) {
                                         for (int i = columna - 1; i > columna2; i--) {
                                             jTable1.setValueAt("2PuentesH", fila, i);
                                         }
+                                        num=2;
                                     }
                                     solUsuario.add(new ElementoSolucion(islaI, islaF));
                                     System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                     System.err.print("Puente Prohibido");
                                 }
+                            }
+                            if(MetodosEstaticos.compruebaPuente(new ElementoSolucion(islaI, islaF), sol, num)){
+                                    puntuacion=puntuacion+3;
+                            }else{
+                                    puntuacion=puntuacion-2;
+                            }
+                            //num_puntos.setText("  "+puntuacion);
+                            if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+                                            completado=true;
                             }
                         }
 
@@ -582,17 +682,27 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                         for (int i = fila + 1; i < fila2; i++) {
                                             jTable1.setValueAt("1PuenteV", i, columna);
                                         }
+                                        num=1;
                                     } else if (puentes == 2) {
                                         for (int i = fila + 1; i < fila2; i++) {
                                             jTable1.setValueAt("2PuentesV", i, columna);
                                         }
+                                        num=2;
                                     }
                                     solUsuario.add(new ElementoSolucion(islaI, islaF));
                                     System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                 }
                             }
-
+                            if(MetodosEstaticos.compruebaPuente(new ElementoSolucion(islaI, islaF), sol, num)){
+                                    puntuacion=puntuacion+3;
+                            }else{
+                                    puntuacion=puntuacion-2;
+                            }
+                            //num_puntos.setText("  "+puntuacion);
+                            if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+                                    completado=true;
+                            }
                         } else if (fila > fila2) {//La isla inicio esta abajo
                             int puenteD = islaI.getPuentes(Sentido.NORTE);
                             if (puenteD == 2) {
@@ -615,39 +725,50 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                         for (int i = fila - 1; i > fila2; i--) {
                                             jTable1.setValueAt("1PuenteV", i, columna);
                                         }
+                                        num=1;
                                     } else if (puentes == 2) {
                                         for (int i = fila - 1; i > fila2; i--) {
                                             jTable1.setValueAt("2PuentesV", i, columna);
                                         }
+                                        num=2;
                                     }
                                     solUsuario.add(new ElementoSolucion(islaI, islaF));
                                     System.out.println("solUsuario: " + solUsuario);
                                 } catch (PuenteProhibidoException ex) {
                                 }
                             }
+                            if(MetodosEstaticos.compruebaPuente(new ElementoSolucion(islaI, islaF), sol, num)){
+                                    puntuacion=puntuacion+3;
+                            }else{
+                                    puntuacion=puntuacion-2;
+                            }
+                            //num_puntos.setText("  "+puntuacion);
+                            if(MetodosEstaticos.comparaListas(solUsuario, sol)){
+                                     completado=true;
+                            }
                         }
                         fila=-1;
                         columna=-1;
+                        num=0;
                     }
-//                    if(completado){
-//                        Enhorabuena e=new Enhorabuena(parent, true, puntuacion);
-//                        e.setVisible(true);
-//                    }
+                    if(completado){
+                        crono.stop();
+                        Enhorabuena e=new Enhorabuena(this, true, puntuacion);
+                        e.setLocationRelativeTo(null);
+                        e.setVisible(true);
+                    }
                 }
             }else{
                 fila=-1;
                 columna=-1;
             }
 
- //       }
+        }
 
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-        // TODO add your handling code here:
-//        Guardar guardarPartida= new Guardar(this, true);
-//        guardarPartida.setVisible(true);
-//        this.setVisible(false);
+
     }//GEN-LAST:event_salirActionPerformed
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
@@ -657,66 +778,24 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_guardarActionPerformed
 
     private void siguientePasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientePasoActionPerformed
-        // TODO add your handling code here:
-//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-//            puntuacion=puntuacion-5;
-//            MetodosEstaticos.siguentePaso(solUsuario, sol, jTable1, problema);
-//        }
+
     }//GEN-LAST:event_siguientePasoActionPerformed
 
     private void comprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprobarActionPerformed
-        // TODO add your handling code here:
-//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-//            puntuacion=puntuacion-5;
-//            if(MetodosEstaticos.comprobar(solUsuario, sol, jTable1, problema)){
-//                  SolParcialCorrecta spc=new SolParcialCorrecta(this, true);
-//                  spc.setVisible(true);
-//        }
+
     }//GEN-LAST:event_comprobarActionPerformed
 
-
-
     private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed
-        // TODO add your handling code here:
-//        if(!MetodosEstaticos.comparaListas(solUsuario, sol)){
-//            MetodosEstaticos.borrarPuentes(copiaProblema, jTable1, solUsuario);
-//            MetodosEstaticos.obtenerSolucion(sol, solUsuario, jTable1, problema);
-//        }
-//        Casilla c;
-//        Coordenadas coord;
-//        Puente p;
-//
-//        for (int i = 0; i < problema.getAnchura(); i++) {
-//            for (int j = 0; j < problema.getAltura(); j++) {
-//                coord = problema.getCoordenadas(i, j);
-//                c = problema.getCasilla(coord);
-//                if (c instanceof Puente) {
-//                    p=(Puente)c;
-//                    if (p.getTipo() == TipoPuente.SIMPLE) {
-//                        if (p.getDireccion() == Direccion.HORIZONTAL) {
-//                            jTable1.setValueAt("1PuenteH", i, j);
-//                        } else {
-//                            jTable1.setValueAt("1PuenteV", i, j);
-//                        }
-//                    } else {
-//                        if (p.getDireccion() == Direccion.HORIZONTAL) {
-//                            jTable1.setValueAt("2PuentesH", i, j);
-//                        } else {
-//                            jTable1.setValueAt("2PuentesV", i, j);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        solUsuario.clear();
-//        solUsuario.addAll(sol);
-//        }
+
     }//GEN-LAST:event_solucionarActionPerformed
+
+    private void pistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pistaActionPerformed
+
+    }//GEN-LAST:event_pistaActionPerformed
 
 
     /**
@@ -744,6 +823,9 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel nivel;
     private javax.swing.JButton nuevaPartida;
+    private javax.swing.JLabel num_puntos;
+    private javax.swing.JButton pista;
+    private javax.swing.JLabel puntos;
     private javax.swing.JButton salir;
     private javax.swing.JButton siguientePaso;
     private javax.swing.JButton solucionar;
