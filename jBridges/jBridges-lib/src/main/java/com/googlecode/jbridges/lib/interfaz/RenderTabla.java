@@ -31,6 +31,7 @@ import javax.swing.BorderFactory;
            cell.setHorizontalAlignment(SwingConstants.CENTER);
 
            table.setBorder(BorderFactory.createEmptyBorder());
+           //System.out.println("Entra en render");
             if(value!=null){
                 if(value.equals(new Integer(1))){
                     cell.setText("");
@@ -57,8 +58,10 @@ import javax.swing.BorderFactory;
                     cell.setText("");
                     cell.setIcon(new ImageIcon("Imagenes/8.png"));
                 }else if(value.equals("1PuenteH")){
+                   // System.out.println("Entra en 1puenteH");
                     cell.setText("");
                     cell.setIcon(new ImageIcon("Imagenes/1PuenteH.png"));
+                   // System.out.println("Dibuja 1puenteH");
                 }else if(value.equals("1PuenteV")){
                     cell.setText("");
                     cell.setIcon(new ImageIcon("Imagenes/1PuenteV.png"));
@@ -68,6 +71,18 @@ import javax.swing.BorderFactory;
                 }else if(value.equals("2PuentesV")){
                     cell.setText("");
                     cell.setIcon(new ImageIcon("Imagenes/2PuentesV.png"));
+                }else if(value.equals("1PuenteH_Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("Imagenes/1PuenteH_Error.png"));
+                }else if(value.equals("1PuenteV_Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("Imagenes/1PuenteV_Error.png"));
+                }else if(value.equals("2PuentesH_Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesH_Error.png"));
+                }else if(value.equals("2PuentesV_Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesV_Error.png"));
                 }else if(value.equals("1PuenteH_Pista")){
                     cell.setText("");
                     cell.setIcon(new ImageIcon("Imagenes/1PuenteH_Pista.png"));
@@ -80,6 +95,12 @@ import javax.swing.BorderFactory;
                 }else if(value.equals("2PuentesV_Pista")){
                     cell.setText("");
                     cell.setIcon(new ImageIcon("Imagenes/2PuentesV_Pista.png"));
+                }else if(value.equals("2PuentesV_1Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesV_1Error.png"));
+                }else if(value.equals("2PuentesH_1Error")){
+                    cell.setText("");
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesH_1Error.png"));
                 }else if(value.equals("borra")){
                     cell.setText("");
                     cell.setBackground(Color.white);

@@ -587,6 +587,7 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
                                     if (puentes == 1) {
                                         for (int i = columna + 1; i < columna2; i++) {
                                             jTable1.setValueAt("1PuenteH", fila, i);
+                                            System.out.println("puente dibujado");
                                         }
                                         num=1;
                                     } else if (puentes == 2) {
