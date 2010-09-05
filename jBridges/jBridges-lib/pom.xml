@@ -15,9 +15,10 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
+            <version>1.2.14</version>
         </dependency>
     </dependencies>
+    
     <parent>
         <groupId>com.googlecode.jBridges</groupId>
         <artifactId>jBridges</artifactId>

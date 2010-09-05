@@ -13,6 +13,8 @@ import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
 import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
 import com.googlecode.jbridges.lib.excepciones.TableroInicializadoException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +38,12 @@ public class TableroArray implements Tablero, Serializable {
 
     public int getAnchura() {
         return this.tablero[0].length;
+    }
+
+    public void setPuente(Coordenadas c, Puente p){
+
+        this.tablero[((CoordenadasArray)c).getX()]
+                    [((CoordenadasArray)c).getY()]=(Casilla) p;
     }
 
     public void setIsla(Coordenadas c) throws CasillaOcupadaException {
@@ -144,6 +152,33 @@ public class TableroArray implements Tablero, Serializable {
         
     }
 
+    public Tablero copiaTablero(){
+        TableroArray copia=new TableroArray();
+        copia.setDimension(Configuracion.getAltoTablero(),
+                 Configuracion.getAnchoTablero());
+        System.out.println("Tablero copia que se supone k esta vacio:"+copia);
+        for(int i=0;i<this.tablero.length;i++){
+            for(int j=0;j<this.tablero.length;j++){
+                Coordenadas coord;
+                coord=this.getCoordenadas(i, j);
+                Casilla casilla=this.getCasilla(coord);
+                if(casilla instanceof Isla){
+                    Isla isla=(Isla)casilla;
+                    try {
+                        int n=isla.getN();
+                        copia.setIsla(coord);
+                        Isla iCopia = (Isla)copia.getCasilla(coord);
+                        iCopia.setN(n);
+                    } catch (CasillaOcupadaException ex) {}
+                }else if(casilla instanceof Puente){
+                    Puente puente=(Puente)casilla;
+                    copia.setPuente(coord, puente);
+                }
+            }
+        }
+        return copia;
+    }
+
     public String toString() {
 
         String res;
@@ -234,6 +269,10 @@ public class TableroArray implements Tablero, Serializable {
         }
     }
 
+    public void borraCasilla(int f, int c){
+        this.tablero[f][c] = null;
+    }
+
     class IslaArray extends Casilla implements Isla, Serializable {
 
         private int numeroPuentes;
@@ -256,10 +295,10 @@ public class TableroArray implements Tablero, Serializable {
         }
 
         public Coordenadas getCoord(){
-            Coordenadas coord=null;
+            Coordenadas2D coord=null;
             IslaArray isla=(IslaArray)this;
-            ((Coordenadas2D)coord).x=isla.x;
-            ((Coordenadas2D)coord).y=isla.y;
+            (coord).x=isla.x;
+            (coord).y=isla.y;
 
             return coord;
         }
@@ -699,6 +738,7 @@ public class TableroArray implements Tablero, Serializable {
         public int compareTo(Object arg0) {
             return equals(arg0) ? 0 : 1;
         }
+        
 
     }
 

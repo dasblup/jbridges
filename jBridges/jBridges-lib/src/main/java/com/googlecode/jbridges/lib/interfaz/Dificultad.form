@@ -48,7 +48,6 @@
                           <EmptySpace min="-2" pref="170" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="baja" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="media" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="alta" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="aleatoria" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -61,7 +60,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="73" max="32767" attributes="0"/>
+                  <EmptySpace pref="103" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -75,12 +74,10 @@
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Component id="baja" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="media" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="alta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="aleatoria" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="17" max="32767" attributes="0"/>
+                  <EmptySpace pref="20" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -109,17 +106,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bajaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="media">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Bradley Hand ITC" size="18" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Media"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mediaActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JRadioButton" name="alta">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -136,7 +122,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tempus Sans ITC" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="(En caso de elegir baja, media o alta, el resultado puede tardar unos segundos)"/>
+            <Property name="text" type="java.lang.String" value="(En caso de elegir baja o alta, el resultado puede tardar unos segundos)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="aleatoria">

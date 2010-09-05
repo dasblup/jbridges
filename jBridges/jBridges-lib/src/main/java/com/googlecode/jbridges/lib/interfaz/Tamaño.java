@@ -146,6 +146,7 @@ public class Tamaño extends javax.swing.JDialog {
         // TODO add your handling code here:
         puntuacion=puntuacion+20;
         Dificultad d=new Dificultad(this, true, 1, puntuacion);
+        d.setLocationRelativeTo(null);
         d.setVisible(true);
         this.setVisible(false);
 }//GEN-LAST:event_pequeñoActionPerformed
@@ -154,6 +155,7 @@ public class Tamaño extends javax.swing.JDialog {
         // TODO add your handling code here:
         puntuacion=puntuacion+50;
         Dificultad d=new Dificultad(this, true, 2, puntuacion);
+        d.setLocationRelativeTo(null);
         d.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_medianoActionPerformed
@@ -162,6 +164,7 @@ public class Tamaño extends javax.swing.JDialog {
         // TODO add your handling code here:
         puntuacion=puntuacion+75;
         Dificultad d=new Dificultad(this, true, 3, puntuacion);
+        d.setLocationRelativeTo(null);
         d.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_grandeActionPerformed

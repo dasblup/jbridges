@@ -127,12 +127,14 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         Tamaño tam=new Tamaño(this, true);
         this.setVisible(false);
+        tam.setLocationRelativeTo(null);
         tam.setVisible(true);
     }//GEN-LAST:event_nuevaPartidaActionPerformed
 
     private void comoJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comoJugarActionPerformed
          // TODO add your handling code here:
          Introduccion introduccion=new Introduccion(this, true);
+         introduccion.setLocationRelativeTo(null);
          introduccion.setVisible(true);
     }//GEN-LAST:event_comoJugarActionPerformed
 
@@ -153,7 +155,9 @@ public class Inicio extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                Inicio i=new Inicio();
+                i.setLocationRelativeTo(null);
+                i.setVisible(true);
             }
         });
     }

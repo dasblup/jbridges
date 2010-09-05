@@ -4,9 +4,9 @@
  */
 
 /*
- * SolParcialCorrecta.java
+ * SolParcialIncorrecta.java
  *
- * Created on 21-ago-2010, 11:51:14
+ * Created on 05-sep-2010, 10:43:15
  */
 
 package com.googlecode.jbridges.lib.interfaz;
@@ -15,10 +15,10 @@ package com.googlecode.jbridges.lib.interfaz;
  *
  * @author mdiazoli
  */
-public class SolParcialCorrecta extends javax.swing.JDialog {
+public class SolParcialIncorrecta extends javax.swing.JDialog {
 
-    /** Creates new form SolParcialCorrecta */
-    public SolParcialCorrecta(java.awt.Frame parent, boolean modal) {
+    /** Creates new form SolParcialIncorrecta */
+    public SolParcialIncorrecta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -39,7 +39,7 @@ public class SolParcialCorrecta extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18));
-        jLabel1.setText("La solución que está construyendo es correcta");
+        jLabel1.setText("La solución que está construyendo es incorrecta");
 
         aceptar.setFont(new java.awt.Font("Croobie", 0, 18));
         aceptar.setText("Aceptar");
@@ -54,13 +54,14 @@ public class SolParcialCorrecta extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(156, Short.MAX_VALUE)
-                .addComponent(aceptar)
-                .addGap(154, 154, 154))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addComponent(aceptar)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -69,7 +70,7 @@ public class SolParcialCorrecta extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(aceptar)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -89,7 +90,7 @@ public class SolParcialCorrecta extends javax.swing.JDialog {
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_aceptarActionPerformed
+}//GEN-LAST:event_aceptarActionPerformed
 
     /**
     * @param args the command line arguments
@@ -97,7 +98,7 @@ public class SolParcialCorrecta extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SolParcialCorrecta dialog = new SolParcialCorrecta(new javax.swing.JFrame(), true);
+                SolParcialIncorrecta dialog = new SolParcialIncorrecta(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
