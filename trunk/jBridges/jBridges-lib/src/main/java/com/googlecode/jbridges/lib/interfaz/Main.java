@@ -26,7 +26,7 @@ import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
 import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
-import com.sun.org.apache.xpath.internal.operations.Equals;
+//import com.sun.org.apache.xpath.internal.operations.Equals;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -251,7 +251,7 @@ public class Main {
             boolean iguales=es1.equals(es2);
             System.out.println("iguales:"+ iguales);
          } catch (CasillaOcupadaException ex) {
-            Logger.getLogger(Equals.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Equals.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IslaNoEncontradaException ine) {}
     }
                 

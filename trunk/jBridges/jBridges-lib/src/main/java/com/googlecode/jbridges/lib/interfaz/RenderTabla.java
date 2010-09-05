@@ -34,70 +34,52 @@ import javax.swing.BorderFactory;
             if(value!=null){
                 if(value.equals(new Integer(1))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/1.png"));
                 }else if(value.equals(new Integer(2))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/2.png"));
                 }else if(value.equals(new Integer(3))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\3.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/3.png"));
                 }else if(value.equals(new Integer(4))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\4.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/4.png"));
                 }else if(value.equals(new Integer(5))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\5.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/5.png"));
                 }else if(value.equals(new Integer(6))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\6.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/6.png"));
                 }else if(value.equals(new Integer(7))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\7.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/7.png"));
                 }else if(value.equals(new Integer(8))){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\8.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/8.png"));
                 }else if(value.equals("1PuenteH")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1PuenteH.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/1PuenteH.png"));
                 }else if(value.equals("1PuenteV")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1PuenteV.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/1PuenteV.png"));
                 }else if(value.equals("2PuentesH")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesH.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesH.png"));
                 }else if(value.equals("2PuentesV")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesV.png"));
-                }else if(value.equals("1PuenteH_Error")){
-                    cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1PuenteH_Error.png"));
-                }else if(value.equals("1PuenteV_Error")){
-                    cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1PuenteV_Error.png"));
-                }else if(value.equals("2PuentesH_Error")){
-                    cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesH_Error.png"));
-                }else if(value.equals("2PuentesV_Error")){
-                    cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesV_Error.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesV.png"));
                 }else if(value.equals("1PuenteH_Pista")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1PuenteH_Pista.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/1PuenteH_Pista.png"));
                 }else if(value.equals("1PuenteV_Pista")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\1PuenteV_Pista.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/1PuenteV_Pista.png"));
                 }else if(value.equals("2PuentesH_Pista")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesH_Pista.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesH_Pista.png"));
                 }else if(value.equals("2PuentesV_Pista")){
                     cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesV_Pista.png"));
-                }else if(value.equals("2PuentesV_1Error")){
-                    cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesV_1Error.png"));
-                }else if(value.equals("2PuentesH_1Error")){
-                    cell.setText("");
-                    cell.setIcon(new ImageIcon("C:\\Documents and Settings\\mdiazoli\\Escritorio\\Proyecto Fin de Carrera\\Imágenes\\2PuentesH_1Error.png"));
+                    cell.setIcon(new ImageIcon("Imagenes/2PuentesV_Pista.png"));
                 }else if(value.equals("borra")){
                     cell.setText("");
                     cell.setBackground(Color.white);
