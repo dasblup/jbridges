@@ -212,7 +212,7 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 
            }else if(source == pista){
                if(veces==0){
-                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos);
+                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos, ss);
                }
            }
        }
@@ -774,8 +774,8 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
         // TODO add your handling code here:
- //       Ranking r=new Ranking(this, true);
- //       r.setVisible(true);
+        Ranking r=new Ranking(this, true);
+        r.setVisible(true);
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed

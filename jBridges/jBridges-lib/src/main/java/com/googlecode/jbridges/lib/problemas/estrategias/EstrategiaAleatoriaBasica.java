@@ -28,6 +28,8 @@
  import com.googlecode.jbridges.lib.excepciones.PuenteProhibidoException;
  import com.googlecode.jbridges.lib.excepciones.SentidoInvalidoException;
  import com.googlecode.jbridges.lib.problemas.EstrategiaProblema;
+import com.googlecode.jbridges.lib.problemas.Estrategias2D;
+import com.googlecode.jbridges.lib.problemas.FabricaDeProblemas;
  import java.util.LinkedList;
  import java.util.Queue;
  import java.util.Random;
@@ -103,6 +105,25 @@
                      }
                 }
              }
+         }
+         int num_islas=0;
+         for(int fila=0; fila<t.getAnchura(); fila++){
+             for(int columna=0; columna<t.getAltura(); columna++){
+                Coordenadas c;
+                c=t.getCoordenadas(fila, columna);
+                Casilla cas=t.getCasilla(c);
+                if (cas instanceof Isla){
+                    num_islas++;
+                }
+             }
+         }
+         System.out.println("NUMERO DE ISLAS EN EL TABLERO: "+ num_islas);
+         if(num_islas==1){
+             FabricaDeProblemas fp;
+
+             fp = FabricaDeProblemas.getInstancia();
+             t = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_ALEATORIA_BASICA);
+             System.out.println("ha generado otro");
          }
 
          return t;

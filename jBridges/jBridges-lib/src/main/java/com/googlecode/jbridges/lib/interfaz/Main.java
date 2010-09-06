@@ -45,12 +45,12 @@ public class Main {
     public static void main(String args[]) {
         //COmprobar si funciona compararListas
 
-//        FabricaDeProblemas fp;
-//        Tablero tablero;
-//
-//        fp = FabricaDeProblemas.getInstancia();
-//        tablero = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_DE_PRUEBA);
-//
+        FabricaDeProblemas fp;
+        Tablero tablero;
+
+        fp = FabricaDeProblemas.getInstancia();
+        tablero = fp.obtenerProblema(Estrategias2D.ESTRATEGIA_DE_PRUEBA);
+
 //        boolean iguales=false;
 //        boolean puenteEncontrado=false;
 //        List<ElementoSolucion> solUsuario=new LinkedList<ElementoSolucion>();
@@ -117,6 +117,7 @@ public class Main {
 //        }
 //        System.out.println("Listas iguales?");
 //        System.out.println(iguales);
+        System.out.println(tablero);
 //
 //        //COMPROBAR SI FUNCIONA COMPRUEBAPUENTESIMPLE
 //
@@ -229,30 +230,32 @@ public class Main {
 //                        }
 //                    }
  //               MetodosEstaticos.siguentePaso(solUsuario, sol, null, problema);
-        TableroArray t1 = new TableroArray();
-        t1.setDimension(10, 10);
-        TableroArray t2 = new TableroArray();
-        t2.setDimension(10, 10);
-        try {
-            t1.setIsla(t1.getCoordenadas(1, 1));
-            t1.setIsla(t1.getCoordenadas(2, 2));
-            t2.setIsla(t2.getCoordenadas(1, 1));
-            t2.setIsla(t2.getCoordenadas(2, 2));
-
-
-            Isla i1t1 = t1.getIsla(t1.getCoordenadas(1, 1));
-            Isla i2t1 = t1.getIsla(t1.getCoordenadas(2, 2));
-            Isla i1t2 = t2.getIsla(t2.getCoordenadas(1, 1));
-            Isla i2t2 = t2.getIsla(t2.getCoordenadas(2, 2));
-
-            ElementoSolucion es1 = new ElementoSolucion(i1t1, i2t1);
-            ElementoSolucion es2 = new ElementoSolucion(i1t2, i2t2);
-
-            boolean iguales=es1.equals(es2);
-            System.out.println("iguales:"+ iguales);
-         } catch (CasillaOcupadaException ex) {
-            //Logger.getLogger(Equals.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IslaNoEncontradaException ine) {}
+       
+//------------------------------------------------------------------
+//        TableroArray t1 = new TableroArray();
+//        t1.setDimension(10, 10);
+//        TableroArray t2 = new TableroArray();
+//        t2.setDimension(10, 10);
+//        try {
+//            t1.setIsla(t1.getCoordenadas(1, 1));
+//            t1.setIsla(t1.getCoordenadas(2, 2));
+//            t2.setIsla(t2.getCoordenadas(1, 1));
+//            t2.setIsla(t2.getCoordenadas(2, 2));
+//
+//
+//            Isla i1t1 = t1.getIsla(t1.getCoordenadas(1, 1));
+//            Isla i2t1 = t1.getIsla(t1.getCoordenadas(2, 2));
+//            Isla i1t2 = t2.getIsla(t2.getCoordenadas(1, 1));
+//            Isla i2t2 = t2.getIsla(t2.getCoordenadas(2, 2));
+//
+//            ElementoSolucion es1 = new ElementoSolucion(i1t1, i2t1);
+//            ElementoSolucion es2 = new ElementoSolucion(i1t2, i2t2);
+//
+//            boolean iguales=es1.equals(es2);
+//            System.out.println("iguales:"+ iguales);
+//         } catch (CasillaOcupadaException ex) {
+//            //Logger.getLogger(Equals.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IslaNoEncontradaException ine) {}
     }
                 
 }

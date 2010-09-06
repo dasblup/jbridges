@@ -54,6 +54,7 @@ public class TableroArray implements Tablero, Serializable {
 
         adyacente = false;
         Sentido s;
+
        for (int i = 0; i < Sentido.values().length && !adyacente; i++){
             s = Sentido.values()[i];
 
@@ -295,14 +296,6 @@ public class TableroArray implements Tablero, Serializable {
             this.numeroPuentes = n;
         }
 
-        public Coordenadas getCoord(){
-            Coordenadas2D coord=null;
-            IslaArray isla=(IslaArray)this;
-            (coord).x=isla.x;
-            (coord).y=isla.y;
-
-            return coord;
-        }
 
         public int getPuentes() {
             
