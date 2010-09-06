@@ -11,6 +11,10 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 
 
 /**
@@ -144,9 +148,83 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_salirActionPerformed
 
     private void cargarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaActionPerformed
-        // TODO add your handling code here:
 
+         File archivo = null;
+      FileReader fr = null;
+      BufferedReader br = null;
+      int anchoTablero;
+      int altoTablero;
+      int puntuacion;
+      String[] solucion;
+      String[] solucionUsuario;
 
+      altoTablero = 0;
+      puntuacion = 0;
+
+      try {
+         // Apertura del fichero y creacion de BufferedReader para poder
+         // hacer una lectura comoda (disponer del metodo readLine()).
+         archivo = new File ("C:\\partida.txt");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         // Lectura del fichero
+         String linea;
+         if ((linea=br.readLine())!=null) {
+             String[] aux;
+             aux = linea.split(":");
+             anchoTablero = Integer.parseInt(aux[0]);
+             altoTablero = Integer.parseInt(aux[1]);
+         }
+
+         if ((linea=br.readLine())!=null) {
+            puntuacion = Integer.parseInt(linea);
+         }
+
+         if ((linea=br.readLine())!=null) {
+            solucion = linea.split(":");
+         }
+
+         if ((linea=br.readLine())!=null) {
+            solucionUsuario = linea.split(":");
+         }
+
+         switch (altoTablero) {
+             case 7:
+                TableroPequeño tableroPequeño = new TableroPequeño(puntuacion,1);
+                tableroPequeño.setLocationRelativeTo(null);
+                tableroPequeño.setVisible(true);
+                this.setVisible(false);
+                break;
+             case 10:
+                TableroMediano tableroMediano = new TableroMediano(puntuacion,1);
+                tableroMediano.setLocationRelativeTo(null);
+                tableroMediano.setVisible(true);
+                this.setVisible(false);
+                break;
+             case 14:
+                TableroGrande tableroGrande = new TableroGrande(puntuacion,1);
+                tableroGrande.setLocationRelativeTo(null);
+                tableroGrande.setVisible(true);
+                this.setVisible(false);
+                break;
+             default:
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta
+         // una excepcion.
+         try{
+            if( null != fr ){
+               fr.close();
+            }
+         }catch (Exception e2){
+            e2.printStackTrace();
+         }
+      }
     }//GEN-LAST:event_cargarPartidaActionPerformed
 
     /**

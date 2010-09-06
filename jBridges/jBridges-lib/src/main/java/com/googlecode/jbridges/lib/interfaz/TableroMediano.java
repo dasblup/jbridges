@@ -24,7 +24,6 @@ import com.googlecode.jbridges.lib.soluciones.EstrategiaSolucion;
 import com.googlecode.jbridges.lib.soluciones.FabricaDeSoluciones;
 import com.googlecode.jbridges.lib.soluciones.Solucion;
 import com.googlecode.jbridges.lib.soluciones.estrategias.EstrategiaBackTrackingBasica;
-import com.sleepycat.je.DatabaseException;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -814,8 +813,7 @@ Object source = e.getSource();
     }//GEN-LAST:event_comprobarActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
-        Guardar g = new Guardar(this, true, problema);
+        MetodosEstaticos.guardarPartida(sol, solUsuario, problema.getAltura(), problema.getAnchura(), puntuacion);
     }//GEN-LAST:event_guardarActionPerformed
 
     private void pistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pistaActionPerformed

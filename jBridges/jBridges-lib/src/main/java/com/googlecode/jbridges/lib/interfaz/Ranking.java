@@ -11,6 +11,8 @@
 
 package com.googlecode.jbridges.lib.interfaz;
 
+import javax.swing.table.TableCellEditor;
+
 /**
  *
  * @author mdiazoli
@@ -24,10 +26,24 @@ public class Ranking extends javax.swing.JDialog {
     public Ranking(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        Object[][] ranking = MetodosEstaticos.cargarRanking();
+
+        for (int i = 0; i < ranking[0].length; i++) {
+            this.tablaRanking.setValueAt((ranking[0][i] != null ? ranking[0][i].toString() : ""), 0, i);
+            this.tablaRanking.setValueAt((ranking[1][i] != null ? ranking[1][i].toString() : ""), 1, i);
+        }
     }
     public Ranking(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        Object[][] ranking = MetodosEstaticos.cargarRanking();
+
+        for (int i = 0; i < ranking[0].length; i++) {
+            this.tablaRanking.setValueAt((ranking[0][i] != null ? ranking[0][i].toString() : ""), i, 0);
+            this.tablaRanking.setValueAt((ranking[1][i] != null ? ranking[0][i].toString() : ""), i, 1);
+        }
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -131,7 +147,8 @@ public class Ranking extends javax.swing.JDialog {
 }//GEN-LAST:event_tablaRankingMouseWheelMoved
 
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+
         this.setVisible(false);
 }//GEN-LAST:event_aceptarActionPerformed
 

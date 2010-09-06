@@ -779,7 +779,7 @@ public class TableroGrande extends javax.swing.JFrame implements ActionListener{
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        
+        MetodosEstaticos.guardarPartida(sol, solUsuario, problema.getAltura(), problema.getAnchura(), puntuacion);
     }//GEN-LAST:event_guardarActionPerformed
 
     private void siguientePasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientePasoActionPerformed
