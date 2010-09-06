@@ -564,7 +564,7 @@ public class Cronometro implements Runnable {
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
+        MetodosEstaticos.guardarPartida(sol, solUsuario, problema.getAltura(), problema.getAnchura(), puntuacion);
     }//GEN-LAST:event_guardarActionPerformed
 
     private void siguientePasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguientePasoActionPerformed

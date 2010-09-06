@@ -26,6 +26,12 @@ import java.awt.Event;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -868,4 +874,123 @@ public class MetodosEstaticos {
         return encontrado;
     }
 
+
+    public static void guardarPartida (List<ElementoSolucion> solucion, List<ElementoSolucion> solucionUsuario, int anchoTablero, int largotablero, int puntuacion) {
+
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        BufferedWriter bw = null;
+        try
+        {
+            fichero = new FileWriter("C:\\partida.txt", false);
+            pw = new PrintWriter(fichero);
+            bw = new BufferedWriter(pw);
+
+            bw.append(anchoTablero + ":" + largotablero);
+            bw.newLine();
+
+            bw.append(puntuacion + "");
+            bw.newLine();
+
+            for (ElementoSolucion es : solucion) {
+                bw.append(es.toString() + ":");
+            }
+
+            bw.newLine();
+
+            for (ElementoSolucion es : solucionUsuario) {
+                bw.append(es.toString() + ":");
+            }
+
+            bw.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+    }
+
+    public static void guardarRanking (Object[][] ranking) {
+
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        BufferedWriter bw = null;
+        try
+        {
+            fichero = new FileWriter("C:\\ranking.txt", false);
+            pw = new PrintWriter(fichero);
+            bw = new BufferedWriter(pw);
+
+            for (int i = 0; i < ranking[1].length; i++) {
+                if (ranking[0][i] != null) {
+                    bw.append(ranking[0][i] + "," + ranking[1][i]);
+                    bw.newLine();
+                }
+            }
+
+            bw.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+    }
+
+    public static Object[][] cargarRanking () {
+
+      File archivo = null;
+      FileReader fr = null;
+      BufferedReader br = null;
+
+      Object[][] ranking = new Object[2][10];
+
+      try {
+         // Apertura del fichero y creacion de BufferedReader para poder
+         // hacer una lectura comoda (disponer del metodo readLine()).
+         archivo = new File ("C:\\ranking.txt");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         // Lectura del fichero
+         String linea;
+         int i = 0;
+         while (((linea=br.readLine())!=null) && (i < ranking[0].length)) {
+             String[] aux;
+             aux = linea.split(",");
+             ranking[0][i] = aux[0];
+             ranking[1][i] = aux[1];
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta
+         // una excepcion.
+         try{
+            if( null != fr ){
+               fr.close();
+            }
+         }catch (Exception e2){
+            e2.printStackTrace();
+         }
+      }
+      return ranking;
+    }
 }

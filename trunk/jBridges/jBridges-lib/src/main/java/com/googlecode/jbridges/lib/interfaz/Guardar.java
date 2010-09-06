@@ -12,7 +12,6 @@
 package com.googlecode.jbridges.lib.interfaz;
 
 import com.googlecode.jbridges.lib.Tablero;
-import com.sleepycat.je.DatabaseException;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,20 +115,6 @@ public class Guardar extends javax.swing.JDialog {
     }//GEN-LAST:event_salirActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        try {
-            // TODO add your handling code here
-            Sample sample = new Sample("C:\\temp", null, null, problema, null);
-            try {
-                sample.runPartida("inserta");
-            } catch (Exception ex) {
-                Logger.getLogger(Guardar.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            sample.close();
-        } catch (DatabaseException ex) {
-            Logger.getLogger(Guardar.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Guardar.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
 
     }//GEN-LAST:event_guardarActionPerformed

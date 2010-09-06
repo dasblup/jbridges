@@ -107,9 +107,9 @@ public class Enhorabuena extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
-        // TODO add your handling code here:
-//        NombreJugador nombre = new NombreJugador(this, true, puntuacion);
-//        nombre.setVisible(true);
+
+        NombreJugador nombre = new NombreJugador(this, true, puntuacion);
+        nombre.setVisible(true);
         this.setVisible(false);
 }//GEN-LAST:event_aceptarActionPerformed
 

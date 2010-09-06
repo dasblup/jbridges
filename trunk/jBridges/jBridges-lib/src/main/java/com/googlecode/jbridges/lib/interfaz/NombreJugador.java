@@ -12,7 +12,6 @@
 package com.googlecode.jbridges.lib.interfaz;
 
 import com.googlecode.jbridges.lib.Jugador;
-import com.sleepycat.je.DatabaseException;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +32,7 @@ public class NombreJugador extends javax.swing.JDialog {
     public NombreJugador(java.awt.Dialog parent, boolean modal, int puntuacion) {
         super(parent, modal);
         initComponents();
-        jug.setPuntuacion(puntuacion);
+        jug = new Jugador(null, puntuacion);
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -111,28 +110,30 @@ public class NombreJugador extends javax.swing.JDialog {
         // TODO add your handling code here:
         jug.setNombre(nombre.getText());
 
-        Sample s=null;
-        try {
-            s = new Sample("C:\\temp", jug,null, null, null);
-        } catch (DatabaseException ex) {
-            Logger.getLogger(NombreJugador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NombreJugador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            s.runJugador("inserta");
-        } catch (Exception ex) {
-                Logger.getLogger(NombreJugador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try{
-            s.close();
-        }catch (Exception e){
-            System.err.println("Excepcion durante el cierre de la base de datos");
-            e.printStackTrace();
+        Object[][] ranking = MetodosEstaticos.cargarRanking();
+
+
+        if (jug.getPuntuacion() > Integer.parseInt((ranking[1][9] != null) ? ranking[1][9].toString() : "0")) {
+            for (int i = 8; i >= 0; i--) {
+                if (jug.getPuntuacion() > Integer.parseInt((ranking[1][i] != null) ? ranking[1][i].toString() : "0")) {
+                    ranking[0][i] = ranking[0][i+1];
+                    ranking[1][i] = ranking[1][i+1];
+                } else {
+                    ranking[0][i +1] = jug.getNombre();
+                    ranking[1][i +1] = jug.getPuntuacion();
+                    continue;
+                }
+                if (i == 0) {
+                    ranking[0][0] = jug.getNombre();
+                    ranking[1][0] = jug.getPuntuacion();
+                }
+            }
         }
 
-//        Ranking r=new Ranking(this, true);
-//        r.setVisible(true);
+        MetodosEstaticos.guardarRanking(ranking);
+
+        Ranking r=new Ranking(this, true);
+        r.setVisible(true);
     }//GEN-LAST:event_aceptarActionPerformed
 
     /**
