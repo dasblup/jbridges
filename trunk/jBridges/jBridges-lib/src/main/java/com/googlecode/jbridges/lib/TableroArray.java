@@ -49,18 +49,19 @@ public class TableroArray implements Tablero, Serializable {
     public void setIsla(Coordenadas c) throws CasillaOcupadaException {
 
         Casilla casilla;
-        casilla=getCasilla(c);
         boolean adyacente;
-        
+        casilla=getCasilla(c);
+
         adyacente = false;
         Sentido s;
        for (int i = 0; i < Sentido.values().length && !adyacente; i++){
             s = Sentido.values()[i];
+
             try{
-                TableroArray.this.avanzar(c, s);
+                TableroArray.this.avanzar(casilla.getCoordenadas(), s);
             } catch (FueraDeRangoException fre) {}
             
-            adyacente = getCasilla(c) instanceof Isla;
+            adyacente |= getCasilla(casilla.getCoordenadas()) instanceof Isla;
         }
 
         if(casilla instanceof Agua && !adyacente){
