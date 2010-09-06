@@ -8,9 +8,21 @@
     <name>jBridges-lib</name>
     <url>http://maven.apache.org</url>
     <build>
-        <plugins>
-        </plugins> 
-    </build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>com.googlecode.jbridges.lib.interfaz.Inicio</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
