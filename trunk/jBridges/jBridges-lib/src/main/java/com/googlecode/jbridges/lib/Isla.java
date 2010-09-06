@@ -31,7 +31,6 @@ public interface Isla extends Comparable {
      * @return las coordenadas de la isla en el tablero
      */
 
-   public Coordenadas getCoord();
     /**
      *
      * @return el nœmero de puentes que tiene la isla actualmente

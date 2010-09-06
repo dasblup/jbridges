@@ -33,6 +33,7 @@ public class Ranking extends javax.swing.JDialog {
             this.tablaRanking.setValueAt((ranking[0][i] != null ? ranking[0][i].toString() : ""), 0, i);
             this.tablaRanking.setValueAt((ranking[1][i] != null ? ranking[1][i].toString() : ""), 1, i);
         }
+       // MetodosEstaticos.cargarTanking(tablaRanking);
     }
     public Ranking(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
@@ -44,6 +45,7 @@ public class Ranking extends javax.swing.JDialog {
             this.tablaRanking.setValueAt((ranking[0][i] != null ? ranking[0][i].toString() : ""), i, 0);
             this.tablaRanking.setValueAt((ranking[1][i] != null ? ranking[0][i].toString() : ""), i, 1);
         }
+        //MetodosEstaticos.cargarTanking(tablaRanking);
     }
     /** This method is called from within the constructor to
      * initialize the form.

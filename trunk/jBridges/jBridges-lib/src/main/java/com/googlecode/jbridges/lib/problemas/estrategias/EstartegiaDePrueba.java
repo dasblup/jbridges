@@ -40,7 +40,7 @@ public class EstartegiaDePrueba implements EstrategiaProblema {
                         Configuracion.getAnchoTablero());
 
         coord1 = t.getCoordenadas(2, 2);
-        coord2 = t.getCoordenadas(2, 4);
+        coord2 = t.getCoordenadas(2, 3);
         coord3 = t.getCoordenadas(4, 4);
         coord4 = t.getCoordenadas(4, 2);
 
@@ -57,7 +57,7 @@ public class EstartegiaDePrueba implements EstrategiaProblema {
 
             isla1.setPuente(isla2);
             isla1.setPuente(Sentido.ESTE);
-            isla2.setPuente(isla3);
+            //isla2.setPuente(isla3);
             isla3.setPuente(isla4);
             isla3.setPuente(Sentido.OESTE);
 

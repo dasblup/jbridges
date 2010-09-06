@@ -814,22 +814,26 @@ public class MetodosEstaticos {
     }
 
     public static int puenteObligatorio(JTable jTable1, List<ElementoSolucion> solUsuario, List<ElementoSolucion> sol, Tablero problema,
-            JFrame parent, int puntuacion, JLabel num_puntos){
+            JFrame parent, int puntuacion, JLabel num_puntos, List<Solucion> ss){
 
         int veces=0;
         Iterator it=sol.iterator();
+        if (ss.get(0).iteracionBactracking != 0) {
+            System.out.println("numIT" + ss.get(0).iteracionBactracking);
+            MetodosEstaticos.borrarPuentes(problema, jTable1, solUsuario);
 
-        while(it.hasNext()){
-            ElementoSolucion el = (ElementoSolucion)it.next();
-            if(el.obligatorio){//El puente es obligatorio
-                Coordenadas coordInicio=el.inicio.getCoordenadas();
-                Coordenadas coordFin=el.fin.getCoordenadas();
-//                Iterator it2=
-//                while() Espara que si ya esta puesto, no vuelva a ponerlo.
-                puntuacion = puntuacion-35;
-                num_puntos.setText("  " + puntuacion);
-                dibujaPuente_nuevo(jTable1,coordInicio, coordFin, solUsuario, problema, sol, parent, puntuacion);
-                veces++;
+
+            while (it.hasNext()) {
+                ElementoSolucion el = (ElementoSolucion) it.next();
+                if (el.obligatorio) {//El puente es obligatorio
+                    Coordenadas coordInicio = el.inicio.getCoordenadas();
+                    Coordenadas coordFin = el.fin.getCoordenadas();
+
+                    puntuacion = puntuacion - 10;
+                    num_puntos.setText("  " + puntuacion);
+                    dibujaPuente_nuevo(jTable1, coordInicio, coordFin, solUsuario, problema, sol, parent, puntuacion);
+                    veces++;
+                }
             }
         }
         return veces;
@@ -952,8 +956,8 @@ public class MetodosEstaticos {
         }
     }
 
-    public static Object[][] cargarRanking () {
-
+    
+    public static Object[][] cargarRanking(){
       File archivo = null;
       FileReader fr = null;
       BufferedReader br = null;
@@ -970,7 +974,7 @@ public class MetodosEstaticos {
          // Lectura del fichero
          String linea;
          int i = 0;
-         while (((linea=br.readLine())!=null) && (i < ranking[0].length)) {
+         while (((linea=br.readLine())!=null) && (i < ranking.length)) {
              String[] aux;
              aux = linea.split(",");
              ranking[0][i] = aux[0];

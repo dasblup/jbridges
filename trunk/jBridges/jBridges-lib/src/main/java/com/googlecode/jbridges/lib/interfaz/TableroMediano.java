@@ -213,7 +213,7 @@ Object source = e.getSource();
 
            }else if(source == pista){
                if(veces==0){
-                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos);
+                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos, ss);
                }
            }
        }
@@ -767,23 +767,9 @@ Object source = e.getSource();
     }//GEN-LAST:event_salirActionPerformed
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
-//        try {
-//            // TODO add your handling code here:
-//            Sample sample = new Sample("C:\\temp", null, jTable1, null, null);
-//            try {
-//                sample.runJugador("muestra");
-//            } catch (Exception ex) {
-//                Logger.getLogger(TableroMediano.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            sample.close();
-//        } catch (DatabaseException ex) {
-//            Logger.getLogger(TableroMediano.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(TableroMediano.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        Ranking r=new Ranking(this, true);
-//        r.setVisible(true);
+
+        Ranking r=new Ranking(this, true);
+        r.setVisible(true);
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void solucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solucionarActionPerformed

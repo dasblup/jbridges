@@ -210,7 +210,7 @@ public class TableroPequeño extends javax.swing.JFrame implements ActionListener
 
            }else if(source == pista){
                if(veces==0){
-                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos);
+                veces=MetodosEstaticos.puenteObligatorio(jTable1, solUsuario, sol, problema, this, puntuacion, num_puntos, ss);
                }
            }
        }
@@ -554,8 +554,8 @@ public class Cronometro implements Runnable {
 
     private void clasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clasificacionActionPerformed
         // TODO add your handling code here:
-//        Ranking r=new Ranking(this, true);
-//        r.setVisible(true);
+        Ranking r=new Ranking(this, true);
+        r.setVisible(true);
     }//GEN-LAST:event_clasificacionActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked

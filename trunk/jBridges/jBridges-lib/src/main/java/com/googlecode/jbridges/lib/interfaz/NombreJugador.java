@@ -129,11 +129,13 @@ public class NombreJugador extends javax.swing.JDialog {
                 }
             }
         }
+                   
 
         MetodosEstaticos.guardarRanking(ranking);
 
         Ranking r=new Ranking(this, true);
         r.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_aceptarActionPerformed
 
     /**
